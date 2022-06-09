@@ -5,7 +5,7 @@ VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MinimalFramework", "MinimalFramework\MinimalFramework.csproj", "{9EBF2CD1-48B6-4629-B6AD-410A5CFBBBC9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MinimalWebApi", "WebApplication1\MinimalWebApi.csproj", "{EA2E7E65-7F25-45C5-8892-C6C9BCC63510}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MinimalWebApi", "MinimalWebApi\MinimalWebApi.csproj", "{EA2E7E65-7F25-45C5-8892-C6C9BCC63510}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestingWebApi", "TestingWebApi\TestingWebApi.csproj", "{14CCF455-88C7-4205-9A06-79D0BBFDF459}"
 EndProject

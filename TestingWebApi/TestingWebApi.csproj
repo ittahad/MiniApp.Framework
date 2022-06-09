@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WebApplication1\MinimalWebApi.csproj" />
+    <ProjectReference Include="..\MinimalWebApi\MinimalWebApi.csproj" />
   </ItemGroup>
 
 </Project>
