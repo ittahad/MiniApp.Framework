@@ -1,15 +1,26 @@
+using Logger;
+using MinimalFramework;
 using MinimalWebApi;
 
 var options = new MinimalAppOptions
 {
-    StartUrl = "http://localhost:6000",
-    UseSwagger = true
+    UseSwagger = true,
+    ConsoleLogging = true,
+    FileLogging = true,
+    SeqLoggerOptions = new SeqLoggerOptions() {
+        UseSeq = true,
+        SeqServerUrl = "http://localhost:5341"
+    }
 };
 
-var builder = new MinimalWebAppBuilder(options);
+var minimalAppBuilder = new MinimalWebAppBuilder(options);
 
-builder?.Application?.MapGet("/", () => {
+var minimalWebApp = minimalAppBuilder?.Build(builder => {
+    builder.AddSerilog(options);
+});
+
+minimalWebApp?.Application?.MapGet("/", () => {
     return "Testing";
 });
 
-builder?.Build().Start();
+minimalWebApp?.Start();

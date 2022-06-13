@@ -10,4 +10,10 @@
     <ProjectReference Include="..\MinimalWebApi\MinimalWebApi.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="appsettings.Development.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

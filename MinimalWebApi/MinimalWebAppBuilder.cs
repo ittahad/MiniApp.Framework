@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Logger;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,8 +13,6 @@ namespace MinimalWebApi
 {
     public class MinimalWebAppBuilder
     {
-        public WebApplication? Application;
-
         private MinimalAppOptions _options;
         
         public MinimalWebAppBuilder(MinimalAppOptions options = null)
@@ -24,10 +23,9 @@ namespace MinimalWebApi
             } : options;
         }
 
-        public MinimalWebAppBuilder Build(
+        public MinimalWebApp Build(
             Action<WebApplicationBuilder> Configure = null)
         {
-
             var builder = WebApplication.CreateBuilder(_options.CommandLineArgs);
 
             if (_options.UseSwagger.HasValue && _options.UseSwagger.Value)
@@ -83,55 +81,15 @@ namespace MinimalWebApi
 
             builder.Services.AddSingleton<ITokenService, TokenService>();
             builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
-
-            if(Configure != null)
+            
+            if (Configure != null)
                 Configure(builder);
 
-            Application = builder.Build();
-            return this;
+            var minimalWebApp = builder.Build();
+
+            return new MinimalWebApp(_options) { 
+                Application = minimalWebApp
+            };
         }
-
-        public void Start()
-        {
-            if (Application == null) throw new Exception();
-            Application.UseRouting();
-            Application.UseAuthentication();
-            Application.UseAuthorization();
-            Application.UseMvc(config =>
-            {
-                string serviceName = Application.Configuration["ServiceName"];
-                config.MapRoute(
-                    name: "default",
-                    template: serviceName + "/{controller}/{action}/{id?}");
-            });
-
-            if (_options.UseSwagger.HasValue && _options.UseSwagger.Value)
-            {
-                Application.UseSwagger()
-                    .UseSwaggerUI();
-            }
-
-            if (_options.StartUrl != null)
-            {
-                Application.Urls.Add(_options.StartUrl);
-            }
-
-            Application.Run();
-
-        }
-
-        public void Start(Action<WebApplication> application)
-        {
-            application.Invoke(Application);
-            Start();
-        }
-
-    }
-
-    public class MinimalAppOptions
-    {
-        public string[] CommandLineArgs { get; set; }
-        public string? StartUrl { get; set; }
-        public bool? UseSwagger { get; set; }
     }
 }
