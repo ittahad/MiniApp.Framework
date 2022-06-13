@@ -2,7 +2,7 @@
 using MinimalFramework;
 using Serilog;
 
-namespace Logger
+namespace Microsoft.Extensions.DependencyInjection
 {
     public static class LoggerExtension
     {

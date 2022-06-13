@@ -1,13 +1,5 @@
-﻿using Logger;
-using MediatR;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
+﻿using Microsoft.AspNetCore.Builder;
 using MinimalFramework;
-using System.Reflection;
-using System.Text;
 
 namespace MinimalWebApi
 {

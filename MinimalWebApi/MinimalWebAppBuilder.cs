@@ -1,5 +1,4 @@
-﻿using Logger;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -80,7 +79,7 @@ namespace MinimalWebApi
                 });
 
             builder.Services.AddSingleton<ITokenService, TokenService>();
-            builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
+            builder.Services.AddSingleton<IMinimalMediator, MinimalMediator.MinimalMediator>();
             
             if (Configure != null)
                 Configure(builder);

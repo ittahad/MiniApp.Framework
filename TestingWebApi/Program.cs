@@ -1,4 +1,3 @@
-using Logger;
 using MinimalFramework;
 using MinimalWebApi;
 
@@ -16,10 +15,12 @@ var options = new MinimalAppOptions
 var minimalAppBuilder = new MinimalWebAppBuilder(options);
 
 var minimalWebApp = minimalAppBuilder?.Build(builder => {
+    builder.AddMediatorAssembly();
     builder.AddSerilog(options);
 });
 
-minimalWebApp?.Application?.MapGet("/", () => {
+minimalWebApp?.Application?.MapGet("/", () =>
+{
     return "Testing";
 });
 
