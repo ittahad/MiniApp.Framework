@@ -7,11 +7,11 @@ namespace MinimalWebApi
     {
         public WebApplication? Application;
 
-        private MinimalAppOptions _options;
+        private MinimalWebAppOptions _options;
         
-        public MinimalWebApp(MinimalAppOptions options = null)
+        public MinimalWebApp(MinimalWebAppOptions options = null)
         {
-            _options = options == null ? new MinimalAppOptions() { 
+            _options = options == null ? new MinimalWebAppOptions() { 
                 UseSwagger = false,
                 CommandLineArgs = new string[] { },
             } : options;

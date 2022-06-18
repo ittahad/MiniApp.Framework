@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Hosting;
 using MinimalFramework;
 using Serilog;
 
@@ -7,13 +8,12 @@ namespace Microsoft.Extensions.DependencyInjection
     public static class LoggerExtension
     {
         public static void AddSerilog(
-            this WebApplicationBuilder? builder, 
-            MinimalAppOptions options,
+            this IHostBuilder? builder, 
+            MinimalHostOptions options,
             Action<LoggerConfiguration>? config = null) {
 
-            builder?.Host.UseSerilog((ctx, loggerConfig) => {
-
-                string seriviceName = builder.Configuration.GetSection("ServiceName").Value;
+            builder?.UseSerilog((ctx, loggerConfig) => {
+                string seriviceName = ctx.Configuration.GetSection("ServiceName").Value;
                 string filePath = $"logs/" + $"{seriviceName}-{DateTime.Now.ToString("MM-dd-yy")}.log";
 
                 if (options.ConsoleLogging.HasValue && options.ConsoleLogging.Value)

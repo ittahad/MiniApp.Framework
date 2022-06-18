@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using MassTransit;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,11 +13,11 @@ namespace MinimalWebApi
 {
     public class MinimalWebAppBuilder
     {
-        private MinimalAppOptions _options;
+        private MinimalWebAppOptions _options;
         
-        public MinimalWebAppBuilder(MinimalAppOptions options = null)
+        public MinimalWebAppBuilder(MinimalWebAppOptions options = null)
         {
-            _options = options == null ? new MinimalAppOptions() { 
+            _options = options == null ? new MinimalWebAppOptions() { 
                 UseSwagger = false,
                 CommandLineArgs = new string[] { },
             } : options;
@@ -59,6 +60,15 @@ namespace MinimalWebApi
                 options.EnableEndpointRouting = false;
             });
 
+            builder.Services.AddMassTransit(config =>
+            {
+                config.UsingRabbitMq((r, c) =>
+                {
+                    c.Host("amqps://jvxyncsn:4oLJUAtdt8McmhhdPsjW4AnpqjexG5sQ@sparrow.rmq.cloudamqp.com/jvxyncsn");
+                    c.ConfigureEndpoints(r);
+                });
+            });
+
             var key = "testKeysd fsdf sdfsdfsdf sdfsdfsdf sdf";
             var issuer = "akash";
             var audience = "*";
@@ -80,7 +90,8 @@ namespace MinimalWebApi
 
             builder.Services.AddSingleton<ITokenService, TokenService>();
             builder.Services.AddSingleton<IMinimalMediator, MinimalMediator.MinimalMediator>();
-            
+            builder.Services.AddSingleton<IBus>(p => p.GetRequiredService<IBusControl>());
+
             if (Configure != null)
                 Configure(builder);
 

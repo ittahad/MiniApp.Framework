@@ -1,7 +1,7 @@
 using MinimalFramework;
 using MinimalWebApi;
 
-var options = new MinimalAppOptions
+var options = new MinimalWebAppOptions
 {
     UseSwagger = true,
     ConsoleLogging = true,
@@ -16,7 +16,7 @@ var minimalAppBuilder = new MinimalWebAppBuilder(options);
 
 var minimalWebApp = minimalAppBuilder?.Build(builder => {
     builder.AddMediatorAssembly();
-    builder.AddSerilog(options);
+    builder.Host.AddSerilog(options);
 });
 
 minimalWebApp?.Application?.MapGet("/", () =>
