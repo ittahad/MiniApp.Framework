@@ -14,9 +14,9 @@ var options = new MinimalHostOptions
 };
 
 var builder = new MinimalHostingBuilder(options)
-    .Build(conf => {
-    }, 
-    messageHandlerAssembly: typeof(TestMessageHandler).Assembly);
+    .Build(
+        hostBuilder: (conf) => { }, 
+        messageHandlerAssembly: typeof(TestMessageHandler).Assembly);
 
 builder.Run();
 

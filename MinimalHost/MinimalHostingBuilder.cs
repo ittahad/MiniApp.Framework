@@ -22,14 +22,16 @@ namespace MinimalHost
         }
 
         public MinimalHostingApp Build(
-            Action<IHostBuilder> hostBuilder,
+            Action<IHostBuilder> hostBuilder = null,
             Assembly messageHandlerAssembly = null)
         {
             IHostBuilder builder = Host.CreateDefaultBuilder(_options.CommandLineArgs);
 
-            hostBuilder.Invoke(builder);
+            if(hostBuilder != null)
+                hostBuilder.Invoke(builder);
 
             builder.AddSerilog(_options);
+
             var host = builder.ConfigureServices(services =>
                 {
                     services.AddMassTransit(config =>

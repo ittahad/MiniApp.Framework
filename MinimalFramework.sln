@@ -13,9 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logger", "Logger\Logger.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MinimalMediator", "MinimalMediator\MinimalMediator.csproj", "{683EDF34-6504-48E3-B09C-2A1275E65293}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinimalHost", "MinimalHost\MinimalHost.csproj", "{FAD03C92-54CE-4588-AA9B-80B341D72E27}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MinimalHost", "MinimalHost\MinimalHost.csproj", "{FAD03C92-54CE-4588-AA9B-80B341D72E27}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestingHost", "TestingHost\TestingHost.csproj", "{C2B4B617-8053-4187-B362-13FD838EDD6F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestingHost", "TestingHost\TestingHost.csproj", "{C2B4B617-8053-4187-B362-13FD838EDD6F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Apps", "Apps", "{B218673D-CB42-4D85-93EB-90AE6A9F4CDD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -54,6 +56,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{14CCF455-88C7-4205-9A06-79D0BBFDF459} = {B218673D-CB42-4D85-93EB-90AE6A9F4CDD}
+		{C2B4B617-8053-4187-B362-13FD838EDD6F} = {B218673D-CB42-4D85-93EB-90AE6A9F4CDD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {955362A1-741F-4325-85EF-A3E156953F44}
