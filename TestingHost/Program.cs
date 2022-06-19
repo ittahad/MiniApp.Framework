@@ -15,6 +15,7 @@ var options = new MinimalHostOptions
 
 var builder = new MinimalHostingBuilder(options)
     .ListenTo("TestQueue1")
+    .ListenTo("TestQueue2")
     .Build(
         hostBuilder: (conf) => { }, 
         messageHandlerAssembly: typeof(TestMessageHandler).Assembly);

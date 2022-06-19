@@ -12,8 +12,8 @@ namespace TestingWebApi
             _minimalMediator = mediator;
         }
 
-        public async Task<string> TestAction() {
-            await _minimalMediator.SendToQueue(new TestMessage { Name = "Akash" }, "TestQueue1");
+        public async Task<string> TestAction([FromQuery] string q) {
+            await _minimalMediator.SendToQueue(new TestMessage { Name = "Akash" }, q);
             //await _minimalMediator.SendToExchange(new TestMessage { Name = "Akash" }, "TestExchange2");
             return "Hello";
         }
