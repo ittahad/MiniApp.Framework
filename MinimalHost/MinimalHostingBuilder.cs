@@ -32,7 +32,7 @@ namespace MinimalHost
 
             builder.AddSerilog(_options);
 
-            var host = builder.ConfigureServices(services =>
+            var host = builder.ConfigureServices((settings, services) =>
                 {
                     services.AddMassTransit(config =>
                     {
@@ -52,7 +52,7 @@ namespace MinimalHost
 
                         config.UsingRabbitMq((ctx, conf) =>
                         {
-                            conf.Host("amqps://jvxyncsn:4oLJUAtdt8McmhhdPsjW4AnpqjexG5sQ@sparrow.rmq.cloudamqp.com/jvxyncsn");
+                            conf.Host(settings.Configuration["RabbitMqServer"]);
                             conf.PrefetchCount = 5;
                             
                             conf.ReceiveEndpoint("TestQueue1", e =>

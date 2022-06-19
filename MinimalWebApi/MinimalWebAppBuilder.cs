@@ -64,14 +64,15 @@ namespace MinimalWebApi
             {
                 config.UsingRabbitMq((r, c) =>
                 {
-                    c.Host("amqps://jvxyncsn:4oLJUAtdt8McmhhdPsjW4AnpqjexG5sQ@sparrow.rmq.cloudamqp.com/jvxyncsn");
+                    c.Host(builder.Configuration["RabbitMqServer"]);
                     c.ConfigureEndpoints(r);
                 });
             });
 
-            var key = "testKeysd fsdf sdfsdfsdf sdfsdfsdf sdf";
-            var issuer = "akash";
-            var audience = "*";
+            var jwtConf = builder.Configuration.GetSection("JwtConfig");
+            string issuer = jwtConf["Issuer"];
+            string audience = jwtConf["Audience"];
+            string key = jwtConf["Key"];
 
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(opt =>
