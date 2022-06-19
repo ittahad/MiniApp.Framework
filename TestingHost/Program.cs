@@ -10,10 +10,11 @@ var options = new MinimalHostOptions
     {
         UseSeq = true,
         SeqServerUrl = "http://localhost:5341"
-    }
+    },
 };
 
 var builder = new MinimalHostingBuilder(options)
+    .ListenTo("TestQueue1")
     .Build(
         hostBuilder: (conf) => { }, 
         messageHandlerAssembly: typeof(TestMessageHandler).Assembly);

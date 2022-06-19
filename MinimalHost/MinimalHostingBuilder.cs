@@ -12,18 +12,21 @@ namespace MinimalHost
     public class MinimalHostingBuilder
     {
         private readonly MinimalHostOptions _options;
+        private readonly List<RabbitMqConsumerOptions> _consumerOptions;
 
-        public MinimalHostingBuilder(MinimalHostOptions options = null) 
+        public MinimalHostingBuilder(MinimalHostOptions? options = null) 
         {
             _options = options == null ? new MinimalHostOptions()
             {
                 CommandLineArgs = new string[] { },
             } : options;
+
+            _consumerOptions = new List<RabbitMqConsumerOptions>();
         }
 
         public MinimalHostingApp Build(
-            Action<IHostBuilder> hostBuilder = null,
-            Assembly messageHandlerAssembly = null)
+            Action<IHostBuilder>? hostBuilder = null,
+            Assembly? messageHandlerAssembly = null)
         {
             IHostBuilder builder = Host.CreateDefaultBuilder(_options.CommandLineArgs);
 
@@ -36,7 +39,7 @@ namespace MinimalHost
                 {
                     services.AddMassTransit(config =>
                     {
-                        IEnumerable<Type?> foundHandlers = null;
+                        IEnumerable<Type?>? foundHandlers = null;
 
                         if (messageHandlerAssembly != null)
                         {
@@ -55,16 +58,16 @@ namespace MinimalHost
                             conf.Host(settings.Configuration["RabbitMqServer"]);
                             conf.PrefetchCount = 5;
                             
-                            conf.ReceiveEndpoint("TestQueue1", e =>
+                            foreach(var op in _consumerOptions)
                             {
-                                if (messageHandlerAssembly != null)
-                                {
-                                    foreach (var foundHandler in foundHandlers)
-                                    {
-                                        e.ConfigureConsumer(ctx, foundHandler);
-                                    }
-                                }
-                            });
+                                AddQueueAndHandler(
+                                    messageHandlerAssembly: messageHandlerAssembly,
+                                    ctx: ctx,
+                                    conf: conf,
+                                    op: op,
+                                    foundHandlers: foundHandlers);
+                            }
+
                         });
                     });
                     services.AddSingleton<IBus>(p => p.GetRequiredService<IBusControl>());
@@ -74,6 +77,36 @@ namespace MinimalHost
             return new MinimalHostingApp(_options) { 
                 Host = host
             };
+        }
+
+        private void AddQueueAndHandler(
+            Assembly? messageHandlerAssembly,
+            IBusRegistrationContext ctx,
+            IRabbitMqBusFactoryConfigurator conf,
+            RabbitMqConsumerOptions op,
+            IEnumerable<Type>? foundHandlers)
+        {
+            conf.ReceiveEndpoint(op.ListenOnQueue, e =>
+            {
+                if (!string.IsNullOrEmpty(op.ListenViaExchange))
+                    e.Bind(op.ListenViaExchange);
+
+                if (messageHandlerAssembly != null)
+                {
+                    foreach (var foundHandler in foundHandlers)
+                    {
+                        e.ConfigureConsumer(ctx, foundHandler);
+                    }
+                }
+            });
+        }
+
+        public MinimalHostingBuilder ListenTo(string queueName, string exchangeName = null) {
+            _consumerOptions.Add(new RabbitMqConsumerOptions {
+                ListenOnQueue = queueName,
+                ListenViaExchange = exchangeName
+            });
+            return this;
         }
 
         public static IEnumerable<Type> GetAllDescendantsOf(
