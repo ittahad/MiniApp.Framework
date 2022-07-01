@@ -33,7 +33,7 @@ namespace MinimalHost
             if(hostBuilder != null)
                 hostBuilder.Invoke(builder);
 
-            builder.AddSerilog(_options);
+            builder.AddLogger(_options);
 
             var host = builder.ConfigureServices((settings, services) =>
                 {
@@ -56,7 +56,7 @@ namespace MinimalHost
                         config.UsingRabbitMq((ctx, conf) =>
                         {
                             conf.Host(settings.Configuration["RabbitMqServer"]);
-                            conf.PrefetchCount = 5;
+                            //conf.PrefetchCount = 5;
                             
                             foreach(var op in _consumerOptions)
                             {
@@ -91,6 +91,8 @@ namespace MinimalHost
                 if (!string.IsNullOrEmpty(op.ListenViaExchange))
                     e.Bind(op.ListenViaExchange);
 
+                e.PrefetchCount = op.PrefetchCount.Value;
+
                 if (messageHandlerAssembly != null)
                 {
                     foreach (var foundHandler in foundHandlers)
@@ -101,10 +103,14 @@ namespace MinimalHost
             });
         }
 
-        public MinimalHostingBuilder ListenTo(string queueName, string exchangeName = null) {
+        public MinimalHostingBuilder ListenOn(
+            string queueName, 
+            string exchangeName = null,
+            int prefetch = 5) {
             _consumerOptions.Add(new RabbitMqConsumerOptions {
                 ListenOnQueue = queueName,
-                ListenViaExchange = exchangeName
+                ListenViaExchange = exchangeName,
+                PrefetchCount = prefetch
             });
             return this;
         }

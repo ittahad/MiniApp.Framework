@@ -11,6 +11,7 @@ namespace MinimalFramework
         public string[]? CommandLineArgs { get; set; }
         public bool? ConsoleLogging { get; set; }
         public bool? FileLogging { get; set; }
+        public LoggingProviders LoggingProvider { get; set; } = LoggingProviders.Serilog;
         public SeqLoggerOptions SeqLoggerOptions { get; set; }
     }
 
@@ -18,6 +19,10 @@ namespace MinimalFramework
     {
         public bool? UseSeq { get; set; }
         public string? SeqServerUrl { get; set; }
+    }
+
+    public enum LoggingProviders { 
+        Serilog
     }
 
 }

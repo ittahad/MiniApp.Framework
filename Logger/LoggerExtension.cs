@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Logger;
+using Logger.LoggerProviders;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
 using MinimalFramework;
 using Serilog;
@@ -7,39 +9,20 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class LoggerExtension
     {
-        public static void AddSerilog(
+        public static void AddLogger(
             this IHostBuilder? builder, 
             MinimalHostOptions options,
             Action<LoggerConfiguration>? config = null) {
 
-            builder?.UseSerilog((ctx, loggerConfig) => {
-                string seriviceName = ctx.Configuration.GetSection("ServiceName").Value;
-                string filePath = $"logs/" + $"{seriviceName}-{DateTime.Now.ToString("MM-dd-yy")}.log";
+            var loggerFactory = new LoggerFactory(options);
+            var strategy = loggerFactory.CreateLogger(options.LoggingProvider);
+            strategy.ConfigureLogger(builder, options, config);
 
-                if (options.ConsoleLogging.HasValue && options.ConsoleLogging.Value)
-                    loggerConfig.WriteTo.Console();
-
-                if (options.ConsoleLogging.HasValue && options.ConsoleLogging.Value)
-                {
-                    loggerConfig.WriteTo.File(
-                        path: filePath,
-                        fileSizeLimitBytes: (10 * 1024 * 1024),
-                        restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Information,
-                        retainedFileCountLimit: 30);
-                }
-
-                if (options.SeqLoggerOptions != null
-                    && options.SeqLoggerOptions.UseSeq.HasValue 
-                    && options.SeqLoggerOptions.UseSeq.Value) 
-                {
-                    loggerConfig.WriteTo.Seq(options.SeqLoggerOptions.SeqServerUrl ?? throw new Exception("Invalid seq server url"));
-                }
-
-                loggerConfig.ReadFrom.Configuration(ctx.Configuration);
-
-                if (config != null)
-                    config.Invoke(loggerConfig);
+            builder.ConfigureServices(services => {
+                services.AddSingleton(loggerFactory);
+                services.AddSingleton(strategy);
             });
         }
+
     }
 }

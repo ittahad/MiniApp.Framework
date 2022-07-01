@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MinimalFramework;
+using Swashbuckle.AspNetCore.SwaggerGen.ConventionalRouting;
 using System.Reflection;
 using System.Text;
 
@@ -30,7 +31,7 @@ namespace MinimalWebApi
 
             if (_options.UseSwagger.HasValue && _options.UseSwagger.Value)
             {
-                builder.Services.AddEndpointsApiExplorer();
+                builder.Services.AddControllers();
                 builder.Services.AddSwaggerGen(c =>
                 {
                     var securityScheme = new OpenApiSecurityScheme
@@ -52,7 +53,14 @@ namespace MinimalWebApi
                     { securityScheme, new string[] { } }
                     });
                 });
+                // this will handle all conventional based routes
+                builder.Services.AddSwaggerGenWithConventionalRoutes(options =>
+                {
+                    options.SkipDefaults = true;
+                });
             }
+
+            builder.Host.AddLogger(_options);
 
             builder.Services.AddAuthorization();
             builder.Services.AddMvc(options =>

@@ -6,6 +6,7 @@ var options = new MinimalHostOptions
 {
     ConsoleLogging = true,
     FileLogging = true,
+    LoggingProvider = LoggingProviders.Serilog,
     SeqLoggerOptions = new SeqLoggerOptions()
     {
         UseSeq = true,
@@ -14,10 +15,11 @@ var options = new MinimalHostOptions
 };
 
 var builder = new MinimalHostingBuilder(options)
-    .ListenTo("TestQueue1")
-    .ListenTo("TestQueue2")
+    .ListenOn("TestQueue1")
+    .ListenOn("TestQueue2")
     .Build(
-        hostBuilder: (conf) => { }, 
+        hostBuilder: (conf) => { 
+        }, 
         messageHandlerAssembly: typeof(TestMessageHandler).Assembly);
 
 builder.Run();
