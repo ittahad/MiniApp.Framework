@@ -21,8 +21,10 @@ namespace Logger
         {
             if (logger == LoggingProviders.Serilog)
                 return new SerilogProvider();
-
-            throw new Exception("Invalid logger strategy");
+            else if (logger == LoggingProviders.Default)
+                return null;
+            else
+                throw new Exception("Invalid logger strategy");
         }
     }
 }

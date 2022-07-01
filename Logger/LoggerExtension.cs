@@ -16,6 +16,10 @@ namespace Microsoft.Extensions.DependencyInjection
 
             var loggerFactory = new LoggerFactory(options);
             var strategy = loggerFactory.CreateLogger(options.LoggingProvider);
+
+            if (strategy == null)
+                return;
+
             strategy.ConfigureLogger(builder, options, config);
 
             builder.ConfigureServices(services => {
