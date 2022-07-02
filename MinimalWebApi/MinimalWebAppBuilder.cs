@@ -75,6 +75,7 @@ namespace MinimalWebApi
                     c.Host(builder.Configuration["RabbitMqServer"]);
                     c.ConfigureEndpoints(r);
                 });
+
             });
 
             var jwtConf = builder.Configuration.GetSection("JwtConfig");
@@ -102,7 +103,7 @@ namespace MinimalWebApi
             builder.Services.AddSingleton<IBus>(p => p.GetRequiredService<IBusControl>());
 
             if (Configure != null)
-                Configure(builder);
+                Configure.Invoke(builder);
 
             var minimalWebApp = builder.Build();
 

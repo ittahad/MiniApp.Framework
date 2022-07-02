@@ -17,7 +17,7 @@ namespace Logger
             _options = options;
         }
 
-        public ILoggerProvider CreateLogger(LoggingProviders logger)
+        public ILoggerProvider? CreateLogger(LoggingProviders logger)
         {
             if (logger == LoggingProviders.Serilog)
                 return new SerilogProvider();

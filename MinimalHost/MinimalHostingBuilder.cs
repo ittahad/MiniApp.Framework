@@ -57,8 +57,8 @@ namespace MinimalHost
                         {
                             conf.Host(settings.Configuration["RabbitMqServer"]);
                             //conf.PrefetchCount = 5;
-                            
-                            foreach(var op in _consumerOptions)
+
+                            foreach (var op in _consumerOptions)
                             {
                                 AddQueueAndHandler(
                                     messageHandlerAssembly: messageHandlerAssembly,

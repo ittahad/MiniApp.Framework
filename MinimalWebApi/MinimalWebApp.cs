@@ -18,13 +18,14 @@ namespace MinimalWebApi
             } : options;
         }
 
-        public void Start()
+
+        public void Start(Action<WebApplication> application = null)
         {
             if (Application == null) throw new Exception();
             Application.UseRouting();
             Application.UseAuthentication();
             Application.UseAuthorization();
-            
+
             Application.UseMvc(config =>
             {
                 string serviceName = Application.Configuration["ServiceName"];
@@ -40,19 +41,18 @@ namespace MinimalWebApi
                     .UseSwagger()
                     .UseSwaggerUI();
             }
-            
+
             if (_options.StartUrl != null)
             {
                 Application.Urls.Add(_options.StartUrl);
             }
 
-            Application.Run();
-        }
+            if (application != null)
+            {
+                application.Invoke(Application);
+            }
 
-        public void Start(Action<WebApplication> application)
-        {
-            application.Invoke(Application);
-            Start();
+            Application.Run();
         }
 
     }

@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
 using MinimalFramework;
+using System.Diagnostics;
 
 namespace MinimalMediator
 {
@@ -10,14 +11,17 @@ namespace MinimalMediator
         private readonly IMediator _mediator;
         private readonly IBus _bus;
         private readonly ILogger<MinimalMediator> _logger;
+        private readonly ActivitySource _activitySource; 
 
         public MinimalMediator(
             IMediator mediator,
             IBus bus,
-            ILogger<MinimalMediator> logger) {
+            ILogger<MinimalMediator> logger,
+            ActivitySource activitySource) {
             _mediator = mediator;
             _bus = bus;
             _logger = logger;
+            _activitySource = activitySource;
         }
 
         public Task<TResponse> PublishAsync<TEvent, TResponse>(TEvent command) where TEvent : class
@@ -57,6 +61,13 @@ namespace MinimalMediator
             try
             {
                 if (string.IsNullOrEmpty(queueName)) throw new ArgumentException("(queueName) can not be null or empty");
+
+                if (typeof(MessageBase).IsAssignableFrom(command.GetType())) {
+                    using var activity = Activity.Current;
+                    var baseMessage = command as MessageBase;
+                    baseMessage.SpanId = activity.SpanId.ToString();
+                    baseMessage.TraceId = activity.TraceId.ToString();
+                }
 
                 var endpoint = await _bus.GetSendEndpoint(new Uri($"queue:{queueName}"));
 

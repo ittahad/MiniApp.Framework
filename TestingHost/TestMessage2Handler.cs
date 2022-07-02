@@ -13,10 +13,20 @@ namespace TestingHost
             _logger = logger;
         }
 
-        public override Task Handle(TestMessage2 message)
+        public override async Task Handle(TestMessage2 message)
         {
+            try
+            {
+                var httpClient = new HttpClient();
+                var html = await httpClient.GetStringAsync("https://www.gmail.com/");
+            }
+            catch (Exception ex)
+            {
+
+            }
+
             _logger.LogInformation("Message received from Host");
-            return Task.CompletedTask;
+            return;
         }
     }
 }

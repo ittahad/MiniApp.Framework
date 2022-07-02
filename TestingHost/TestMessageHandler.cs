@@ -13,10 +13,22 @@ namespace TestingHost
             _logger = logger;
         }
 
-        public override Task Handle(TestMessage message)
+        public override async Task Handle(TestMessage message)
         {
             _logger.LogInformation("Message received from Host");
-            return Task.CompletedTask;
+            
+            try
+            {
+                var httpClient = new HttpClient();
+                var html = await httpClient.GetStringAsync("https://www.facebook.com/");
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+
+            return;
         }
     }
 }
