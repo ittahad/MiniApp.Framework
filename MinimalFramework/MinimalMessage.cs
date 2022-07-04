@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace MinimalFramework
 {
-    public class MessageBase
+    public abstract class MinimalMessage
     {
-        public string SpanId { get; set; }
-        public string TraceId { get; set; }
+        public string? SpanId { get; set; }
+        public string? TraceId { get; set; }
     }
 }

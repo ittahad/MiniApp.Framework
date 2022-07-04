@@ -18,14 +18,14 @@ namespace MinimalFramework
 
         public Task Consume(ConsumeContext<TMessage> context) {
 
-            var baseMessage = context.Message as MessageBase;
+            var baseMessage = context.Message as MinimalMessage;
             var traceId = ActivityTraceId.CreateFromString(baseMessage.TraceId.AsSpan());
             var spanId = ActivitySpanId.CreateFromString(baseMessage.SpanId.AsSpan());
 
             ActivityContext activityContext = new ActivityContext(traceId, spanId, ActivityTraceFlags.Recorded);
 
             using var activity = ActivitySource.StartActivity(
-                context.Message.GetType().Name, 
+                $"{context.Message.GetType().Name}-Handler", 
                 ActivityKind.Consumer, 
                 activityContext);
 

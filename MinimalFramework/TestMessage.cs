@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 namespace MinimalFramework
 {
 
-    public class TestMessage : MessageBase
+    public class TestMessage : MinimalMessage
     {
         public string Name { get; set; }
     }
 
-    public class TestMessage2 : MessageBase
+    public class TestMessage2 : MinimalMessage
     {
         public string Name { get; set; }
     }

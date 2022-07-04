@@ -24,24 +24,27 @@ namespace MinimalMediator
             _activitySource = activitySource;
         }
 
-        public Task<TResponse> PublishAsync<TEvent, TResponse>(TEvent command) where TEvent : class
+        public Task<TResponse> PublishAsync<TMessage, TResponse>(TMessage command) 
+            where TMessage : MinimalMessage
         {
             throw new NotImplementedException();
         }
 
-        public Task PublishAsync<TEvent>(TEvent @event) where TEvent : class
+        public Task PublishAsync<TMessage>(TMessage @event) where TMessage : class
         {
             throw new NotImplementedException();
         }
 
-        public async Task<TResponse> SendAsync<TCommand, TResponse>(TCommand command) where TCommand : class
+        public async Task<TResponse> SendAsync<TMessage, TResponse>(TMessage command) 
+            where TMessage : MinimalMessage
         {
             var response = await _mediator.Send(command);
 
             return (TResponse)response;
         }
 
-        public async Task SendToExchange<TEvent>(TEvent @event, string exchangeName) where TEvent : class
+        public async Task SendToExchange<TMessage>(TMessage @event, string exchangeName) 
+            where TMessage : MinimalMessage
         {
             try
             {
@@ -56,15 +59,16 @@ namespace MinimalMediator
             }
         }
 
-        public async Task SendToQueue<TCommand>(TCommand command, string queueName) where TCommand : class
+        public async Task SendToQueue<TMessage>(TMessage command, string queueName) 
+            where TMessage : MinimalMessage
         {
             try
             {
                 if (string.IsNullOrEmpty(queueName)) throw new ArgumentException("(queueName) can not be null or empty");
 
-                if (typeof(MessageBase).IsAssignableFrom(command.GetType())) {
+                if (typeof(MinimalMessage).IsAssignableFrom(command.GetType())) {
                     using var activity = Activity.Current;
-                    var baseMessage = command as MessageBase;
+                    var baseMessage = command as MinimalMessage;
                     baseMessage.SpanId = activity.SpanId.ToString();
                     baseMessage.TraceId = activity.TraceId.ToString();
                 }
