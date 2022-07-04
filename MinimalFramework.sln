@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestingHost", "TestingHost\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Apps", "Apps", "{B218673D-CB42-4D85-93EB-90AE6A9F4CDD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinimalObservability", "MinimalTracing\MinimalObservability.csproj", "{AFBBEF88-1F5A-4FE5-BF4A-436451A5AB85}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,10 @@ Global
 		{C2B4B617-8053-4187-B362-13FD838EDD6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C2B4B617-8053-4187-B362-13FD838EDD6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C2B4B617-8053-4187-B362-13FD838EDD6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFBBEF88-1F5A-4FE5-BF4A-436451A5AB85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFBBEF88-1F5A-4FE5-BF4A-436451A5AB85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFBBEF88-1F5A-4FE5-BF4A-436451A5AB85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFBBEF88-1F5A-4FE5-BF4A-436451A5AB85}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using MinimalFramework;
 
 namespace MinimalWebApi
 {

@@ -13,12 +13,20 @@ namespace MinimalFramework
         public bool? FileLogging { get; set; }
         public LoggingProviders LoggingProvider { get; set; } = LoggingProviders.Default;
         public SeqLoggerOptions SeqLoggerOptions { get; set; }
+        public OpenTelemetrySettings? OpenTelemetryOptions { get; set; }
     }
 
     public class SeqLoggerOptions
     {
         public bool? UseSeq { get; set; }
         public string? SeqServerUrl { get; set; }
+    }
+
+    public class OpenTelemetrySettings 
+    {
+        public bool EnableTracing { get; set; }
+        public string? TracingHost { get; set; }
+        public bool EnableMetrics { get; set; }
     }
 
     public enum LoggingProviders { 

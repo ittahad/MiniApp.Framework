@@ -16,23 +16,38 @@ namespace MinimalFramework
     {
         private static readonly ActivitySource ActivitySource = new("MassTransit");
 
-        public Task Consume(ConsumeContext<TMessage> context) {
-
-            var baseMessage = context.Message as MinimalMessage;
-            var traceId = ActivityTraceId.CreateFromString(baseMessage.TraceId.AsSpan());
-            var spanId = ActivitySpanId.CreateFromString(baseMessage.SpanId.AsSpan());
-
-            ActivityContext activityContext = new ActivityContext(traceId, spanId, ActivityTraceFlags.Recorded);
-
-            using var activity = ActivitySource.StartActivity(
-                $"{context.Message.GetType().Name}-Handler", 
-                ActivityKind.Consumer, 
-                activityContext);
+        public Task Consume(ConsumeContext<TMessage> context)
+        {
+            TryAddingObservabilityTrace(context);
 
             Handle(context.Message);
 
             return Task.CompletedTask;
         }
+
+        private void TryAddingObservabilityTrace(ConsumeContext<TMessage> context)
+        {
+            try
+            {
+                var baseMessage = context.Message as MinimalMessage;
+
+                if (baseMessage == null) return;
+                var traceId = ActivityTraceId.CreateFromString(baseMessage.TraceId.AsSpan());
+                var spanId = ActivitySpanId.CreateFromString(baseMessage.SpanId.AsSpan());
+
+                ActivityContext activityContext = new ActivityContext(
+                    traceId: traceId,
+                    spanId: spanId,
+                    traceFlags: ActivityTraceFlags.Recorded);
+                var activity = ActivitySource.StartActivity(
+                                $"{context.Message.GetType().Name}-Handler",
+                                ActivityKind.Consumer,
+                                activityContext);
+            }
+            catch (Exception) { 
+            }
+        }
+
         public abstract Task Handle(TMessage message);
     }
 }

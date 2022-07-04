@@ -36,7 +36,7 @@ namespace MinimalMediator
         }
 
         public async Task<TResponse> SendAsync<TMessage, TResponse>(TMessage command) 
-            where TMessage : MinimalMessage
+            where TMessage : class
         {
             var response = await _mediator.Send(command);
 
@@ -49,6 +49,8 @@ namespace MinimalMediator
             try
             {
                 if (string.IsNullOrEmpty(exchangeName)) throw new ArgumentException("(exchangeName) can not be null or empty");
+
+                TryAddingObservabilityTrace(@event);
 
                 var endpoint = await _bus.GetSendEndpoint(new Uri($"exchange:{exchangeName}"));
 
@@ -65,19 +67,33 @@ namespace MinimalMediator
             try
             {
                 if (string.IsNullOrEmpty(queueName)) throw new ArgumentException("(queueName) can not be null or empty");
-
-                if (typeof(MinimalMessage).IsAssignableFrom(command.GetType())) {
-                    using var activity = Activity.Current;
-                    var baseMessage = command as MinimalMessage;
-                    baseMessage.SpanId = activity.SpanId.ToString();
-                    baseMessage.TraceId = activity.TraceId.ToString();
-                }
+                
+                TryAddingObservabilityTrace(command);
 
                 var endpoint = await _bus.GetSendEndpoint(new Uri($"queue:{queueName}"));
 
                 await endpoint.Send(command);
             }
             catch (Exception ex) {
+                _logger.LogError(ex.Message);
+            }
+        }
+
+        private void TryAddingObservabilityTrace<TMessage>(TMessage command) 
+            where TMessage : MinimalMessage
+        {
+            try
+            {
+                if (typeof(MinimalMessage).IsAssignableFrom(command.GetType()))
+                {
+                    using var activity = Activity.Current;
+                    var baseMessage = command as MinimalMessage;
+                    baseMessage.SpanId = activity.SpanId.ToString();
+                    baseMessage.TraceId = activity.TraceId.ToString();
+                }
+            }
+            catch (Exception ex) 
+            {
                 _logger.LogError(ex.Message);
             }
         }

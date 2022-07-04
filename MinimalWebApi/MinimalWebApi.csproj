@@ -25,6 +25,7 @@
     <ProjectReference Include="..\Logger\Logger.csproj" />
     <ProjectReference Include="..\MinimalFramework\MinimalFramework.csproj" />
     <ProjectReference Include="..\MinimalMediator\MinimalMediator.csproj" />
+    <ProjectReference Include="..\MinimalTracing\MinimalObservability.csproj" />
   </ItemGroup>
 
 </Project>

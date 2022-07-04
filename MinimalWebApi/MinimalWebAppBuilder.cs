@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MinimalFramework;
 using Swashbuckle.AspNetCore.SwaggerGen.ConventionalRouting;
+using System.Diagnostics;
 using System.Reflection;
 using System.Text;
 
@@ -28,6 +29,8 @@ namespace MinimalWebApi
             Action<WebApplicationBuilder> Configure = null)
         {
             var builder = WebApplication.CreateBuilder(_options.CommandLineArgs);
+
+            var serviceName = builder.Configuration.GetSection("ServiceName").Value;
 
             if (_options.UseSwagger.HasValue && _options.UseSwagger.Value)
             {
@@ -101,6 +104,14 @@ namespace MinimalWebApi
             builder.Services.AddSingleton<ITokenService, TokenService>();
             builder.Services.AddSingleton<IMinimalMediator, MinimalMediator.MinimalMediator>();
             builder.Services.AddSingleton<IBus>(p => p.GetRequiredService<IBusControl>());
+
+            // Tracing
+            if (_options.OpenTelemetryOptions?.EnableTracing ?? false) 
+            {
+                builder.Services.AddMinimalOpenTelemetryTracing(_options, serviceName); 
+                var MyActivitySource = new ActivitySource(serviceName);
+                builder.Services.AddSingleton(MyActivitySource);
+            }
 
             if (Configure != null)
                 Configure.Invoke(builder);

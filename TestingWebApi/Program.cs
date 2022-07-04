@@ -19,9 +19,13 @@ var options = new MinimalWebAppOptions
     ConsoleLogging = true,
     FileLogging = true,
     LoggingProvider = LoggingProviders.Serilog,
-    SeqLoggerOptions = new SeqLoggerOptions() {
+    SeqLoggerOptions = new() {
         UseSeq = true,
         SeqServerUrl = "http://localhost:5341"
+    },
+    OpenTelemetryOptions = new() { 
+        EnableTracing = true,
+        TracingHost = "http://localhost:9411/api/v2/spans"
     }
 };
 
@@ -29,33 +33,6 @@ var minimalAppBuilder = new MinimalWebAppBuilder(options);
 
 var minimalWebApp = minimalAppBuilder?.Build(builder => {
     builder.AddMediatorAssembly();
-
-    var serviceName = builder.Configuration.GetSection("ServiceName").Value;
-    var serviceVersion = "1.0.0";
-    var meter = new Meter("MyApplicationMetrics");
-
-    // Tracing
-    builder.Services.AddOpenTelemetryTracing(tracerProviderBuilder =>
-    {
-        tracerProviderBuilder
-            .SetSampler(new AlwaysOnSampler())
-            .AddHttpClientInstrumentation()
-            .AddAspNetCoreInstrumentation()
-            .AddMassTransitInstrumentation();
-
-        tracerProviderBuilder
-            .AddSource(serviceName)
-            .SetResourceBuilder(
-                ResourceBuilder.CreateDefault()
-                    .AddService(serviceName: serviceName, serviceVersion: serviceVersion))
-            .AddZipkinExporter(o =>
-            {
-                o.Endpoint = new Uri("http://localhost:9411/api/v2/spans");
-            });
-    });
-
-    var MyActivitySource = new ActivitySource(builder.Configuration.GetSection("ServiceName").Value);
-    builder.Services.AddSingleton(MyActivitySource);
 
     #region Metrics pending
     //Metrics
@@ -94,12 +71,13 @@ var minimalWebApp = minimalAppBuilder?.Build(builder => {
 
     //var requestCounter = meter.CreateCounter<int>("compute_requests");
     //builder.Services.AddSingleton(requestCounter);
-    #endregion
 
-    builder.Services.AddSingleton(meter);
+    //builder.Services.AddSingleton(meter);
+    #endregion
 
 });
 
+#region Metrics Pending
 /*minimalWebApp?.Application?.MapGet("/hello", (ActivitySource MyActivitySource) =>
 {
 // Track work inside of the request
@@ -110,11 +88,13 @@ var minimalWebApp = minimalAppBuilder?.Build(builder => {
 
     return "Hello, World!";
 });*/
+#endregion
 
 minimalWebApp?.Start(app => { 
     //app.UseOpenTelemetryPrometheusScrapingEndpoint();
 });
 
+#region Metrics Pending
 /*IEnumerable<Measurement<double>> GetThreadCpuTime(Process process)
 {
     foreach (ProcessThread thread in process.Threads)
@@ -122,3 +102,4 @@ minimalWebApp?.Start(app => {
         yield return new(thread.TotalProcessorTime.TotalMilliseconds, new("ProcessId", process.Id), new("ThreadId", thread.Id));
     }
 }*/
+#endregion

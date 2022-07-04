@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MinimalFramework;
 using Serilog;
+using System.Diagnostics;
 using System.Reflection;
 
 namespace MinimalHost
@@ -30,12 +31,9 @@ namespace MinimalHost
         {
             IHostBuilder builder = Host.CreateDefaultBuilder(_options.CommandLineArgs);
 
-            if(hostBuilder != null)
-                hostBuilder.Invoke(builder);
-
             builder.AddLogger(_options);
 
-            var host = builder.ConfigureServices((settings, services) =>
+            builder.ConfigureServices((settings, services) =>
                 {
                     services.AddMassTransit(config =>
                     {
@@ -71,8 +69,25 @@ namespace MinimalHost
                         });
                     });
                     services.AddSingleton<IBus>(p => p.GetRequiredService<IBusControl>());
-                })
-                .Build();
+                });
+
+            if (hostBuilder != null)
+                hostBuilder.Invoke(builder);
+
+            // Tracing
+            if (_options.OpenTelemetryOptions?.EnableTracing ?? false)
+            {
+                builder.ConfigureServices((settings, services) => {
+
+                    var serviceName = settings.Configuration.GetSection("ServiceName").Value;
+
+                    services.AddMinimalOpenTelemetryTracing(_options, serviceName);
+                    var MyActivitySource = new ActivitySource(serviceName);
+                    services.AddSingleton(MyActivitySource);
+                });
+            }
+
+            var host = builder.Build();
 
             return new MinimalHostingApp(_options) { 
                 Host = host
