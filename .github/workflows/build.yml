@@ -43,6 +43,6 @@ jobs:
         shell: powershell
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"ittahad_MinimalFramework" /o:"ittahad" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          dotnet restore ../../MinimalFramework.sln -s https://www.nuget.org/api/v2/ -s https://nuget.selise.biz/nuget
-          dotnet build ../../MinimalFramework.sln
+          dotnet restore MinimalFramework.sln -s https://www.nuget.org/api/v2/ -s https://nuget.selise.biz/nuget
+          dotnet build MinimalFramework.sln
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
