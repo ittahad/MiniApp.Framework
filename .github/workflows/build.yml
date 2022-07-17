@@ -47,3 +47,4 @@ jobs:
           dotnet build MinimalFramework.sln
           dotnet test MinimalFramework.sln --no-build --collect:"XPlat Code Coverage";
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+          
