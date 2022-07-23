@@ -66,6 +66,7 @@ namespace MinimalWebApi
             builder.Host.AddLogger(_options);
 
             builder.Services.AddAuthorization();
+
             builder.Services.AddMvc(options =>
             {
                 options.EnableEndpointRouting = false;
@@ -81,27 +82,6 @@ namespace MinimalWebApi
 
             });
 
-            var jwtConf = builder.Configuration.GetSection("JwtConfig");
-            string issuer = jwtConf["Issuer"];
-            string audience = jwtConf["Audience"];
-            string key = jwtConf["Key"];
-
-            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(opt =>
-                {
-                    opt.TokenValidationParameters = new()
-                    {
-                        ValidateIssuer = true,
-                        ValidateAudience = true,
-                        ValidateLifetime = true,
-                        ValidateIssuerSigningKey = true,
-                        ValidIssuer = issuer,
-                        ValidAudience = audience,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key))
-                    };
-                });
-
-            builder.Services.AddSingleton<ITokenService, TokenService>();
             builder.Services.AddSingleton<IMinimalMediator, MinimalMediator.MinimalMediator>();
             builder.Services.AddSingleton<IBus>(p => p.GetRequiredService<IBusControl>());
 

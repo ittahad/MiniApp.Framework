@@ -26,6 +26,7 @@ namespace TestingWebApi
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<string> TestAction([FromQuery] string q) {
 
             //_requestCounter.Add(1);
@@ -54,6 +55,13 @@ namespace TestingWebApi
 
 
             return "Hello";
+        }
+
+        [HttpGet]
+        [Authorize]
+        public IActionResult SomeAction([FromQuery] string q)
+        {
+            return Ok("Done");
         }
     }
 

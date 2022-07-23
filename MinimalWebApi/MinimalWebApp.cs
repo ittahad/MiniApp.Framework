@@ -22,8 +22,13 @@ namespace MinimalWebApi
         public void Start(Action<WebApplication> application = null)
         {
             if (Application == null) throw new Exception();
+
             Application.UseRouting();
-            Application.UseAuthentication();
+
+            if(_options.UseAuthentication.HasValue 
+                && _options.UseAuthentication.Value)
+                Application.UseAuthentication();
+
             Application.UseAuthorization();
 
             Application.UseMvc(config =>
