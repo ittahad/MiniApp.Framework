@@ -42,7 +42,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"experimental-github" /o:"ittahad" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="http://20.208.52.232:9000"
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"experimental-github" /o:"ittahad" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url=""
           dotnet restore MinimalFramework.sln -s https://www.nuget.org/api/v2/ -s https://nuget.selise.biz/nuget
           dotnet build MinimalFramework.sln
           dotnet test MinimalFramework.sln --no-build --collect:"XPlat Code Coverage";
