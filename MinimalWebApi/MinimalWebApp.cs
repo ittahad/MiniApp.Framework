@@ -23,13 +23,13 @@ namespace MinimalWebApi
         {
             if (Application == null) throw new Exception();
 
+            Application.UseRouting();
+
             if(_options.UseAuthentication.HasValue 
                 && _options.UseAuthentication.Value)
                 Application.UseAuthentication();
 
             Application.UseAuthorization();
-
-            Application.UseRouting();
 
             Application.UseMvc(config =>
             {
