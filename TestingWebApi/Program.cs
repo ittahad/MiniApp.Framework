@@ -68,6 +68,7 @@ var minimalWebApp = minimalAppBuilder?.Build(builder =>
         });
 
     builder.Services.AddSingleton<ITokenService, TokenService>();
+    builder.Services.AddSingleton<HealthCheckQueryHandler>();
 
     //Metrics
     builder.Services.AddOpenTelemetryMetrics(options =>

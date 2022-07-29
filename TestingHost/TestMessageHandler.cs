@@ -4,7 +4,7 @@ using MinimalFramework;
 
 namespace TestingHost
 {
-    public class TestMessageHandler : MinimalMessageHandler<TestMessage>
+    public class TestMessageHandler : MinimalCommandHandler<TestMessage, bool>
     {
         private readonly ILogger<TestMessageHandler> _logger;
 
@@ -13,7 +13,7 @@ namespace TestingHost
             _logger = logger;
         }
 
-        public override async Task Handle(TestMessage message)
+        public override async Task<bool> Handle(TestMessage message)
         {
             _logger.LogInformation("Message received from Host");
             
@@ -28,7 +28,7 @@ namespace TestingHost
             }
 
 
-            return;
+            return true;
         }
     }
 }

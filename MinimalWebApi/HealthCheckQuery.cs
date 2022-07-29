@@ -3,7 +3,7 @@ using MinimalFramework;
 
 namespace MinimalWebApi
 {
-    public class HealthCheckQuery : IRequest<string>
+    public class HealthCheckQuery : MinimalQuery<string>
     {
     }
 }

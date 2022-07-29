@@ -1,9 +1,11 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Configuration;
+using MinimalFramework;
 
 namespace MinimalWebApi
 {
-    public class HealthCheckQueryHandler : IRequestHandler<HealthCheckQuery, string>
+    public class HealthCheckQueryHandler 
+        : MinimalQueryHandler<HealthCheckQuery, string>
     {
         private readonly IConfiguration _configuration;
 
@@ -11,7 +13,9 @@ namespace MinimalWebApi
             _configuration = configuration;
         }
 
-        public async Task<string> Handle(HealthCheckQuery request, CancellationToken cancellationToken)
+        public override async Task<string> Handle(
+            HealthCheckQuery request, 
+            CancellationToken cancellationToken)
         {
             return await Task.FromResult($"Service is running...");
         }

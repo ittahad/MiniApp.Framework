@@ -9,15 +9,15 @@ namespace MinimalFramework
     public interface IMinimalMediator
     {
         public Task<TResponse> SendAsync<TMessage, TResponse>(TMessage message) 
-            where TMessage : class;
+            where TMessage : MinimalQuery<TResponse>;
 
         public Task SendToQueue<TMessage>(TMessage message, string queueName)
-            where TMessage : MinimalMessage;
+            where TMessage : MinimalCommand;
 
         public Task SendToExchange<TMessage>(TMessage @event, string exchangeName)
-            where TMessage : MinimalMessage;
+            where TMessage : MinimalCommand;
 
-        public Task<TResponse> PublishAsync<TMessage, TResponse>(TMessage @event) 
-            where TMessage : MinimalMessage;
+        public Task PublishAsync<TMessage>(TMessage @event) 
+            where TMessage : MinimalCommand;
     }
 }

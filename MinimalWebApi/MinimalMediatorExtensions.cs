@@ -8,8 +8,8 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static void AddMediatorAssembly(this WebApplicationBuilder? builder) 
         {
-            var executingAssembly = Assembly.GetEntryAssembly();
-            builder.Services.AddMediatR(executingAssembly);
+            builder.Services.AddMediatR(Assembly.GetEntryAssembly());
+            builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
         }
     }
 }

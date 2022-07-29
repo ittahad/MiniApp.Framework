@@ -11,7 +11,7 @@ using TestingHost;
 
 namespace MinimalFramework
 {
-    public abstract class MinimalMessageHandler<TMessage> : IConsumer<TMessage>
+    public abstract class MinimalCommandHandler<TMessage, TResponse> : IConsumer<TMessage>
         where TMessage : class
     {
         private static readonly ActivitySource ActivitySource = new("MassTransit");
@@ -20,16 +20,14 @@ namespace MinimalFramework
         {
             TryAddingObservabilityTrace(context);
 
-            Handle(context.Message);
-
-            return Task.CompletedTask;
+            return Handle(context.Message);
         }
 
         private void TryAddingObservabilityTrace(ConsumeContext<TMessage> context)
         {
             try
             {
-                var baseMessage = context.Message as MinimalMessage;
+                var baseMessage = context.Message as MinimalCommand;
 
                 if (baseMessage == null) return;
                 var traceId = ActivityTraceId.CreateFromString(baseMessage.TraceId.AsSpan());
@@ -39,6 +37,7 @@ namespace MinimalFramework
                     traceId: traceId,
                     spanId: spanId,
                     traceFlags: ActivityTraceFlags.Recorded);
+
                 var activity = ActivitySource.StartActivity(
                                 $"{context.Message.GetType().Name}-Handler",
                                 ActivityKind.Consumer,
@@ -48,6 +47,6 @@ namespace MinimalFramework
             }
         }
 
-        public abstract Task Handle(TMessage message);
+        public abstract Task<TResponse> Handle(TMessage message);
     }
 }

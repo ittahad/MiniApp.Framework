@@ -43,7 +43,7 @@ namespace MinimalHost
                         {
                             foundHandlers = GetAllDescendantsOf(
                                         messageHandlerAssembly,
-                                        typeof(MinimalMessageHandler<>));
+                                        typeof(MinimalCommandHandler<,>));
 
                             foreach (var foundHandler in foundHandlers)
                             {
