@@ -4,8 +4,7 @@ using MinimalFramework;
 
 namespace MinimalWebApi
 {
-    public class HealthCheckQueryHandler 
-        : MinimalQueryHandler<HealthCheckQuery, string>
+    public class HealthCheckQueryHandler : MinimalQueryHandler<HealthCheckQuery, string>
     {
         private readonly IConfiguration _configuration;
 

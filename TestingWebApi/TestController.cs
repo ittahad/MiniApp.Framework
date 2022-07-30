@@ -49,6 +49,7 @@ namespace TestingWebApi
             }
 
             await _minimalMediator.SendToQueue(new TestMessage { Name = "Akash" }, q);
+
             await _minimalMediator.SendToQueue(new TestMessage2 { Name = "Ittahad" }, q);
 
             //await _minimalMediator.SendToExchange(new TestMessage { Name = "Akash" }, "TestExchange2");

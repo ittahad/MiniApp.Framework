@@ -33,9 +33,8 @@ namespace MinimalMediator
         public async Task<TResponse> SendAsync<TMessage, TResponse>(TMessage command) 
             where TMessage : MinimalQuery<TResponse>
         {
-            var response = await _mediator.Send((object)command);
-
-            return (TResponse)response;
+            var response = await _mediator.Send(command);
+            return response;
         }
 
         public async Task SendToExchange<TMessage>(TMessage @event, string exchangeName) 
