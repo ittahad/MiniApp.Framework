@@ -1,9 +1,11 @@
 ﻿
 using MassTransit;
+using MassTransit.Logging;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MinimalFramework;
+using MinimalMediator;
 using Serilog;
 using System.Diagnostics;
 using System.Reflection;
@@ -68,7 +70,10 @@ namespace MinimalHost
 
                         });
                     });
+                    
+                    services.AddSingleton<IMinimalMediator, MinimalMediator.MinimalMediator>();
                     services.AddSingleton<IBus>(p => p.GetRequiredService<IBusControl>());
+                    
                 });
 
             if (hostBuilder != null)
@@ -81,9 +86,7 @@ namespace MinimalHost
 
                     var serviceName = settings.Configuration.GetSection("ServiceName").Value;
 
-                    services.AddMinimalOpenTelemetryTracing(_options, serviceName);
-                    var MyActivitySource = new ActivitySource(serviceName);
-                    services.AddSingleton(MyActivitySource);
+                    services.AddMinimalOpenTelemetryTracing(_options, serviceName, true);
                 });
             }
 

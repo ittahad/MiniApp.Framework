@@ -9,6 +9,6 @@ namespace TestingHost
 {
     public static class TracingProvider
     {
-        public static ActivitySource MyActivitySource = new ActivitySource("TestingHost");
+        public static ActivitySource MyActivitySource = new ActivitySource("MassTransit");
     }
 }

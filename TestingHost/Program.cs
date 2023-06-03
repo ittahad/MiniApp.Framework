@@ -1,6 +1,8 @@
-﻿using MinimalFramework;
+﻿using MediatR;
+using MinimalFramework;
 using MinimalHost;
 using System.Diagnostics;
+using System.Reflection;
 using TestingHost;
 
 Activity.DefaultIdFormat = ActivityIdFormat.W3C;
@@ -25,7 +27,27 @@ var options = new MinimalHostOptions
 var builder = new MinimalHostingBuilder(options)
     .ListenOn("TestQueue1")
     .ListenOn("TestQueue2")
-    .Build(messageHandlerAssembly: typeof(TestMessageHandler).Assembly);
+    .Build(
+        b => { 
+            b.ConfigureServices((ctx, services) => { 
+                services.AddMediatR(Assembly.GetEntryAssembly());
+                services.AddMediatR(Assembly.GetExecutingAssembly());
+            });
+        },
+        messageHandlerAssembly: typeof(TestMessageHandler).Assembly);
+
+  //Metrics
+ //builder.Host.Services.AddOpenTelemetryMetrics(options =>
+ //   {
+ //       options
+ //          .AddMeter("HatCo.HatStore");
+
+ //       options.AddPrometheusExporter(options =>
+ //       {
+ //           options.StartHttpListener = true;
+ //           options.HttpListenerPrefixes = new string[] { $"http://localhost:9090/" };
+ //       });
+ //   });
 
 builder.Run();
 

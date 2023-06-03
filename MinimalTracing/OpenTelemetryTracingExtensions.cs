@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using MassTransit.Logging;
+using Microsoft.Extensions.DependencyInjection;
 using MinimalFramework;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
@@ -10,7 +11,8 @@ namespace Microsoft.Extensions.DependencyInjection
         public static void AddMinimalOpenTelemetryTracing(
             this IServiceCollection serviceCollection,
             MinimalHostOptions options,
-            string serviceName)
+            string serviceName,
+            bool isConsumer = false)
         {
             serviceCollection.AddOpenTelemetryTracing(tracerProviderBuilder =>
             {
@@ -20,11 +22,11 @@ namespace Microsoft.Extensions.DependencyInjection
                     .AddAspNetCoreInstrumentation()
                     .AddMassTransitInstrumentation();
 
+                string source = isConsumer ? DiagnosticHeaders.DefaultListenerName : serviceName;
+
                 tracerProviderBuilder
-                    .AddSource(serviceName)
-                    .SetResourceBuilder(
-                        ResourceBuilder.CreateDefault()
-                            .AddService(serviceName: serviceName))
+                    .AddSource(source)
+                    .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService(serviceName: serviceName))
                     .AddZipkinExporter(o =>
                     {
                         o.Endpoint = new Uri(options.OpenTelemetryOptions?.TracingHost 

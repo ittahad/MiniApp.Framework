@@ -16,4 +16,8 @@ namespace MinimalFramework
     {
         public string Name { get; set; }
     }
+    public class TestMessage3 : MinimalCommand
+    {
+        public string Name { get; set; }
+    }
 }

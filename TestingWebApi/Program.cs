@@ -35,7 +35,7 @@ var options = new MinimalWebAppOptions
     },
     OpenTelemetryOptions = new()
     {
-        EnableTracing = false,
+        EnableTracing = true,
         TracingHost = "http://localhost:9411/api/v2/spans"
     }
 };
@@ -79,7 +79,7 @@ var minimalWebApp = minimalAppBuilder?.Build(builder =>
         options.AddPrometheusExporter(options =>
         {
             options.StartHttpListener = true;
-            options.HttpListenerPrefixes = new string[] { $"http://localhost:9184/" };
+            options.HttpListenerPrefixes = new string[] { $"http://localhost:9090/" };
         });
     });
 

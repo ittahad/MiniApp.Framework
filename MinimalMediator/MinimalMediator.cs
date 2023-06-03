@@ -11,17 +11,14 @@ namespace MinimalMediator
         private readonly IMediator _mediator;
         private readonly IBus _bus;
         private readonly ILogger<MinimalMediator> _logger;
-        private readonly ActivitySource _activitySource; 
 
         public MinimalMediator(
             IMediator mediator,
             IBus bus,
-            ILogger<MinimalMediator> logger,
-            ActivitySource activitySource) {
+            ILogger<MinimalMediator> logger) {
             _mediator = mediator;
             _bus = bus;
             _logger = logger;
-            _activitySource = activitySource;
         }
 
         public Task PublishAsync<TMessage>(TMessage command) 
@@ -81,7 +78,9 @@ namespace MinimalMediator
                 if (command is MinimalCommand)
                 {
                     using var activity = Activity.Current;
+
                     var baseMessage = command as MinimalCommand;
+
                     baseMessage.SpanId = activity.SpanId.ToString();
                     baseMessage.TraceId = activity.TraceId.ToString();
                 }

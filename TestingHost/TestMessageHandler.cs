@@ -7,10 +7,14 @@ namespace TestingHost
     public class TestMessageHandler : MinimalCommandHandler<TestMessage, bool>
     {
         private readonly ILogger<TestMessageHandler> _logger;
+        private readonly IMinimalMediator _mediator;
 
-        public TestMessageHandler(ILogger<TestMessageHandler> logger)
+        public TestMessageHandler(
+            ILogger<TestMessageHandler> logger,
+            IMinimalMediator mediator)
         {
             _logger = logger;
+            _mediator = mediator;
         }
 
         public override async Task<bool> Handle(TestMessage message)
@@ -26,7 +30,8 @@ namespace TestingHost
             {
 
             }
-
+            
+            await _mediator.SendToQueue(new TestMessage2 { Name = "Ittahad" }, "TestQueue2");
 
             return true;
         }

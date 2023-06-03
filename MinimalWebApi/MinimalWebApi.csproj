@@ -8,8 +8,6 @@
 
   <ItemGroup>
     <PackageReference Include="MassTransit.ActivityTracing" Version="0.1.0" />
-    <PackageReference Include="MediatR" Version="10.0.1" />
-    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.5" />
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.18.0" />
     <!--<PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.1" />-->
