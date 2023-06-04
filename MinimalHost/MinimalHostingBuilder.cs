@@ -124,12 +124,14 @@ namespace MinimalHost
         public MinimalHostingBuilder ListenOn(
             string queueName, 
             string exchangeName = null,
-            int prefetch = 5) {
+            int prefetch = 5) 
+        {
             _consumerOptions.Add(new RabbitMqConsumerOptions {
                 ListenOnQueue = queueName,
                 ListenViaExchange = exchangeName,
                 PrefetchCount = prefetch
             });
+
             return this;
         }
 
