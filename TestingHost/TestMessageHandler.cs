@@ -21,10 +21,10 @@ namespace TestingHost
         {
             _logger.LogInformation("Message received from Host");
             
+            var httpClient = new HttpClient();
             try
             {
-                var httpClient = new HttpClient();
-                var html = await httpClient.GetStringAsync("https://www.facebook.com/");
+                var html = await httpClient.GetStringAsync("http://localhost:5000/TestingWebService/Test/TestPing?q=2");
             }
             catch (Exception ex)
             {
@@ -32,6 +32,10 @@ namespace TestingHost
             }
             
             await _mediator.SendToQueue(new TestMessage2 { Name = "Ittahad" }, "TestQueue2");
+
+            var html2 = await httpClient.GetStringAsync("http://localhost:5000/TestingWebService/Test/TestPing?q=3");
+
+            //await _mediator.SendToQueue(new TestMessage2 { Name = "From1 againg" }, "TestQueue2");
 
             return true;
         }

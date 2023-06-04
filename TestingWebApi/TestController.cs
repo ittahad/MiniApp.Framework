@@ -42,7 +42,7 @@ namespace TestingWebApi
             try
             {
                 var httpClient = new HttpClient();
-                var html = await httpClient.GetStringAsync("https://www.google.com/");
+                var html = await httpClient.GetStringAsync("http://localhost:5000/TestingWebService/Test/TestPing?q=1");
             }
             catch (Exception ex) { 
             
@@ -63,6 +63,12 @@ namespace TestingWebApi
         public IActionResult SomeAction([FromQuery] string q)
         {
             return Ok("Done");
+        }
+
+        [HttpGet]
+        public IActionResult TestPing([FromQuery] string q)
+        {
+            return Ok("Success=" + q);
         }
     }
 
