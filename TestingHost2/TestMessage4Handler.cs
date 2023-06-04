@@ -22,7 +22,7 @@ namespace TestingHost
             try
             {
                 var httpClient = new HttpClient();
-                var html = await httpClient.GetStringAsync("https://yahoo.com/");
+                var html = await httpClient.GetStringAsync("http://localhost:5000/TestingWebService/Test/TestPing?q=abc");
             }
             catch (Exception ex)
             {

@@ -1,11 +1,6 @@
 ﻿using Microsoft.Extensions.Hosting;
 using MinimalFramework;
 using Serilog;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Logger.LoggerProviders
 {
@@ -22,7 +17,8 @@ namespace Logger.LoggerProviders
                 string filePath = $"logs/" + $"{seriviceName}-{DateTime.Now.ToString("MM-dd-yy")}.log";
 
                 if (options.ConsoleLogging.HasValue && options.ConsoleLogging.Value)
-                    loggerConfig.WriteTo.Console();
+                    loggerConfig.WriteTo.Console(
+                        restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Information);
 
                 if (options.ConsoleLogging.HasValue && options.ConsoleLogging.Value)
                 {

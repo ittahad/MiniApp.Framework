@@ -31,13 +31,13 @@ namespace TestingWebApi
 
             //_requestCounter.Add(1);
 
-            using var activity = _activitySource.StartActivity("SomeActivity");
+            /*using var activity = _activitySource.StartActivity("SomeActivity");
 
             activity?.SetBaggage("Name", "Akash");
 
             activity?.SetTag("foo", 1);
             activity?.SetTag("bar", "Hello, World!");
-            activity?.SetTag("baz", new int[] { 1, 2, 3 });
+            activity?.SetTag("baz", new int[] { 1, 2, 3 });*/
 
             try
             {

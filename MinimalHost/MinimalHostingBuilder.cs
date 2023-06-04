@@ -32,7 +32,11 @@ namespace MinimalHost
             Assembly? messageHandlerAssembly = null)
         {
             IHostBuilder builder = Host.CreateDefaultBuilder(_options.CommandLineArgs);
+            
+            var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development";
 
+            builder.UseEnvironment(env);
+            
             builder.AddLogger(_options);
 
             builder.ConfigureServices((settings, services) =>
