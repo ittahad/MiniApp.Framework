@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MinimalFramework;
+using MinimalHttpClient;
 using Swashbuckle.AspNetCore.SwaggerGen.ConventionalRouting;
 using System.Diagnostics;
 using System.Reflection;
@@ -81,6 +82,8 @@ namespace MinimalWebApi
                 });
 
             });
+            
+            builder.Services.AddHttpPolicy();
 
             builder.Services.AddSingleton<IMinimalMediator, MinimalMediator.MinimalMediator>();
             builder.Services.AddSingleton<IBus>(p => p.GetRequiredService<IBusControl>());

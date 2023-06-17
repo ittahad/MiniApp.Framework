@@ -1,6 +1,7 @@
 ﻿using MassTransit;
 using Microsoft.Extensions.Logging;
 using MinimalFramework;
+using MinimalHttpClient;
 
 namespace TestingHost
 {
@@ -8,19 +9,26 @@ namespace TestingHost
     {
         private readonly ILogger<TestMessage3Handler> _logger;
         private readonly IMinimalMediator _mediator;
+        private readonly IMinimalHttpClient _minimalHttpClient;
 
-        public TestMessage3Handler(ILogger<TestMessage3Handler> logger, IMinimalMediator mediator)
+        public TestMessage3Handler(
+            ILogger<TestMessage3Handler> logger, 
+            IMinimalMediator mediator,
+            IMinimalHttpClient minimalHttpClient)
         {
             _logger = logger;
             _mediator = mediator;
+            _minimalHttpClient = minimalHttpClient;
         }
 
         public override async Task<bool> Handle(TestMessage3 message)
         {
             try
             {
-                var httpClient = new HttpClient();
-                var html = await httpClient.GetStringAsync("http://localhost:5000/TestingWebService/Test/TestPing?q=5");
+                using var httpRquestMessage = new HttpRequestMessage();
+                httpRquestMessage.RequestUri = new Uri("http://localhost:5000/TestingWebService/Test/TestPing?q=5");
+                httpRquestMessage.Method = HttpMethod.Get;
+                var data = await _minimalHttpClient.MakeHttpRequest<string>(httpRquestMessage);
             }
             catch (Exception ex)
             {

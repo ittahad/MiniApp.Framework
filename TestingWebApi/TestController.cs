@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MinimalFramework;
+using MinimalHttpClient;
 using System.Diagnostics;
 using System.Diagnostics.Metrics;
 using System.Reflection;
@@ -11,17 +12,23 @@ namespace TestingWebApi
     {
         private readonly IMinimalMediator _minimalMediator;
         private readonly IConfiguration _configuration;
+        private readonly IMinimalHttpClient _minimalHttpClient;
+        private readonly ILogger<TestController> _logger;
         private readonly ActivitySource _activitySource;
        // private readonly Counter<int> _requestCounter;
 
         public TestController(
             IMinimalMediator mediator,
             IConfiguration configuration,
+            IMinimalHttpClient minimalHttpClient,
+            ILogger<TestController> logger,
             ActivitySource activitySource
             /*Meter meter*/) { 
             _minimalMediator = mediator;
             _configuration = configuration;
             _activitySource = activitySource;
+            _logger = logger;
+            _minimalHttpClient = minimalHttpClient;
             //_requestCounter = meter.CreateCounter<int>("compute_requests");
         }
 
@@ -41,11 +48,32 @@ namespace TestingWebApi
 
             try
             {
-                var httpClient = new HttpClient();
-                var html = await httpClient.GetStringAsync("http://localhost:5000/TestingWebService/Test/TestPing?q=1");
+                //throw new Exception();
+                _logger.LogInformation($"Request received -- TraceId: {Activity.Current.TraceId}");
+
+                using var httpRquestMessage = new HttpRequestMessage();
+                httpRquestMessage.RequestUri = new Uri("http://localhost:5008/TestingWebService/Test2/TestPing?q=1");
+                httpRquestMessage.Method = HttpMethod.Get;
+                var data = await _minimalHttpClient.MakeHttpRequest<string>(httpRquestMessage);
             }
             catch (Exception ex) { 
             
+            }
+
+            try { 
+                throw new Exception();
+            }
+            catch(Exception ex)
+            {
+
+            }
+
+            try { 
+                throw new Exception();
+            }
+            catch(Exception ex)
+            {
+
             }
 
             await _minimalMediator.SendToQueue(new TestMessage { Name = "Akash" }, q);

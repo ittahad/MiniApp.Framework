@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using MinimalFramework;
+using MinimalHttpClient;
 using MinimalWebApi;
 using OpenTelemetry;
 using OpenTelemetry.Metrics;

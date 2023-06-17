@@ -14,6 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Logger\Logger.csproj" />
     <ProjectReference Include="..\MinimalFramework\MinimalFramework.csproj" />
+    <ProjectReference Include="..\MinimalHttpClient\MinimalHttpClient.csproj" />
     <ProjectReference Include="..\MinimalMediator\MinimalMediator.csproj" />
     <ProjectReference Include="..\MinimalWebApi\MinimalWebApi.csproj" />
   </ItemGroup>

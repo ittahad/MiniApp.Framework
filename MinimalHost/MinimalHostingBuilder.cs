@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MinimalFramework;
+using MinimalHttpClient;
 using MinimalMediator;
 using Serilog;
 using System.Diagnostics;
@@ -75,6 +76,7 @@ namespace MinimalHost
                         });
                     });
                     
+                    services.AddHttpPolicy();
                     services.AddSingleton<IMinimalMediator, MinimalMediator.MinimalMediator>();
                     services.AddSingleton<IBus>(p => p.GetRequiredService<IBusControl>());
                     

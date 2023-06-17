@@ -23,7 +23,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MinimalObservability", "Min
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "UnitTests\UnitTests.csproj", "{DBEE8DBF-1A16-43E3-BB64-DCA3F549C958}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestingHost2", "TestingHost2\TestingHost2.csproj", "{3BF337DD-7EEF-42D2-A473-110A63885824}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestingHost2", "TestingHost2\TestingHost2.csproj", "{3BF337DD-7EEF-42D2-A473-110A63885824}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MinimalHttpClient", "MinimalHttpClient\MinimalHttpClient.csproj", "{D7A4E699-5260-4DB7-969D-D07B9B218944}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,6 +73,10 @@ Global
 		{3BF337DD-7EEF-42D2-A473-110A63885824}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3BF337DD-7EEF-42D2-A473-110A63885824}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3BF337DD-7EEF-42D2-A473-110A63885824}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7A4E699-5260-4DB7-969D-D07B9B218944}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7A4E699-5260-4DB7-969D-D07B9B218944}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7A4E699-5260-4DB7-969D-D07B9B218944}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7A4E699-5260-4DB7-969D-D07B9B218944}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
