@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using MinimalFramework;
 using MinimalHttpClient;
+using MinimalRedis;
 using MinimalWebApi;
 using OpenTelemetry;
 using OpenTelemetry.Metrics;
@@ -70,6 +71,7 @@ var minimalWebApp = minimalAppBuilder?.Build(builder =>
         });
 
     builder.Services.AddSingleton<ITokenService, TokenService>();
+    builder.Services.AddSingleton<RedisClient>();
     builder.Services.AddSingleton<HealthCheckQueryHandler>();
 
     //Metrics
@@ -83,18 +85,6 @@ var minimalWebApp = minimalAppBuilder?.Build(builder =>
             options.StartHttpListener = true;
             options.HttpListenerPrefixes = new string[] { $"http://localhost:9090/" };
         });
-    });
-
-    Task.Factory.StartNew(() =>
-    {
-
-        Console.WriteLine("metrics thread...");
-        while (true)
-        {
-            // Pretend our store has a transaction each second that sells 4 hats
-            Thread.Sleep(1000);
-            s_hatsSold.Add(4);
-        }
     });
 
 });

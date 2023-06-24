@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MinimalFramework;
 using MinimalHttpClient;
+using MinimalRedis;
 using System.Diagnostics;
 using System.Diagnostics.Metrics;
 using System.Reflection;
@@ -15,6 +16,7 @@ namespace TestingWebApi
         private readonly IMinimalHttpClient _minimalHttpClient;
         private readonly ILogger<TestController> _logger;
         private readonly ActivitySource _activitySource;
+        private readonly RedisClient _redisClient;
        // private readonly Counter<int> _requestCounter;
 
         public TestController(
@@ -22,13 +24,15 @@ namespace TestingWebApi
             IConfiguration configuration,
             IMinimalHttpClient minimalHttpClient,
             ILogger<TestController> logger,
-            ActivitySource activitySource
+            ActivitySource activitySource,
+            RedisClient client
             /*Meter meter*/) { 
             _minimalMediator = mediator;
             _configuration = configuration;
             _activitySource = activitySource;
             _logger = logger;
             _minimalHttpClient = minimalHttpClient;
+            _redisClient = client;
             //_requestCounter = meter.CreateCounter<int>("compute_requests");
         }
 
@@ -45,14 +49,17 @@ namespace TestingWebApi
             activity?.SetTag("foo", 1);
             activity?.SetTag("bar", "Hello, World!");
             activity?.SetTag("baz", new int[] { 1, 2, 3 });*/
+            
+            _redisClient.Subscribe("IttahadAkash", (ch, msg) => { });
+            _redisClient.Publish("IttahadAkash", "test");
 
             try
             {
                 //throw new Exception();
-                _logger.LogInformation($"Request received -- TraceId: {Activity.Current.TraceId}");
+                _logger.LogInformation($"+++++++++ TraceId: {Activity.Current.TraceId} +++++++++");
 
                 using var httpRquestMessage = new HttpRequestMessage();
-                httpRquestMessage.RequestUri = new Uri("http://localhost:5008/TestingWebService/Test2/TestPing?q=1");
+                httpRquestMessage.RequestUri = new Uri("http://localhost:5000/TestingWebService/Test/TestPing?q=1");
                 httpRquestMessage.Method = HttpMethod.Get;
                 var data = await _minimalHttpClient.MakeHttpRequest<string>(httpRquestMessage);
             }
@@ -76,7 +83,7 @@ namespace TestingWebApi
 
             }
 
-            await _minimalMediator.SendToQueue(new TestMessage { Name = "Akash" }, q);
+            await _minimalMediator.SendAsync(new TestMessage { Name = "Akash" }, q);
 
             //await _minimalMediator.SendToQueue(new TestMessage2 { Name = "Ittahad" }, q);
 

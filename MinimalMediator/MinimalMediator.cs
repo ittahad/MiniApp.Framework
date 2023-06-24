@@ -52,7 +52,7 @@ namespace MinimalMediator
             }
         }
 
-        public async Task SendToQueue<TMessage>(TMessage command, string queueName) 
+        public async Task SendAsync<TMessage>(TMessage command, string queueName) 
             where TMessage : MinimalCommand
         {
             try

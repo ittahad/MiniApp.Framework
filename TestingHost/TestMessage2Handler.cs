@@ -26,7 +26,7 @@ namespace TestingHost
             try
             {
                 using var httpRquestMessage = new HttpRequestMessage();
-                httpRquestMessage.RequestUri = new Uri("http://localhost:5000/TestingWebService/Test/TestPing?q=4");
+                httpRquestMessage.RequestUri = new Uri("http://localhost:5000/TestingWebService/Test2/TestPing?q=4");
                 httpRquestMessage.Method = HttpMethod.Get;
                 var data = await _minimalHttpClient.MakeHttpRequest<string>(httpRquestMessage);
             }
@@ -37,7 +37,7 @@ namespace TestingHost
 
             _logger.LogInformation("Message received from Host");
 
-            await _mediator.SendToQueue(new TestMessage3 { Name = "UzZaman" }, "TestQueue2");
+            await _mediator.SendAsync(new TestMessage3 { Name = "UzZaman" }, "TestQueue2");
 
             return true;
         }

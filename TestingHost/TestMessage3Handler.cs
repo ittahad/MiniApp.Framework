@@ -35,7 +35,7 @@ namespace TestingHost
 
             }
             
-            await _mediator.SendToQueue(new TestMessage4 { Name = "UzZaman" }, "TestQueue3");
+            await _mediator.SendAsync(new TestMessage4 { Name = "UzZaman" }, "TestQueue3");
 
             _logger.LogInformation("Message received from Host");
             

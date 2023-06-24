@@ -39,7 +39,7 @@ namespace TestingHost
 
             }
             
-            await _mediator.SendToQueue(new TestMessage2 { Name = "Ittahad" }, "TestQueue2");
+            await _mediator.SendAsync(new TestMessage2 { Name = "Ittahad" }, "TestQueue2");
 
             var html2 = await httpClient.GetStringAsync("http://localhost:5000/TestingWebService/Test/TestPing?q=3");
 

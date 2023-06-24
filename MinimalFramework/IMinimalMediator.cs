@@ -11,7 +11,7 @@ namespace MinimalFramework
         public Task<TResponse> SendAsync<TMessage, TResponse>(TMessage message) 
             where TMessage : MinimalQuery<TResponse>;
 
-        public Task SendToQueue<TMessage>(TMessage message, string queueName)
+        public Task SendAsync<TMessage>(TMessage message, string queueName)
             where TMessage : MinimalCommand;
 
         public Task SendToExchange<TMessage>(TMessage @event, string exchangeName)
