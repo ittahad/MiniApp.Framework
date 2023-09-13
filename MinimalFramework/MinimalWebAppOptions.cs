@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MinimalFramework
+﻿namespace MinimalFramework
 {
-    public class MinimalWebAppOptions : MinimalHostOptions
+    public sealed class MinimalWebAppOptions : MinimalHostOptions
     {
         public string? StartUrl { get; set; }
         public bool? UseSwagger { get; set; }

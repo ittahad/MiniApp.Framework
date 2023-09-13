@@ -24,17 +24,8 @@ namespace MinimalHttpClient
                 .OrResult(r => httpStatusCodesWorthRetrying.Contains(r.StatusCode))
                 .WaitAndRetryAsync(3, _ => TimeSpan.FromSeconds(10));
 
-            // Circuit breaker
-            /*var policy2 = HttpPolicyExtensions
-                .HandleTransientHttpError()
-                .CircuitBreakerAsync(1, TimeSpan.FromSeconds(10));*/
-
-            // Rate limiting
-            //Policy.RateLimit(10, TimeSpan.FromSeconds(10));
-
             serviceCollection.AddHttpClient<IMinimalHttpClient, MinimalHttpClient>()
                 .AddPolicyHandler(policy1);
-                //.AddPolicyHandler(policy2);
             }
     }
 }

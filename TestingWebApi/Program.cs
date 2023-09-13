@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using MiniApp.Api;
 using MinimalFramework;
 using MinimalHttpClient;
 using MinimalRedis;
@@ -71,7 +72,7 @@ var minimalWebApp = minimalAppBuilder?.Build(builder =>
         });
 
     builder.Services.AddSingleton<ITokenService, TokenService>();
-    builder.Services.AddSingleton<RedisClient>();
+    builder.Services.AddSingleton<IRedisClient, RedisClient>();
     builder.Services.AddSingleton<HealthCheckQueryHandler>();
 
     //Metrics

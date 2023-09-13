@@ -12,12 +12,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Logger\Logger.csproj" />
-    <ProjectReference Include="..\MinimalFramework\MinimalFramework.csproj" />
-    <ProjectReference Include="..\MinimalHttpClient\MinimalHttpClient.csproj" />
-    <ProjectReference Include="..\MinimalMediator\MinimalMediator.csproj" />
-    <ProjectReference Include="..\MinimalRedis\MinimalRedis.csproj" />
-    <ProjectReference Include="..\MinimalWebApi\MinimalWebApi.csproj" />
+    <ProjectReference Include="..\Logger\MiniApp.Logger.csproj" />
+    <ProjectReference Include="..\MinimalFramework\MiniApp.Framework.csproj" />
+    <ProjectReference Include="..\MinimalHttpClient\MiniApp.HttpClient.csproj" />
+    <ProjectReference Include="..\MinimalMediator\MiniApp.Mediator.csproj" />
+    <ProjectReference Include="..\MinimalRedis\MiniApp.Redis.csproj" />
+    <ProjectReference Include="..\MinimalWebApi\MiniApp.Api.csproj" />
   </ItemGroup>
 
   <ItemGroup>

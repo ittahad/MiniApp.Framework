@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MinimalHost\MinimalHost.csproj" />
+    <ProjectReference Include="..\MinimalHost\MiniApp.Host.csproj" />
   </ItemGroup>
 
   <ItemGroup>

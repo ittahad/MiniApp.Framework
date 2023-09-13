@@ -1,13 +1,5 @@
 ﻿using MassTransit;
-using MassTransit.Logging;
-using Microsoft.Extensions.DependencyInjection;
-using OpenTelemetry.Context.Propagation;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TestingHost;
 
 namespace MinimalFramework
@@ -42,7 +34,7 @@ namespace MinimalFramework
                     spanId: spanId,
                     traceFlags: ActivityTraceFlags.Recorded);
 
-                var activity = TracingProvider.MyActivitySource.StartActivity(
+                var activity = TracingProvider.GetActivitySource().StartActivity(
                                 $"{context.Message.GetType().Name}-Handler",
                                 ActivityKind.Consumer,
                                 activityContext);

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MiniApp.Api;
 using MinimalFramework;
 using MinimalHttpClient;
 using MinimalRedis;
@@ -16,7 +17,7 @@ namespace TestingWebApi
         private readonly IMinimalHttpClient _minimalHttpClient;
         private readonly ILogger<TestController> _logger;
         private readonly ActivitySource _activitySource;
-        private readonly RedisClient _redisClient;
+        private readonly IRedisClient _redisClient;
        // private readonly Counter<int> _requestCounter;
 
         public TestController(
@@ -25,7 +26,7 @@ namespace TestingWebApi
             IMinimalHttpClient minimalHttpClient,
             ILogger<TestController> logger,
             ActivitySource activitySource,
-            RedisClient client
+            IRedisClient client
             /*Meter meter*/) { 
             _minimalMediator = mediator;
             _configuration = configuration;

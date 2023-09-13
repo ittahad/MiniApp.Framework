@@ -1,16 +1,12 @@
 ﻿using MassTransit;
-using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MinimalFramework;
 using MinimalHttpClient;
 using Swashbuckle.AspNetCore.SwaggerGen.ConventionalRouting;
 using System.Diagnostics;
-using System.Reflection;
-using System.Text;
 
 namespace MinimalWebApi
 {

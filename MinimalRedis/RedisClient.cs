@@ -1,11 +1,10 @@
 ﻿using Microsoft.Extensions.Configuration;
-using MinimalFramework;
+using MiniApp.Api;
 using StackExchange.Redis;
-using System.Text.Json;
 
 namespace MinimalRedis
 {
-    public class RedisClient
+    public class RedisClient : IRedisClient
     {
         private readonly IDatabase _database;
         private readonly ISubscriber _subscriber;
@@ -57,14 +56,5 @@ namespace MinimalRedis
             return _database.KeyExists(key);
         }
 
-    }
-    public class TestComm : MinimalCommand
-    { 
-        public string Data { get; set; }
-    }
-    public class RedisMessage
-    { 
-        public MinimalCommand Message {get; set; }
-        public string ClassType {get; set; }
     }
 }

@@ -7,11 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="StackExchange.Redis" Version="2.6.116" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\MinimalFramework\MinimalFramework.csproj" />
+    <ProjectReference Include="..\MinimalFramework\MiniApp.Framework.csproj" />
   </ItemGroup>
 
 </Project>

@@ -15,11 +15,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Logger\Logger.csproj" />
-    <ProjectReference Include="..\MinimalFramework\MinimalFramework.csproj" />
-    <ProjectReference Include="..\MinimalHttpClient\MinimalHttpClient.csproj" />
-    <ProjectReference Include="..\MinimalMediator\MinimalMediator.csproj" />
-    <ProjectReference Include="..\MinimalTracing\MinimalObservability.csproj" />
+    <ProjectReference Include="..\Logger\MiniApp.Logger.csproj" />
+    <ProjectReference Include="..\MinimalFramework\MiniApp.Framework.csproj" />
+    <ProjectReference Include="..\MinimalHttpClient\MiniApp.HttpClient.csproj" />
+    <ProjectReference Include="..\MinimalMediator\MiniApp.Mediator.csproj" />
+    <ProjectReference Include="..\MinimalTracing\MiniApp.Observability.csproj" />
   </ItemGroup>
 
 </Project>

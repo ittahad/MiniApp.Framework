@@ -3,31 +3,31 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MinimalFramework", "MinimalFramework\MinimalFramework.csproj", "{9EBF2CD1-48B6-4629-B6AD-410A5CFBBBC9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniApp.Framework", "MinimalFramework\MiniApp.Framework.csproj", "{9EBF2CD1-48B6-4629-B6AD-410A5CFBBBC9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MinimalWebApi", "MinimalWebApi\MinimalWebApi.csproj", "{EA2E7E65-7F25-45C5-8892-C6C9BCC63510}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniApp.Api", "MinimalWebApi\MiniApp.Api.csproj", "{EA2E7E65-7F25-45C5-8892-C6C9BCC63510}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestingWebApi", "TestingWebApi\TestingWebApi.csproj", "{14CCF455-88C7-4205-9A06-79D0BBFDF459}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logger", "Logger\Logger.csproj", "{00EBDA42-7488-4708-895D-E08397DA47E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniApp.Logger", "Logger\MiniApp.Logger.csproj", "{00EBDA42-7488-4708-895D-E08397DA47E7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MinimalMediator", "MinimalMediator\MinimalMediator.csproj", "{683EDF34-6504-48E3-B09C-2A1275E65293}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniApp.Mediator", "MinimalMediator\MiniApp.Mediator.csproj", "{683EDF34-6504-48E3-B09C-2A1275E65293}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MinimalHost", "MinimalHost\MinimalHost.csproj", "{FAD03C92-54CE-4588-AA9B-80B341D72E27}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniApp.Host", "MinimalHost\MiniApp.Host.csproj", "{FAD03C92-54CE-4588-AA9B-80B341D72E27}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestingHost", "TestingHost\TestingHost.csproj", "{C2B4B617-8053-4187-B362-13FD838EDD6F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Apps", "Apps", "{B218673D-CB42-4D85-93EB-90AE6A9F4CDD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MinimalObservability", "MinimalTracing\MinimalObservability.csproj", "{AFBBEF88-1F5A-4FE5-BF4A-436451A5AB85}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniApp.Observability", "MinimalTracing\MiniApp.Observability.csproj", "{AFBBEF88-1F5A-4FE5-BF4A-436451A5AB85}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "UnitTests\UnitTests.csproj", "{DBEE8DBF-1A16-43E3-BB64-DCA3F549C958}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestingHost2", "TestingHost2\TestingHost2.csproj", "{3BF337DD-7EEF-42D2-A473-110A63885824}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MinimalHttpClient", "MinimalHttpClient\MinimalHttpClient.csproj", "{D7A4E699-5260-4DB7-969D-D07B9B218944}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniApp.HttpClient", "MinimalHttpClient\MiniApp.HttpClient.csproj", "{D7A4E699-5260-4DB7-969D-D07B9B218944}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinimalRedis", "MinimalRedis\MinimalRedis.csproj", "{D7070854-21AC-47E8-8E62-A698DBCC704F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniApp.Redis", "MinimalRedis\MiniApp.Redis.csproj", "{D7070854-21AC-47E8-8E62-A698DBCC704F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

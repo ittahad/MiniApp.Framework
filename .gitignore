@@ -286,3 +286,6 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
+/MinimalFramework/NugetPublish.bat
+/MinimalWebApi/NugetPublish.bat
+/MinimalHost/NugetPublish.bat
