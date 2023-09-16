@@ -7,13 +7,14 @@ on:
     types: [opened, synchronize, reopened]
 jobs:
   build:
-    name: Build
-    runs-on: windows-latest
+    name: Execute Tests
+    runs-on: ubuntu-latest
     steps:
-      - name: Build
+      - name: Run Tests
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        shell: powershell
+        working-directory: ./
+        shell: pwsh
         run: |
           dotnet restore ./MiniApp.Libraries.sln -s https://api.nuget.org/v3/index.json
           dotnet build ./MiniApp.Libraries.sln
