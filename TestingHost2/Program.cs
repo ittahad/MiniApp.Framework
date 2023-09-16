@@ -39,20 +39,17 @@ static void ConfigureBuilder(IHostBuilder hostBuilder)
 {
     hostBuilder.ConfigureServices((ctx, services) =>
     {
-        services.AddMediatR(Assembly.GetEntryAssembly());
+        services.AddMediatR(Assembly.GetEntryAssembly()!);
         services.AddMediatR(Assembly.GetExecutingAssembly());
 
         services.AddOpenTelemetryMetrics(options =>
-       {
-           options
-              .AddMeter("HatCo.HatStore");
-
-           options.AddPrometheusExporter(options =>
            {
-               options.StartHttpListener = true;
-               options.HttpListenerPrefixes = new string[] { $"http://localhost:9090/" };
+               options.AddPrometheusExporter(options =>
+               {
+                   options.StartHttpListener = true;
+                   options.HttpListenerPrefixes = new string[] { $"http://localhost:9090/" };
+               });
            });
-       });
     });
 }
 

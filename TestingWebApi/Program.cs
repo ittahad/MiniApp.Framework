@@ -1,20 +1,13 @@
 using System.Diagnostics;
-using System.Diagnostics.Metrics;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using MiniApp.Api;
 using MiniApp.Core;
 using MiniApp.Redis;
-using OpenTelemetry.Metrics;
-using OpenTelemetry.Trace;
 using TestingWebApi;
 
 Activity.DefaultIdFormat = ActivityIdFormat.W3C;
-Meter meter = new Meter("HatCo.HatStore", "1.0.0");
-Counter<int> s_hatsSold = meter.CreateCounter<int>(name: "hats-sold",
-                                                            unit: "Hats",
-                                                            description: "The number of hats sold in our store");
 
 var options = new MinimalWebAppOptions
 {
@@ -41,7 +34,7 @@ var minimalWebApp = minimalAppBuilder?.Build(builder =>
 {
     builder.AddMediatorAssembly();
 
-    // JWT confs
+    #region JWT Conf
     var jwtConf = builder.Configuration.GetSection("JwtConfig");
     string issuer = jwtConf["Issuer"];
     string audience = jwtConf["Audience"];
@@ -61,30 +54,12 @@ var minimalWebApp = minimalAppBuilder?.Build(builder =>
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key))
             };
         });
+    #endregion
 
     builder.Services.AddSingleton<ITokenService, TokenService>();
     builder.Services.AddSingleton<IRedisClient, RedisClient>();
     builder.Services.AddSingleton<HealthCheckQueryHandler>();
-    
-    //Metrics
-/*    builder.Services.AddOpenTelemetryMetrics(options =>
-    {
-        options
-           .AddMeter("HatCo.HatStore");
-
-        options.AddPrometheusExporter(options =>
-        {
-            options.StartHttpListener = true;
-            options.HttpListenerPrefixes = new string[] { $"http://localhost:9090/" };
-        });
-    });*/
-
 });
 
-
-
-minimalWebApp?.Start(app =>
-{
-    //app.UseOpenTelemetryPrometheusScrapingEndpoint();
-});
+minimalWebApp?.Start();
 
