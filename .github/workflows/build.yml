@@ -13,7 +13,7 @@ jobs:
       - name: Run Tests
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        working-directory: ./
+        working-directory: /
         shell: pwsh
         run: |
           dotnet restore ./MiniApp.Libraries.sln -s https://api.nuget.org/v3/index.json
