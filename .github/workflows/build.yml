@@ -15,7 +15,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         shell: powershell
         run: |
-          dotnet restore MinimalFramework.sln -s https://www.nuget.org/api/v2/
-          dotnet build MinimalFramework.sln
-          dotnet test MinimalFramework.sln --no-build --collect:"XPlat Code Coverage";
+          dotnet restore MiniApp.Libraries.sln -s https://api.nuget.org/v3/index.json
+          dotnet build MiniApp.Libraries.sln
+          dotnet test MiniApp.Libraries.sln --no-build --collect:"XPlat Code Coverage";
           
