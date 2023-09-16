@@ -1,4 +1,4 @@
-﻿namespace MinimalFramework
+﻿namespace MiniApp.Core
 {
     public sealed class MinimalWebAppOptions : MinimalHostOptions
     {

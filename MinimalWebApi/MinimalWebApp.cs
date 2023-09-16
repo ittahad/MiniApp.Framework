@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using MinimalFramework;
+using MiniApp.Core;
 using Swashbuckle.AspNetCore.SwaggerGen.ConventionalRouting;
 
-namespace MinimalWebApi
+namespace MiniApp.Api
 {
     public class MinimalWebApp
     {

@@ -1,10 +1,8 @@
 ﻿
 using MassTransit;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using MinimalFramework;
-using Serilog;
+using MiniApp.Core;
 using System.Reflection;
 
 namespace MinimalHost

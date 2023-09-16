@@ -7,19 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MiniApp.Api" Version="1.0.6" />
+    <PackageReference Include="MiniApp.Redis" Version="1.0.0" />
     <PackageReference Include="MongoDB.Driver" Version="2.17.0" />
-    <PackageReference Include="OpenTelemetry.Exporter.Prometheus" Version="1.3.0-rc.2" />
   </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Logger\MiniApp.Logger.csproj" />
-    <ProjectReference Include="..\MinimalFramework\MiniApp.Framework.csproj" />
-    <ProjectReference Include="..\MinimalHttpClient\MiniApp.HttpClient.csproj" />
-    <ProjectReference Include="..\MinimalMediator\MiniApp.Mediator.csproj" />
-    <ProjectReference Include="..\MinimalRedis\MiniApp.Redis.csproj" />
-    <ProjectReference Include="..\MinimalWebApi\MiniApp.Api.csproj" />
-  </ItemGroup>
-
+  
   <ItemGroup>
     <Content Update="appsettings.Development.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

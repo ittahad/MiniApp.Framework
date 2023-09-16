@@ -1,5 +1,5 @@
 ﻿using MassTransit.Logging;
-using MinimalFramework;
+using MiniApp.Core;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 

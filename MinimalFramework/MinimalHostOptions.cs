@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MinimalFramework
+﻿namespace MiniApp.Core
 {
     public class MinimalHostOptions
     {
@@ -22,14 +16,15 @@ namespace MinimalFramework
         public string? SeqServerUrl { get; set; }
     }
 
-    public class OpenTelemetrySettings 
+    public class OpenTelemetrySettings
     {
         public bool EnableTracing { get; set; }
         public string? TracingHost { get; set; }
         public bool EnableMetrics { get; set; }
     }
 
-    public enum LoggingProviders { 
+    public enum LoggingProviders
+    {
         Serilog,
         Default,
     }

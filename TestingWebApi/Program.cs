@@ -1,21 +1,12 @@
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Metrics;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using MiniApp.Api;
-using MinimalFramework;
-using MinimalHttpClient;
-using MinimalRedis;
-using MinimalWebApi;
-using OpenTelemetry;
+using MiniApp.Core;
+using MiniApp.Redis;
 using OpenTelemetry.Metrics;
-using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using TestingWebApi;
 
@@ -34,12 +25,12 @@ var options = new MinimalWebAppOptions
     UseAuthentication = true,
     SeqLoggerOptions = new()
     {
-        UseSeq = true,
+        UseSeq = false,
         SeqServerUrl = "http://localhost:5341"
     },
     OpenTelemetryOptions = new()
     {
-        EnableTracing = true,
+        EnableTracing = false,
         TracingHost = "http://localhost:9411/api/v2/spans"
     }
 };
@@ -74,9 +65,9 @@ var minimalWebApp = minimalAppBuilder?.Build(builder =>
     builder.Services.AddSingleton<ITokenService, TokenService>();
     builder.Services.AddSingleton<IRedisClient, RedisClient>();
     builder.Services.AddSingleton<HealthCheckQueryHandler>();
-
+    
     //Metrics
-    builder.Services.AddOpenTelemetryMetrics(options =>
+/*    builder.Services.AddOpenTelemetryMetrics(options =>
     {
         options
            .AddMeter("HatCo.HatStore");
@@ -86,7 +77,7 @@ var minimalWebApp = minimalAppBuilder?.Build(builder =>
             options.StartHttpListener = true;
             options.HttpListenerPrefixes = new string[] { $"http://localhost:9090/" };
         });
-    });
+    });*/
 
 });
 
@@ -94,6 +85,6 @@ var minimalWebApp = minimalAppBuilder?.Build(builder =>
 
 minimalWebApp?.Start(app =>
 {
-    app.UseOpenTelemetryPrometheusScrapingEndpoint();
+    //app.UseOpenTelemetryPrometheusScrapingEndpoint();
 });
 

@@ -1,10 +1,10 @@
 ﻿using MassTransit;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using MinimalFramework;
+using MiniApp.Core;
 using System.Diagnostics;
 
-namespace MinimalMediator
+namespace MiniApp.Mediator
 {
     public class MinimalMediator : IMinimalMediator
     {
@@ -15,26 +15,27 @@ namespace MinimalMediator
         public MinimalMediator(
             IMediator mediator,
             IBus bus,
-            ILogger<MinimalMediator> logger) {
+            ILogger<MinimalMediator> logger)
+        {
             _mediator = mediator;
             _bus = bus;
             _logger = logger;
         }
 
-        public Task PublishAsync<TMessage>(TMessage command) 
+        public Task PublishAsync<TMessage>(TMessage command)
             where TMessage : MinimalCommand
         {
             throw new NotImplementedException();
         }
 
-        public async Task<TResponse> SendAsync<TMessage, TResponse>(TMessage command) 
+        public async Task<TResponse> SendAsync<TMessage, TResponse>(TMessage command)
             where TMessage : MinimalQuery<TResponse>
         {
             var response = await _mediator.Send(command);
             return response;
         }
 
-        public async Task SendToExchange<TMessage>(TMessage @event, string exchangeName) 
+        public async Task SendToExchange<TMessage>(TMessage @event, string exchangeName)
             where TMessage : MinimalCommand
         {
             try
@@ -47,25 +48,27 @@ namespace MinimalMediator
 
                 await endpoint.Send(@event);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 _logger.LogError(ex.Message);
             }
         }
 
-        public async Task SendAsync<TMessage>(TMessage command, string queueName) 
+        public async Task SendAsync<TMessage>(TMessage command, string queueName)
             where TMessage : MinimalCommand
         {
             try
             {
                 if (string.IsNullOrEmpty(queueName)) throw new ArgumentException("(queueName) can not be null or empty");
-                
+
                 TryAddingObservabilityTrace<TMessage, bool>(command);
 
                 var endpoint = await _bus.GetSendEndpoint(new Uri($"queue:{queueName}"));
 
                 await endpoint.Send(command);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 _logger.LogError(ex.Message);
             }
         }
@@ -85,7 +88,7 @@ namespace MinimalMediator
                     baseMessage.TraceId = activity.TraceId.ToString();
                 }
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
             }

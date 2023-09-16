@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Hosting;
-using MinimalFramework;
+using MiniApp.Core;
 using Serilog;
 
 namespace Logger.LoggerProviders

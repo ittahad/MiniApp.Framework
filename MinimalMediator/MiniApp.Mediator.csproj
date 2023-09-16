@@ -4,16 +4,14 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <Version>1.0.0</Version>
   </PropertyGroup>
   
   <ItemGroup>
     <PackageReference Include="MediatR" Version="10.0.1" />
     <PackageReference Include="MassTransit" Version="8.0.3" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <ProjectReference Include="..\MinimalFramework\MiniApp.Framework.csproj" />
+    <PackageReference Include="MiniApp.Core" Version="1.0.0" />
   </ItemGroup>
   
 </Project>

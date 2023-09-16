@@ -1,9 +1,8 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using MinimalFramework;
+using MiniApp.Core;
 
-namespace MinimalWebApi
+namespace MiniApp.Api
 {
     public class HealthCheckController : ControllerBase
     {
@@ -12,7 +11,8 @@ namespace MinimalWebApi
 
         public HealthCheckController(
             IMinimalMediator mediator,
-            ILogger<HealthCheckController> logger) {
+            ILogger<HealthCheckController> logger)
+        {
 
             this.mediator = mediator;
             this.logger = logger;
@@ -21,7 +21,7 @@ namespace MinimalWebApi
         [HttpGet]
         public async Task<string> Ping()
         {
-            this.logger.LogInformation("Health check.....");
+            logger.LogInformation("Health check.....");
 
             return await mediator.SendAsync<HealthCheckQuery, string>(new HealthCheckQuery());
         }

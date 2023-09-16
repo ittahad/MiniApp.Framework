@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MinimalFramework\MiniApp.Framework.csproj" />
+    <ProjectReference Include="..\MinimalFramework\MiniApp.Core.csproj" />
     <ProjectReference Include="..\TestingWebApi\TestingWebApi.csproj" />
   </ItemGroup>
 

@@ -1,7 +1,6 @@
 ﻿using MassTransit;
 using Microsoft.Extensions.Logging;
-using MinimalFramework;
-using MinimalHttpClient;
+using MiniApp.Core;
 
 namespace TestingHost
 {

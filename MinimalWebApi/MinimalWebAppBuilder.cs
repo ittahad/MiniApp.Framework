@@ -3,12 +3,12 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
-using MinimalFramework;
-using MinimalHttpClient;
+using MiniApp.Core;
+using MiniApp.Mediator;
 using Swashbuckle.AspNetCore.SwaggerGen.ConventionalRouting;
 using System.Diagnostics;
 
-namespace MinimalWebApi
+namespace MiniApp.Api
 {
     public class MinimalWebAppBuilder
     {
@@ -81,7 +81,7 @@ namespace MinimalWebApi
             
             builder.Services.AddHttpPolicy();
 
-            builder.Services.AddSingleton<IMinimalMediator, MinimalMediator.MinimalMediator>();
+            builder.Services.AddSingleton<IMinimalMediator, MinimalMediator>();
             builder.Services.AddSingleton<IBus>(p => p.GetRequiredService<IBusControl>());
 
             // Tracing

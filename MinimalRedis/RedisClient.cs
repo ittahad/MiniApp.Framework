@@ -2,7 +2,7 @@
 using MiniApp.Api;
 using StackExchange.Redis;
 
-namespace MinimalRedis
+namespace MiniApp.Redis
 {
     public class RedisClient : IRedisClient
     {
@@ -55,6 +55,5 @@ namespace MinimalRedis
         {
             return _database.KeyExists(key);
         }
-
     }
 }

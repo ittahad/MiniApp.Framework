@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace TestingHost
+namespace MiniApp.Core
 {
     public static class TracingProvider
     {

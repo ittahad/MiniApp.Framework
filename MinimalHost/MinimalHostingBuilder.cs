@@ -1,14 +1,9 @@
 ﻿
 using MassTransit;
-using MassTransit.Logging;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using MinimalFramework;
-using MinimalHttpClient;
-using MinimalMediator;
-using Serilog;
-using System.Diagnostics;
+using MiniApp.Core;
+using MiniApp.Mediator;
 using System.Reflection;
 
 namespace MinimalHost
@@ -77,7 +72,7 @@ namespace MinimalHost
                     });
                     
                     services.AddHttpPolicy();
-                    services.AddSingleton<IMinimalMediator, MinimalMediator.MinimalMediator>();
+                    services.AddSingleton<IMinimalMediator, MinimalMediator>();
                     services.AddSingleton<IBus>(p => p.GetRequiredService<IBusControl>());
                     
                 });

@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using MinimalFramework;
+using MiniApp.Core;
 using MinimalHost;
 using OpenTelemetry.Metrics;
 using System.Diagnostics;

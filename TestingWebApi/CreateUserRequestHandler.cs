@@ -1,7 +1,4 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using MinimalFramework;
-using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
 using System.Security.Cryptography;
 using System.Text;

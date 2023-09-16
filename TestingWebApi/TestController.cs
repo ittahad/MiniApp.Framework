@@ -1,12 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MiniApp.Api;
-using MinimalFramework;
-using MinimalHttpClient;
-using MinimalRedis;
+using MiniApp.Core;
 using System.Diagnostics;
-using System.Diagnostics.Metrics;
-using System.Reflection;
 
 namespace TestingWebApi
 {

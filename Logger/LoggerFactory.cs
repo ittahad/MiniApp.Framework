@@ -1,19 +1,14 @@
 ﻿using Logger.LoggerProviders;
-using Microsoft.Extensions.DependencyInjection;
-using MinimalFramework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MiniApp.Core;
 
-namespace Logger
+namespace MiniApp.Logger
 {
     public class LoggerFactory
     {
         MinimalHostOptions _options;
 
-        public LoggerFactory(MinimalHostOptions options) {
+        public LoggerFactory(MinimalHostOptions options)
+        {
             _options = options;
         }
 

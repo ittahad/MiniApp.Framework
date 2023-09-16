@@ -289,3 +289,8 @@ __pycache__/
 /MinimalFramework/NugetPublish.bat
 /MinimalWebApi/NugetPublish.bat
 /MinimalHost/NugetPublish.bat
+/MinimalTracing/NugetPublish.bat
+/MinimalHttpClient/NugetPublish.bat
+/Logger/NugetPublish.bat
+/MinimalMediator/NugetPublish.bat
+/MinimalRedis/NugetPublish.bat

@@ -11,8 +11,8 @@
     <None Remove="appsettings.Development.json" />
   </ItemGroup>
     <ItemGroup>
+    <PackageReference Include="MiniApp.Host" Version="1.0.4" />
     <PackageReference Include="MongoDB.Driver" Version="2.17.0" />
-    <PackageReference Include="OpenTelemetry.Exporter.Prometheus" Version="1.3.0-rc.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MinimalHost\MiniApp.Host.csproj" />
+    <ProjectReference Include="..\MinimalMediator\MiniApp.Mediator.csproj" />
   </ItemGroup>
 
   <ItemGroup>

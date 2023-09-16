@@ -1,8 +1,7 @@
 ﻿using MassTransit;
 using System.Diagnostics;
-using TestingHost;
 
-namespace MinimalFramework
+namespace MiniApp.Core
 {
     public abstract class MinimalCommandHandler<TMessage, TResponse> : IConsumer<TMessage>
         where TMessage : class
@@ -40,7 +39,8 @@ namespace MinimalFramework
                                 activityContext);
                 return activity;
             }
-            catch (Exception) { 
+            catch (Exception)
+            {
                 return null;
             }
         }

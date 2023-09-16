@@ -1,18 +1,8 @@
-﻿using MassTransit;
-using MediatR;
-using Microsoft.Extensions.DependencyInjection;
-using OpenTelemetry.Context.Propagation;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TestingHost;
+﻿using MediatR;
 
-namespace MinimalFramework
+namespace MiniApp.Core
 {
-    public abstract class MinimalQueryHandler<TMessage, TResponse> 
+    public abstract class MinimalQueryHandler<TMessage, TResponse>
         : IRequestHandler<TMessage, TResponse>
         where TMessage : MinimalQuery<TResponse>
     {

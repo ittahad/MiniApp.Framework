@@ -4,6 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <Version>1.0.4</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,14 +13,10 @@
     <PackageReference Include="MassTransit.RabbitMQ" Version="8.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
+    <PackageReference Include="MiniApp.Core" Version="1.0.0" />
+    <PackageReference Include="MiniApp.Http" Version="1.0.0" />
+    <PackageReference Include="MiniApp.Logger" Version="1.0.0" />
+    <PackageReference Include="MiniApp.Mediator" Version="1.0.0" />
+    <PackageReference Include="MiniApp.Observability.Extensions" Version="1.0.1" />
   </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Logger\MiniApp.Logger.csproj" />
-    <ProjectReference Include="..\MinimalFramework\MiniApp.Framework.csproj" />
-    <ProjectReference Include="..\MinimalHttpClient\MiniApp.HttpClient.csproj" />
-    <ProjectReference Include="..\MinimalMediator\MiniApp.Mediator.csproj" />
-    <ProjectReference Include="..\MinimalTracing\MiniApp.Observability.csproj" />
-  </ItemGroup>
-
 </Project>

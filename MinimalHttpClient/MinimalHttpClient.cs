@@ -1,8 +1,7 @@
-﻿using System.Text;
+﻿using MiniApp.Core;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
-namespace MinimalHttpClient
+namespace MiniApp.Http
 {
     public class MinimalHttpClient : IMinimalHttpClient
     {
@@ -20,7 +19,7 @@ namespace MinimalHttpClient
             if (httpResponseMessage.IsSuccessStatusCode)
             {
                 var data = await httpResponseMessage.Content.ReadAsStringAsync();
-                if(typeof(TResponse) == typeof(string) && data != null) 
+                if (typeof(TResponse) == typeof(string) && data != null)
                 {
                     var sr = JsonSerializer.Serialize(data);
                     return JsonSerializer.Deserialize<TResponse>(sr);
@@ -35,7 +34,7 @@ namespace MinimalHttpClient
 
         private static TResponse? TryParsingTheResponse<TResponse>(string data)
         {
-            try 
+            try
             {
                 return JsonSerializer.Deserialize<TResponse>(data);
             }

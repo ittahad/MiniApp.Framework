@@ -6,7 +6,7 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class MinimalMediatorExtensions
     {
-        public static void AddMediatorAssembly(this WebApplicationBuilder? builder) 
+        public static void AddMediatorAssembly(this WebApplicationBuilder? builder)
         {
             builder.Services.AddMediatR(Assembly.GetEntryAssembly());
             builder.Services.AddMediatR(Assembly.GetExecutingAssembly());

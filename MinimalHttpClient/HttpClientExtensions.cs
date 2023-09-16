@@ -1,10 +1,10 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using MiniApp.Core;
+using MiniApp.Http;
 using Polly;
 using Polly.Extensions.Http;
 using System.Net;
-using System.Runtime.CompilerServices;
 
-namespace MinimalHttpClient
+namespace Microsoft.Extensions.DependencyInjection
 {
     public static class HttpClientExtensions
     {
@@ -26,6 +26,6 @@ namespace MinimalHttpClient
 
             serviceCollection.AddHttpClient<IMinimalHttpClient, MinimalHttpClient>()
                 .AddPolicyHandler(policy1);
-            }
+        }
     }
 }

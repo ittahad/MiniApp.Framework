@@ -1,12 +1,12 @@
-﻿using MediatR;
+﻿using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using MinimalFramework;
 using MinimalHost;
 using OpenTelemetry.Metrics;
 using System.Diagnostics;
 using System.Reflection;
 using TestingHost;
+using MediatR;
+using MiniApp.Core;
 
 Activity.DefaultIdFormat = ActivityIdFormat.W3C;
 

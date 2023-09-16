@@ -1,8 +1,6 @@
-﻿using Logger;
-using Logger.LoggerProviders;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Hosting;
-using MinimalFramework;
+﻿using Microsoft.Extensions.Hosting;
+using MiniApp.Core;
+using MiniApp.Logger;
 using Serilog;
 
 namespace Microsoft.Extensions.DependencyInjection

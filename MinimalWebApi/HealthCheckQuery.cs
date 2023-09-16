@@ -1,7 +1,6 @@
-﻿using MediatR;
-using MinimalFramework;
+﻿using MiniApp.Core;
 
-namespace MinimalWebApi
+namespace MiniApp.Api
 {
     public class HealthCheckQuery : MinimalQuery<string>
     {
