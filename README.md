@@ -11,6 +11,16 @@ This project is entirely written in C# and built on the .NET framework, tailored
 
 In this developer-centric context, the project encompasses a wide spectrum of functionalities, including message-broker systems, caching mechanisms, HTTP client integrations, mediation services, as well as robust logging and tracing capabilities. By offering this comprehensive toolkit, developers are empowered to streamline the development of distributed applications, ensuring they are well-equipped to manage complex tasks and leverage the full potential of microservices architecture.
 
+## Prerequisites
+#### Redis Server
+```
+docker run -d --name redis-stack-server -p 6379:6379 redis/redis-stack-server:latest
+```
+
+#### RabbitMq
+```
+docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3.12-management
+```
 
 ## Available packages
 
