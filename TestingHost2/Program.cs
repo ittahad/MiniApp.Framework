@@ -30,26 +30,23 @@ var options = new MinimalHostOptions
 var builder = new MinimalHostingBuilder(options)
     .ListenOn("TestQueue3")
     .Build(
-        hostBuilder: ConfigureBuilder,
+        hostBuilder: hostBuilder => { 
+            hostBuilder.ConfigureServices((ctx, services) =>
+            {
+                services.AddMediatR(Assembly.GetEntryAssembly()!);
+                services.AddMediatR(Assembly.GetExecutingAssembly());
+
+                services.AddOpenTelemetryMetrics(options =>
+                   {
+                       options.AddPrometheusExporter(options =>
+                       {
+                           options.StartHttpListener = true;
+                           options.HttpListenerPrefixes = new string[] { $"http://localhost:9090/" };
+                       });
+                   });
+            });
+        },
         messageHandlerAssembly: typeof(TestMessage4Handler).Assembly);
 
 builder.Run();
-
-static void ConfigureBuilder(IHostBuilder hostBuilder)
-{
-    hostBuilder.ConfigureServices((ctx, services) =>
-    {
-        services.AddMediatR(Assembly.GetEntryAssembly()!);
-        services.AddMediatR(Assembly.GetExecutingAssembly());
-
-        services.AddOpenTelemetryMetrics(options =>
-           {
-               options.AddPrometheusExporter(options =>
-               {
-                   options.StartHttpListener = true;
-                   options.HttpListenerPrefixes = new string[] { $"http://localhost:9090/" };
-               });
-           });
-    });
-}
 

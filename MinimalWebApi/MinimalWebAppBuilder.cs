@@ -1,12 +1,19 @@
 ﻿using MassTransit;
+using MassTransit.Transports.Fabric;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MiniApp.Core;
 using MiniApp.Mediator;
 using Swashbuckle.AspNetCore.SwaggerGen.ConventionalRouting;
 using System.Diagnostics;
+using System.Security.Claims;
+using System.Text;
 
 namespace MiniApp.Api
 {
@@ -26,8 +33,51 @@ namespace MiniApp.Api
             Action<WebApplicationBuilder> Configure = null)
         {
             var builder = WebApplication.CreateBuilder(_options.CommandLineArgs);
-
+            
             var serviceName = builder.Configuration.GetSection("ServiceName").Value;
+            
+            var jwtConf = builder.Configuration.GetSection("JwtConfig");
+            string issuer = jwtConf["Issuer"];
+            string audience = jwtConf["Audience"];
+            string key = jwtConf["Key"];
+            
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(opt =>
+                {
+                    opt.TokenValidationParameters = new()
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = issuer,
+                        ValidAudience = audience,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key))
+                    };
+                    opt.Events = new JwtBearerEvents
+                    {
+                        OnTokenValidated = async ctx => { 
+
+                            var claimsIdentity = ctx.Principal?.Identity as ClaimsIdentity;
+                            
+                            var origin = ctx.HttpContext.Request.Headers["Origin"];
+                            
+                            var serviceProvider = builder.Services.BuildServiceProvider();
+
+                            var tenantContext = serviceProvider.GetRequiredService<IAppTenantContext<ApplicationTenant>>();
+
+                            var tenant = tenantContext.GetApplicationTenant(origin!);
+
+                            var tenantClaim = new Claim(
+                                type: TokenClaims.TenantIdClaim,
+                                value: tenant?.TenantId!);
+
+                            claimsIdentity!.AddClaim(tenantClaim);
+
+                        },
+                        OnMessageReceived = async ctx => { },
+                    };
+                });
 
             if (_options.UseSwagger.HasValue && _options.UseSwagger.Value)
             {
@@ -80,7 +130,7 @@ namespace MiniApp.Api
             });
             
             builder.Services.AddHttpPolicy();
-
+            builder.Services.AddHttpContextAccessor();
             builder.Services.AddSingleton<IMinimalMediator, MinimalMediator>();
             builder.Services.AddSingleton<IBus>(p => p.GetRequiredService<IBusControl>());
 

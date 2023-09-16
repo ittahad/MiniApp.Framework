@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using MiniApp.Api;
 using MiniApp.Core;
+using MiniApp.MongoDB;
 using MiniApp.Redis;
 using TestingWebApi;
 
@@ -18,12 +19,12 @@ var options = new MinimalWebAppOptions
     UseAuthentication = true,
     SeqLoggerOptions = new()
     {
-        UseSeq = false,
+        UseSeq = true,
         SeqServerUrl = "http://localhost:5341"
     },
     OpenTelemetryOptions = new()
     {
-        EnableTracing = false,
+        EnableTracing = true,
         TracingHost = "http://localhost:9411/api/v2/spans"
     }
 };
@@ -34,28 +35,7 @@ var minimalWebApp = minimalAppBuilder?.Build(builder =>
 {
     builder.AddMediatorAssembly();
 
-    #region JWT Conf
-    var jwtConf = builder.Configuration.GetSection("JwtConfig");
-    string issuer = jwtConf["Issuer"];
-    string audience = jwtConf["Audience"];
-    string key = jwtConf["Key"];
-
-    builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-        .AddJwtBearer(opt =>
-        {
-            opt.TokenValidationParameters = new()
-            {
-                ValidateIssuer = true,
-                ValidateAudience = true,
-                ValidateLifetime = true,
-                ValidateIssuerSigningKey = true,
-                ValidIssuer = issuer,
-                ValidAudience = audience,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key))
-            };
-        });
-    #endregion
-
+    builder.Services.AddMongoDB();
     builder.Services.AddSingleton<ITokenService, TokenService>();
     builder.Services.AddSingleton<IRedisClient, RedisClient>();
     builder.Services.AddSingleton<HealthCheckQueryHandler>();

@@ -31,6 +31,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniApp.Redis", "MinimalRed
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unit_Tests", "Unit_Tests", "{B9BAC236-C51C-4524-B2C9-2F682CDCDB49}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniApp.MongoDB", "MiniApp.MongoDB\MiniApp.MongoDB.csproj", "{7DC8A2B4-E100-4DB2-9B6A-D43CEC5C2CD5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -85,6 +87,10 @@ Global
 		{D7070854-21AC-47E8-8E62-A698DBCC704F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7070854-21AC-47E8-8E62-A698DBCC704F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D7070854-21AC-47E8-8E62-A698DBCC704F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DC8A2B4-E100-4DB2-9B6A-D43CEC5C2CD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DC8A2B4-E100-4DB2-9B6A-D43CEC5C2CD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DC8A2B4-E100-4DB2-9B6A-D43CEC5C2CD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DC8A2B4-E100-4DB2-9B6A-D43CEC5C2CD5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
