@@ -10,6 +10,11 @@ jobs:
     name: Execute Tests
     runs-on: ubuntu-latest
     steps:
+    
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
       - name: Run Tests
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
