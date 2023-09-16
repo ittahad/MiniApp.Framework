@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniApp.Host", "MinimalHost
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestingHost", "TestingHost\TestingHost.csproj", "{C2B4B617-8053-4187-B362-13FD838EDD6F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Apps", "Apps", "{B218673D-CB42-4D85-93EB-90AE6A9F4CDD}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "E2E_Tests", "E2E_Tests", "{B218673D-CB42-4D85-93EB-90AE6A9F4CDD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniApp.Observability.Extensions", "MinimalTracing\MiniApp.Observability.Extensions.csproj", "{AFBBEF88-1F5A-4FE5-BF4A-436451A5AB85}"
 EndProject
@@ -28,6 +28,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniApp.Http", "MinimalHttpClient\MiniApp.Http.csproj", "{D7A4E699-5260-4DB7-969D-D07B9B218944}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniApp.Redis", "MinimalRedis\MiniApp.Redis.csproj", "{D7070854-21AC-47E8-8E62-A698DBCC704F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unit_Tests", "Unit_Tests", "{B9BAC236-C51C-4524-B2C9-2F682CDCDB49}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -90,6 +92,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{14CCF455-88C7-4205-9A06-79D0BBFDF459} = {B218673D-CB42-4D85-93EB-90AE6A9F4CDD}
 		{C2B4B617-8053-4187-B362-13FD838EDD6F} = {B218673D-CB42-4D85-93EB-90AE6A9F4CDD}
+		{DBEE8DBF-1A16-43E3-BB64-DCA3F549C958} = {B9BAC236-C51C-4524-B2C9-2F682CDCDB49}
 		{3BF337DD-7EEF-42D2-A473-110A63885824} = {B218673D-CB42-4D85-93EB-90AE6A9F4CDD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
