@@ -5,13 +5,13 @@ namespace MiniApp.MongoDB
 {
     public static class MongoDBExtensions
     {
-        public static void AddMongoDB(this IServiceCollection container)
+        public static void AddMongoDB(this IServiceCollection container) 
         {
             container.AddSingleton<IAppDbContext, MongoAppDbContext>();
-
+            
             container.AddSingleton<
-                    IAppTenantContext<ApplicationTenantMongoDb>, 
-                    MongoAppTenantContext<ApplicationTenantMongoDb>>();
+                IAppTenantContext<ApplicationTenantMongoDb>, 
+                MongoAppTenantContext<ApplicationTenantMongoDb>>();
         }
     }
 }

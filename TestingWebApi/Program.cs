@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using MiniApp.Api;
 using MiniApp.Core;
 using MiniApp.MongoDB;
+using MiniApp.PgSQL;
 using MiniApp.Redis;
 using TestingWebApi;
 
@@ -36,6 +37,8 @@ var minimalWebApp = minimalAppBuilder?.Build(builder =>
     builder.AddMediatorAssembly();
 
     builder.Services.AddMongoDB();
+    //builder.Services.AddPgSql();
+
     builder.Services.AddSingleton<ITokenService, TokenService>();
     builder.Services.AddSingleton<IRedisClient, RedisClient>();
     builder.Services.AddSingleton<HealthCheckQueryHandler>();

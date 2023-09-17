@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MiniApp.MongoDB\MiniApp.MongoDB.csproj" />
+    <ProjectReference Include="..\MiniApp.pgSql\MiniApp.PgSQL.csproj" />
     <ProjectReference Include="..\MinimalWebApi\MiniApp.Api.csproj" />
   </ItemGroup>
   
