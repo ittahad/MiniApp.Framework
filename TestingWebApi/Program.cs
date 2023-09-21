@@ -36,8 +36,8 @@ var minimalWebApp = minimalAppBuilder?.Build(builder =>
 {
     builder.AddMediatorAssembly();
 
-    builder.Services.AddMongoDB();
-    //builder.Services.AddPgSql();
+    //builder.Services.AddMongoDB();
+    builder.Services.AddPgSql();
 
     builder.Services.AddSingleton<ITokenService, TokenService>();
     builder.Services.AddSingleton<IRedisClient, RedisClient>();

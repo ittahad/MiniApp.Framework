@@ -1,26 +1,36 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using MiniApp.Core;
 using MiniApp.MongoDB;
+using MiniApp.PgSQL;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
 namespace TestingWebApi;
 
+public class Student
+{
+    public string Id { get; set; }
+    public string Name { get; set; }
+}
+
 public class TokenService : ITokenService
 {
     private readonly IConfiguration _configuration;
-    private readonly IAppTenantContext<ApplicationTenantMongo> _appTenantContext;
+    private readonly IAppTenantContext<ApplicationTenantPgSql> _appTenantContext;
     private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IAppDbContext _appDbContext;
 
     public TokenService(
         IConfiguration configuration,
-        IAppTenantContext<ApplicationTenantMongo> appTenantContext,
-        IHttpContextAccessor httpContextAccessor)
+        IAppTenantContext<ApplicationTenantPgSql> appTenantContext,
+        IHttpContextAccessor httpContextAccessor,
+        IAppDbContext appDbContext)
     {
         _configuration = configuration;
         _appTenantContext = appTenantContext;
         _httpContextAccessor = httpContextAccessor;
+        _appDbContext = appDbContext;
     }
 
     public string BuildToken(string userName)
@@ -32,6 +42,9 @@ public class TokenService : ITokenService
         var origin = _httpContextAccessor.HttpContext?.Request.Headers["Origin"];
 
         var tenantInfo = _appTenantContext.GetApplicationTenant(origin!);
+
+        // Testing
+        //_appDbContext.SaveItem(new Student() { Id = "asd", Name = "asda" }, "3A03CB43-7406-4DB3-B230-EA998A732306");
 
         var claims = new[]
         {
