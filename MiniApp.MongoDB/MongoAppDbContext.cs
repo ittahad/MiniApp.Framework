@@ -11,7 +11,7 @@ namespace MiniApp.MongoDB
 
         public MongoAppDbContext(
             IConfiguration configuration,
-            IAppTenantContext<ApplicationTenantMongoDb> appTenantContext)
+            IAppTenantContext<ApplicationTenantMongo> appTenantContext)
         {
             var connectionString = configuration["DbConnectionString"];
 

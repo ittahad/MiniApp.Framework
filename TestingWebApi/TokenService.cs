@@ -10,12 +10,12 @@ namespace TestingWebApi;
 public class TokenService : ITokenService
 {
     private readonly IConfiguration _configuration;
-    private readonly IAppTenantContext<ApplicationTenantMongoDb> _appTenantContext;
+    private readonly IAppTenantContext<ApplicationTenantMongo> _appTenantContext;
     private readonly IHttpContextAccessor _httpContextAccessor;
 
     public TokenService(
         IConfiguration configuration,
-        IAppTenantContext<ApplicationTenantMongoDb> appTenantContext,
+        IAppTenantContext<ApplicationTenantMongo> appTenantContext,
         IHttpContextAccessor httpContextAccessor)
     {
         _configuration = configuration;

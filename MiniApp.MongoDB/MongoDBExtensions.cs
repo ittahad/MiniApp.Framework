@@ -10,8 +10,8 @@ namespace MiniApp.MongoDB
             container.AddSingleton<IAppDbContext, MongoAppDbContext>();
             
             container.AddSingleton<
-                IAppTenantContext<ApplicationTenantMongoDb>, 
-                MongoAppTenantContext<ApplicationTenantMongoDb>>();
+                IAppTenantContext<ApplicationTenantMongo>, 
+                MongoAppTenantContext<ApplicationTenantMongo>>();
         }
     }
 }
