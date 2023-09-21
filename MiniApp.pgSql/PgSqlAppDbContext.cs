@@ -44,10 +44,8 @@ namespace MiniApp.PgSQL
 
         public async Task<bool> DeleteItem<T>(Expression<Func<T, bool>> expression, string tenant)
         {
-            using (var src = _connections[tenant])
+            using (var connection = await _connections[tenant].OpenConnectionAsync())
             {
-                var connection = await src.OpenConnectionAsync();
-
                 var tableName = typeof(T).Name;
                 var whereClause = SqlExpressionHelper.GetWhereClause(expression);
 
@@ -68,10 +66,8 @@ namespace MiniApp.PgSQL
 
         public async Task<IEnumerable<T>> GetItems<T>(Expression<Func<T, bool>> expression, string tenant)
         {
-            using (var src = _connections[tenant])
+            using (var connection = await _connections[tenant].OpenConnectionAsync())
             {
-                var connection = await src.OpenConnectionAsync();
-
                 var tableName = typeof(T).Name;
                 var whereClause = SqlExpressionHelper.GetWhereClause(expression);
 
@@ -105,13 +101,11 @@ namespace MiniApp.PgSQL
 
         public async Task<bool> SaveItem<T>(T item, string tenant)
         {
-            using (var src = _connections[tenant])
+            using (var connection = await _connections[tenant].OpenConnectionAsync())
             {
-                var connection = await src.OpenConnectionAsync();
-
                 var tableName = typeof(T).Name;
                 var columns = string.Join(", ", typeof(T).GetProperties().Select(prop => prop.Name)).ToLower();
-                var values = string.Join(", ", typeof(T).GetProperties().Select(prop => ParseValue(item, prop)));
+                var values = string.Join(", ", typeof(T).GetProperties().Select(prop => SqlExpressionHelper.ParseValue(item, prop)));
                 var sql = $"INSERT INTO {tableName} ({columns}) VALUES ({values})";
                 using (var command = new NpgsqlCommand(sql, connection))
                 {
@@ -121,22 +115,10 @@ namespace MiniApp.PgSQL
             }
         }
 
-        private static object? ParseValue<T>(T item, PropertyInfo prop)
-        {
-            var srcType = prop.GetType();
-
-            if(srcType == typeof(string)) return $"'{prop.GetValue(item)}'";
-            else if(srcType == typeof(int)) return (int)prop.GetValue(item);
-            else if(srcType == typeof(double)) return (float)prop.GetValue(item);
-            return $"'{prop.GetValue(item)}'";
-        }
-
         public async Task<bool> Update<T>(Expression<Func<T, bool>> expression, T updateObj, string tenant)
         {
-            using (var src = _connections[tenant])
+            using (var connection = await _connections[tenant].OpenConnectionAsync())
             {
-                var connection = await src.OpenConnectionAsync();
-
                 var tableName = typeof(T).Name;
                 var setClause = SqlExpressionHelper.GetUpdateSetClause(updateObj);
                 var whereClause = SqlExpressionHelper.GetWhereClause(expression);

@@ -44,7 +44,11 @@ public class TokenService : ITokenService
         var tenantInfo = _appTenantContext.GetApplicationTenant(origin!);
 
         // Testing
-        //_appDbContext.SaveItem(new Student() { Id = "asd", Name = "asda" }, "3A03CB43-7406-4DB3-B230-EA998A732306");
+        string tenant = "3A03CB43-7406-4DB3-B230-EA998A732306";
+        //_ = _appDbContext.SaveItem(new Student() { Id = "234234346768", Name = Guid.NewGuid().ToString().Substring(0, 10) }, tenant).Result;
+        //var student = _appDbContext.GetItem<Student>(x => x.Id == "23423434", tenant).Result;
+        //_ = _appDbContext.Update<Student>(x => x.Id == "23423434", student, tenant).Result;
+        //_ = _appDbContext.DeleteItem<Student>(x => x.Id == "asd", tenant).Result;
 
         var claims = new[]
         {

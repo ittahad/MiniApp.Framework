@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using System.Reflection;
 using System.Text;
 
 namespace MiniApp.PgSQL
@@ -28,7 +29,7 @@ namespace MiniApp.PgSQL
                         setClauseBuilder.Append(", ");
                     }
 
-                    setClauseBuilder.Append($"{propertyName} = @{propertyName}");
+                    setClauseBuilder.Append($"{propertyName} = {ParseValue(updateObj, property)}");
                 }
             }
 
@@ -126,6 +127,44 @@ namespace MiniApp.PgSQL
                 || type == typeof(float) || type == typeof(long) || type == typeof(short)
                 || type == typeof(uint) || type == typeof(ulong) || type == typeof(ushort)
                 || type == typeof(byte) || type == typeof(sbyte);
+        }
+
+        public static object? ParseValue<T>(T item, PropertyInfo prop)
+        {
+            if(item == null) throw new InvalidDataException();
+
+            var srcType = prop.GetType();
+
+            if (srcType == typeof(string))
+            {
+                return $"'{prop.GetValue(item)}'";
+            }
+            else if (srcType == typeof(int))
+            {
+                return (int)prop.GetValue(item)!;
+            }
+            else if (srcType == typeof(double))
+            {
+                return (double)prop.GetValue(item)!;
+            }
+            else if (srcType == typeof(float))
+            {
+                return (float)prop.GetValue(item)!;
+            }
+            else if (srcType == typeof(decimal))
+            {
+                return (decimal)prop.GetValue(item)!;
+            }
+            else if (srcType == typeof(bool))
+            {
+                return (bool)prop.GetValue(item)!;
+            }
+            else if (srcType == typeof(DateTime))
+            {
+                return (DateTime)prop.GetValue(item)!;
+            }
+
+            return prop.GetValue(item)!.ToString();
         }
     }
 }
