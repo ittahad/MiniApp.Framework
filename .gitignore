@@ -294,3 +294,5 @@ __pycache__/
 /Logger/NugetPublish.bat
 /MinimalMediator/NugetPublish.bat
 /MinimalRedis/NugetPublish.bat
+/MiniApp.MongoDB/NugetPublish.bat
+/MiniApp.pgSql/NugetPublish.bat
