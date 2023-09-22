@@ -24,7 +24,7 @@ namespace TestingWebApi
             IMinimalHttpClient minimalHttpClient,
             ILogger<TestController> logger,
             ActivitySource activitySource,
-            IRedisClient client,
+            //IRedisClient client,
             IAppDbContext appDbContext
             /*Meter meter*/) { 
             _minimalMediator = mediator;
@@ -32,19 +32,20 @@ namespace TestingWebApi
             _activitySource = activitySource;
             _logger = logger;
             _minimalHttpClient = minimalHttpClient;
-            _redisClient = client;
+            ///_redisClient = client;
             _appDbContext = appDbContext;
             //_requestCounter = meter.CreateCounter<int>("compute_requests");
         }
 
         [HttpGet]
-        [Authorize]
+        //[Authorize]
         public async Task<string> TestAction([FromQuery] string q) {
 
             
             // Testing pgsql
             string tenant = "3A03CB43-7406-4DB3-B230-EA998A732306";
             string id = Guid.NewGuid().ToString();
+            string name = "09ee5039-c";
             _ = _appDbContext.SaveItem(new Student() { Id = id, Name = Guid.NewGuid().ToString().Substring(0, 10) }, tenant).Result;
             var student = _appDbContext.GetItem<Student>(x => x.Id == id, tenant).Result;
             _ = _appDbContext.Update<Student>(x => x.Id == id, student, tenant).Result;

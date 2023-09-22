@@ -66,7 +66,7 @@ namespace MiniApp.PgSQL
                 if (direction == "RIGHT")
                 {
                     var val = GetValue(memberExpression);
-                    return ParseValue(val.ToString(), val.GetType());
+                    return ParseValue(val.ToString()!, val.GetType())!;
                 }
                 else {
                     return memberExpression.Member.Name;
@@ -84,7 +84,7 @@ namespace MiniApp.PgSQL
                 var type = value.GetType();
                 if (type.IsNumericType())
                 {
-                    return value.ToString();
+                    return value.ToString()!;
                 }
                 else if (type == typeof(string))
                 {
@@ -146,38 +146,10 @@ namespace MiniApp.PgSQL
         {
             if (item == null) throw new InvalidDataException();
 
-            var srcType = prop.GetValue(item).GetType();
+            var val = prop.GetValue(item);
+            var srcType = val!.GetType();
 
-            if (srcType == typeof(string))
-            {
-                return $"'{prop.GetValue(item)}'";
-            }
-            else if (srcType == typeof(int))
-            {
-                return (int)prop.GetValue(item)!;
-            }
-            else if (srcType == typeof(double))
-            {
-                return (double)prop.GetValue(item)!;
-            }
-            else if (srcType == typeof(float))
-            {
-                return (float)prop.GetValue(item)!;
-            }
-            else if (srcType == typeof(decimal))
-            {
-                return (decimal)prop.GetValue(item)!;
-            }
-            else if (srcType == typeof(bool))
-            {
-                return (bool)prop.GetValue(item)!;
-            }
-            else if (srcType == typeof(DateTime))
-            {
-                return (DateTime)prop.GetValue(item)!;
-            }
-
-            return prop.GetValue(item)!.ToString();
+            return MatchType(val, srcType);
         }
 
         public static object? ParseValue(object item, Type type)
@@ -186,6 +158,11 @@ namespace MiniApp.PgSQL
 
             var srcType = type;
 
+            return MatchType(item, srcType);
+        }
+
+        private static object? MatchType(object item, Type srcType)
+        {
             if (srcType == typeof(string))
             {
                 return $"'{item}'";
