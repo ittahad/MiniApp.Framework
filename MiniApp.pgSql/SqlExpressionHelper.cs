@@ -41,34 +41,37 @@ namespace MiniApp.PgSQL
             return setClauseBuilder.ToString();
         }
 
-        public static string GetWhereClause<T>(Expression<Func<T, bool>> expression)
+        public static object GetWhereClause<T>(Expression<Func<T, bool>> expression)
         {
             if (expression == null)
             {
                 throw new ArgumentNullException(nameof(expression));
             }
 
-            return Visit(expression.Body);
+            return Visit(expression.Body, "");
         }
 
-        private static string Visit(Expression expression)
+        private static object Visit(Expression expression, string direction)
         {
             if (expression is BinaryExpression binaryExpression)
             {
-                var left = Visit(binaryExpression.Left);
-                var right = Visit(binaryExpression.Right);
+                var left = Visit(binaryExpression.Left, "LEFT");
+                var right = Visit(binaryExpression.Right, "RIGHT");
                 var operation = GetSqlOperator(binaryExpression.NodeType);
 
                 return $"({left} {operation} {right})";
             }
             else if (expression is MemberExpression memberExpression)
             {
-                if (memberExpression.Expression is ParameterExpression parameterExpression)
+                if (direction == "RIGHT")
                 {
+                    var val = GetValue(memberExpression);
+                    return ParseValue(val.ToString(), val.GetType());
+                }
+                else {
                     return memberExpression.Member.Name;
                 }
 
-                throw new NotSupportedException($"Member access expression of type {memberExpression.Expression.GetType()} is not supported.");
             }
             else if (expression is ConstantExpression constantExpression)
             {
@@ -94,6 +97,16 @@ namespace MiniApp.PgSQL
             }
 
             throw new NotSupportedException($"Expression of type {expression.GetType()} is not supported.");
+        }
+        private static object GetValue(MemberExpression member)
+        {
+            var objectMember = Expression.Convert(member, typeof(object));
+
+            var getterLambda = Expression.Lambda<Func<object>>(objectMember);
+
+            var getter = getterLambda.Compile();
+
+            return getter();
         }
 
         private static string GetSqlOperator(ExpressionType nodeType)
@@ -131,9 +144,9 @@ namespace MiniApp.PgSQL
 
         public static object? ParseValue<T>(T item, PropertyInfo prop)
         {
-            if(item == null) throw new InvalidDataException();
+            if (item == null) throw new InvalidDataException();
 
-            var srcType = prop.GetType();
+            var srcType = prop.GetValue(item).GetType();
 
             if (srcType == typeof(string))
             {
@@ -165,6 +178,44 @@ namespace MiniApp.PgSQL
             }
 
             return prop.GetValue(item)!.ToString();
+        }
+
+        public static object? ParseValue(object item, Type type)
+        {
+            if (item == null) throw new InvalidDataException();
+
+            var srcType = type;
+
+            if (srcType == typeof(string))
+            {
+                return $"'{item}'";
+            }
+            else if (srcType == typeof(int))
+            {
+                return (int)item!;
+            }
+            else if (srcType == typeof(double))
+            {
+                return (double)item!;
+            }
+            else if (srcType == typeof(float))
+            {
+                return (float)item!;
+            }
+            else if (srcType == typeof(decimal))
+            {
+                return (decimal)item!;
+            }
+            else if (srcType == typeof(bool))
+            {
+                return (bool)item!;
+            }
+            else if (srcType == typeof(DateTime))
+            {
+                return (DateTime)item!;
+            }
+
+            return item!.ToString();
         }
     }
 }
