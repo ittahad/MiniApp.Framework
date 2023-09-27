@@ -20,27 +20,37 @@ public class TokenService : ITokenService
     private readonly IAppTenantContext<ApplicationTenantPgSql> _appTenantContext;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IAppDbContext _appDbContext;
+    private readonly IServiceProvider _serviceProvider;
+    private readonly AppTenantContextInfo _contextInfo;
 
     public TokenService(
         IConfiguration configuration,
         IAppTenantContext<ApplicationTenantPgSql> appTenantContext,
         IHttpContextAccessor httpContextAccessor,
-        IAppDbContext appDbContext)
+        IAppDbContext appDbContext,
+        IServiceProvider serviceProvider,
+        AppTenantContextInfo contextInfo)
     {
         _configuration = configuration;
         _appTenantContext = appTenantContext;
         _httpContextAccessor = httpContextAccessor;
         _appDbContext = appDbContext;
+        _serviceProvider = serviceProvider;
+        _contextInfo = contextInfo;
     }
 
     public string BuildToken(string userName)
     {
+        var _t = _contextInfo.ServiceType;
+        Type serviceType = typeof(IAppTenantContext<>).MakeGenericType(_t);
+        var ins = _serviceProvider.GetService(serviceType);
         var info = GetTokenIssuerInfo();
 
         TimeSpan ExpiryDuration = new TimeSpan(0, 30, 0);
 
         var origin = _httpContextAccessor.HttpContext?.Request.Headers["Origin"];
-
+        
+        ApplicationTenant res = (ApplicationTenantPgSql) ins.GetType().GetMethod("GetApplicationTenant").Invoke(ins, origin);
         var tenantInfo = _appTenantContext.GetApplicationTenant(origin!);
 
         var claims = new[]

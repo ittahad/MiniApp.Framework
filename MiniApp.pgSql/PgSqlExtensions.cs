@@ -7,11 +7,14 @@ namespace MiniApp.PgSQL
     {
         public static void AddPgSql(this IServiceCollection container)
         {
-            container.AddSingleton<IAppDbContext, PgSqlAppDbContext>();
+            var appTenantType = new AppTenantContextInfo()
+            {
+                ServiceType = typeof(ApplicationTenantPgSql)
+            };
 
-            container.AddSingleton<
-                    IAppTenantContext<ApplicationTenantPgSql>,
-                    PgSqlAppTenantContext<ApplicationTenantPgSql>>();
+            container.AddSingleton(appTenantType);
+            container.AddSingleton<IAppDbContext, PgSqlAppDbContext>();
+            container.AddSingleton(typeof(IAppTenantContext<>), typeof(PgSqlAppTenantContext<>));
         }
     }
 }

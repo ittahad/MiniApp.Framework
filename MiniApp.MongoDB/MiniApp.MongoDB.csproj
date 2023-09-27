@@ -8,7 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MiniApp.Core" Version="1.0.1-alpha01" />
+    <!--<PackageReference Include="MiniApp.Core" Version="1.0.1-alpha02" />-->
     <PackageReference Include="MongoDB.Driver" Version="2.17.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MinimalFramework\MiniApp.Core.csproj" />
   </ItemGroup>
 </Project>
