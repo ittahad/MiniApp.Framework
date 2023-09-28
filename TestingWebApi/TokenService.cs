@@ -21,6 +21,7 @@ public class TokenService : ITokenService
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IAppDbContext _appDbContext;
     private readonly IServiceProvider _serviceProvider;
+    private readonly ITenantDataContextResolver _tenantDataContextResolver;
     private readonly AppTenantContextInfo _contextInfo;
 
     public TokenService(
@@ -29,6 +30,7 @@ public class TokenService : ITokenService
         IHttpContextAccessor httpContextAccessor,
         IAppDbContext appDbContext,
         IServiceProvider serviceProvider,
+        ITenantDataContextResolver tenantDataContextResolver,
         AppTenantContextInfo contextInfo)
     {
         _configuration = configuration;
@@ -37,21 +39,25 @@ public class TokenService : ITokenService
         _appDbContext = appDbContext;
         _serviceProvider = serviceProvider;
         _contextInfo = contextInfo;
+        _tenantDataContextResolver = tenantDataContextResolver;
     }
 
     public string BuildToken(string userName)
     {
-        var _t = _contextInfo.ServiceType;
-        Type serviceType = typeof(IAppTenantContext<>).MakeGenericType(_t);
-        var ins = _serviceProvider.GetService(serviceType);
         var info = GetTokenIssuerInfo();
 
         TimeSpan ExpiryDuration = new TimeSpan(0, 30, 0);
 
         var origin = _httpContextAccessor.HttpContext?.Request.Headers["Origin"];
         
-        ApplicationTenant res = (ApplicationTenantPgSql) ins.GetType().GetMethod("GetApplicationTenant").Invoke(ins, origin);
         var tenantInfo = _appTenantContext.GetApplicationTenant(origin!);
+
+        
+        var tenants = _tenantDataContextResolver.GetAllTenants(_configuration["DbConnectionString"]);
+        var tenant1 = _tenantDataContextResolver.GetApplicationTenant(origin);
+        var tenant2 = _tenantDataContextResolver.GetApplicationTenantById("3A03CB43-7406-4DB3-B230-EA998A732306");
+
+        var str = tenant2.ItemId.ToString();
 
         var claims = new[]
         {

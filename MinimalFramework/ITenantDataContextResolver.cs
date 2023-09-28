@@ -1,7 +1,6 @@
 ﻿namespace MiniApp.Core
 {
-    public interface ITenantDataContextResolver
+    public interface ITenantDataContextResolver : IAppTenantContext<ApplicationTenant>
     {
-
     }
 }

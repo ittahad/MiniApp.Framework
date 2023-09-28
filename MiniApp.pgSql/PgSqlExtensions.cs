@@ -14,7 +14,8 @@ namespace MiniApp.PgSQL
 
             container.AddSingleton(appTenantType);
             container.AddSingleton<IAppDbContext, PgSqlAppDbContext>();
-            container.AddSingleton(typeof(IAppTenantContext<>), typeof(PgSqlAppTenantContext<>));
+            container.AddSingleton<ITenantDataContextResolver, PgSqlTenantDataContextResolver>();
+            container.AddSingleton(typeof(IAppTenantContext<ApplicationTenantPgSql>), typeof(PgSqlAppTenantContext));
         }
     }
 }

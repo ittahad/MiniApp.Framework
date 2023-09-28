@@ -4,15 +4,15 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Version>1.0.7-alpha01</Version>
+    <Version>1.0.7-alpha02</Version>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="MassTransit.ActivityTracing" Version="0.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.22" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
-    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.18.0" />
-    <!--<PackageReference Include="MiniApp.Core" Version="1.0.1-alpha01" />-->
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.18.0" />    <PackageReference Include="MiniApp.Core" Version="1.0.1-alpha03" />
+
     <PackageReference Include="Serilog.AspNetCore" Version="5.0.0" />
     <PackageReference Include="MassTransit" Version="8.0.3" />
     <PackageReference Include="MassTransit.RabbitMQ" Version="8.0.3" />
@@ -23,10 +23,6 @@
     <PackageReference Include="MiniApp.Logger" Version="1.0.0" />
     <PackageReference Include="MiniApp.Mediator" Version="1.0.0" />
     <PackageReference Include="MiniApp.Observability.Extensions" Version="1.0.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\MinimalFramework\MiniApp.Core.csproj" />
   </ItemGroup>
   
 </Project>

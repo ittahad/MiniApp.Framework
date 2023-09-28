@@ -6,9 +6,9 @@ using System.Text.Json;
 
 namespace MiniApp.PgSQL
 {
-    public class PgSqlAppTenantContext<T> : IAppTenantContext<T> where T : ApplicationTenant
+    public class PgSqlAppTenantContext : IAppTenantContext<ApplicationTenantPgSql>
     {
-        private readonly List<T> _tenants;
+        private readonly List<ApplicationTenantPgSql> _tenants;
 
         public PgSqlAppTenantContext(IConfiguration configuration)
         {
@@ -17,7 +17,7 @@ namespace MiniApp.PgSQL
             _tenants = GetAllTenants(connectionString);
         }
 
-        public List<T> GetAllTenants(string connectionString)
+        public List<ApplicationTenantPgSql> GetAllTenants(string connectionString)
         {
             connectionString += ";Database=Tenants";
 
@@ -31,10 +31,10 @@ namespace MiniApp.PgSQL
 
             using (var reader = cmd.ExecuteReader())
             {
-                var tenantList = new List<T>();
+                var tenantList = new List<ApplicationTenantPgSql>();
                 while (reader.Read())
                 {
-                    var entityType = typeof(T);
+                    var entityType = typeof(ApplicationTenantPgSql);
                     var appTenantObj = new Dictionary<string, object>();
                     entityType.GetProperties().ToList().ForEach(p =>
                     {
@@ -45,19 +45,19 @@ namespace MiniApp.PgSQL
                     });
 
                     var serializedObj = JsonSerializer.Serialize(appTenantObj);
-                    var parsedObj = JsonSerializer.Deserialize<T>(serializedObj);
+                    var parsedObj = JsonSerializer.Deserialize<ApplicationTenantPgSql>(serializedObj);
                     tenantList.Add(parsedObj!);
                 }
                 return tenantList;
             }
         }
 
-        public T GetApplicationTenant(string origin)
+        public ApplicationTenantPgSql GetApplicationTenant(string origin)
         {
             return _tenants.FirstOrDefault(x => x.Origin == origin)!;
         }
 
-        public T GetApplicationTenantById(string tenantId)
+        public ApplicationTenantPgSql GetApplicationTenantById(string tenantId)
         {
             return _tenants.FirstOrDefault(x => x.TenantId == tenantId)!;
         }

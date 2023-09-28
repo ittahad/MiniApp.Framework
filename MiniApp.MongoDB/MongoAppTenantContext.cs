@@ -4,9 +4,9 @@ using MongoDB.Driver;
 
 namespace MiniApp.MongoDB
 {
-    public class MongoAppTenantContext<T> : IAppTenantContext<T> where T : ApplicationTenant
+    public class MongoAppTenantContext : IAppTenantContext<ApplicationTenantMongo>
     {
-        private readonly List<T> _tenants;
+        private readonly List<ApplicationTenantMongo> _tenants;
 
         public MongoAppTenantContext(IConfiguration configuration)
         {
@@ -15,25 +15,25 @@ namespace MiniApp.MongoDB
             _tenants = GetAllTenants(connectionString);
         }
 
-        public List<T> GetAllTenants(string connectionString)
+        public List<ApplicationTenantMongo> GetAllTenants(string connectionString)
         {
             var client = new MongoClient(connectionString);
 
             var tenantDb = client.GetDatabase("Tenants");
 
-            var filter = Builders<T>.Filter.Empty;
+            var filter = Builders<ApplicationTenantMongo>.Filter.Empty;
 
-            var foundTenants = tenantDb.GetCollection<T>($"{typeof(ApplicationTenant).Name}s").Find(filter);
+            var foundTenants = tenantDb.GetCollection<ApplicationTenantMongo>($"{typeof(ApplicationTenant).Name}s").Find(filter);
             
             return foundTenants.ToList();
         }
 
-        public T GetApplicationTenant(string origin)
+        public ApplicationTenantMongo GetApplicationTenant(string origin)
         {
             return _tenants.FirstOrDefault(x => x.Origin == origin)!;
         }
 
-        public T GetApplicationTenantById(string tenantId)
+        public ApplicationTenantMongo GetApplicationTenantById(string tenantId)
         {
             return _tenants.FirstOrDefault(x => x.TenantId == tenantId)!;
         }
