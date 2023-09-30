@@ -115,9 +115,11 @@ namespace TestingWebApi
         }
 
         [HttpGet]
-        public IActionResult TestPing([FromQuery] string q)
+        public async Task<IActionResult> TestRequest([FromQuery] string q)
         {
-            return Ok("Success=" + q);
+            await _minimalMediator.SendViaRedisAsync(new TestMessage5() { Name = "Hello world" });
+
+            return Ok();
         }
     }
 

@@ -82,8 +82,6 @@ namespace MiniApp.Mediator
         {
             try
             {
-                TryAddingObservabilityTrace<TMessage, bool>(command);
-
                 command.MessageType = command.GetType().FullName;
 
                 _ = _redisClient.Publish(command.MessageType!, JsonSerializer.Serialize(command));
