@@ -41,8 +41,10 @@ namespace TestingWebApi
         //[Authorize]
         public async Task<string> TestAction([FromQuery] string q) {
 
-            
-            // Testing pgsql
+            await _minimalMediator.SendViaRedisAsync(new TestMessage5() { Name = "Hello" });
+
+            return "";
+            /*// Testing pgsql
             string tenant = "3A03CB43-7406-4DB3-B230-EA998A732306";
             string id = Guid.NewGuid().ToString();
             string name = "09ee5039-c";
@@ -54,13 +56,13 @@ namespace TestingWebApi
 
             //_requestCounter.Add(1);
 
-            /*using var activity = _activitySource.StartActivity("SomeActivity");
+            *//*using var activity = _activitySource.StartActivity("SomeActivity");
 
             activity?.SetBaggage("Name", "Akash");
 
             activity?.SetTag("foo", 1);
             activity?.SetTag("bar", "Hello, World!");
-            activity?.SetTag("baz", new int[] { 1, 2, 3 });*/
+            activity?.SetTag("baz", new int[] { 1, 2, 3 });*//*
             
             _redisClient.Subscribe("IttahadAkash", (ch, msg) => { });
             _redisClient.Publish("IttahadAkash", "test");
@@ -102,7 +104,7 @@ namespace TestingWebApi
             //await _minimalMediator.SendToExchange(new TestMessage { Name = "Akash" }, "TestExchange2");
 
 
-            return "Hello";
+            return "Hello";*/
         }
 
         [HttpGet]

@@ -27,7 +27,8 @@ var options = new MinimalWebAppOptions
     {
         EnableTracing = true,
         TracingHost = "http://localhost:9411/api/v2/spans"
-    }
+    },
+    DeliverySystem = MessageDeliveryBackend.Redis
 };
 
 var minimalAppBuilder = new MinimalWebAppBuilder(options);

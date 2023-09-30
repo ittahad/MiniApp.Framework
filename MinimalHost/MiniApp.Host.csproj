@@ -13,10 +13,16 @@
     <PackageReference Include="MassTransit.RabbitMQ" Version="8.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
-    <PackageReference Include="MiniApp.Core" Version="1.0.0" />
+    <!--<PackageReference Include="MiniApp.Core" Version="1.0.0" />-->
     <PackageReference Include="MiniApp.Http" Version="1.0.0" />
     <PackageReference Include="MiniApp.Logger" Version="1.0.0" />
-    <PackageReference Include="MiniApp.Mediator" Version="1.0.0" />
+    <!--<PackageReference Include="MiniApp.Mediator" Version="1.0.0" />-->
     <PackageReference Include="MiniApp.Observability.Extensions" Version="1.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MinimalFramework\MiniApp.Core.csproj" />
+    <ProjectReference Include="..\MinimalMediator\MiniApp.Mediator.csproj" />
+    <ProjectReference Include="..\MinimalRedis\MiniApp.Redis.csproj" />
   </ItemGroup>
 </Project>

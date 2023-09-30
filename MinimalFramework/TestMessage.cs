@@ -18,4 +18,8 @@
     {
         public string Name { get; set; }
     }
+    public class TestMessage5 : RedisMessage
+    {
+        public string Name { get; set; }
+    }
 }

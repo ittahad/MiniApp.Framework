@@ -1,8 +1,10 @@
 ﻿using MassTransit;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using MiniApp.Api;
 using MiniApp.Core;
 using System.Diagnostics;
+using System.Text.Json;
 
 namespace MiniApp.Mediator
 {
@@ -10,15 +12,18 @@ namespace MiniApp.Mediator
     {
         private readonly IMediator _mediator;
         private readonly IBus _bus;
+        private readonly IRedisClient _redisClient;
         private readonly ILogger<MinimalMediator> _logger;
 
         public MinimalMediator(
             IMediator mediator,
             IBus bus,
+            IRedisClient redisClient,
             ILogger<MinimalMediator> logger)
         {
             _mediator = mediator;
             _bus = bus;
+            _redisClient = redisClient;
             _logger = logger;
         }
 
@@ -66,6 +71,22 @@ namespace MiniApp.Mediator
                 var endpoint = await _bus.GetSendEndpoint(new Uri($"queue:{queueName}"));
 
                 await endpoint.Send(command);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+            }
+        }
+
+        public async Task SendViaRedisAsync<TMessage>(TMessage command) where TMessage : RedisMessage
+        {
+            try
+            {
+                TryAddingObservabilityTrace<TMessage, bool>(command);
+
+                command.MessageType = command.GetType().FullName;
+
+                _ = _redisClient.Publish(command.MessageType!, JsonSerializer.Serialize(command));
             }
             catch (Exception ex)
             {

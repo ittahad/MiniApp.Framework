@@ -24,7 +24,8 @@ var options = new MinimalHostOptions
     {
         EnableTracing = true,
         TracingHost = "http://localhost:9411/api/v2/spans"
-    }
+    },
+    DeliverySystem = MessageDeliveryBackend.RabbitMq
 };
 
 var builder = new MinimalHostingBuilder(options)
@@ -46,7 +47,7 @@ var builder = new MinimalHostingBuilder(options)
                    });
             });
         },
-        messageHandlerAssembly: typeof(TestMessage4Handler).Assembly);
+        messageHandlerAssembly: typeof(TestMessage5Handler).Assembly);
 
 builder.Run();
 

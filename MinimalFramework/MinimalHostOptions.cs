@@ -8,6 +8,7 @@
         public LoggingProviders LoggingProvider { get; set; } = LoggingProviders.Default;
         public SeqLoggerOptions SeqLoggerOptions { get; set; }
         public OpenTelemetrySettings? OpenTelemetryOptions { get; set; }
+        public MessageDeliveryBackend? DeliverySystem { get; set; } = MessageDeliveryBackend.RabbitMq;
     }
 
     public class SeqLoggerOptions

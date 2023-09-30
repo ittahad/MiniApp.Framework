@@ -1,7 +1,9 @@
 ﻿using Microsoft.IdentityModel.Tokens;
+using MiniApp.Api;
 using MiniApp.Core;
 using MiniApp.MongoDB;
 using MiniApp.PgSQL;
+using StackExchange.Redis;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -22,6 +24,7 @@ public class TokenService : ITokenService
     private readonly IAppDbContext _appDbContext;
     private readonly IServiceProvider _serviceProvider;
     private readonly ITenantDataContextResolver _tenantDataContextResolver;
+    private readonly IRedisClient _redisClient;
     private readonly AppTenantContextInfo _contextInfo;
 
     public TokenService(
@@ -31,6 +34,7 @@ public class TokenService : ITokenService
         IAppDbContext appDbContext,
         IServiceProvider serviceProvider,
         ITenantDataContextResolver tenantDataContextResolver,
+        IRedisClient redisClient,
         AppTenantContextInfo contextInfo)
     {
         _configuration = configuration;
@@ -39,6 +43,7 @@ public class TokenService : ITokenService
         _appDbContext = appDbContext;
         _serviceProvider = serviceProvider;
         _contextInfo = contextInfo;
+        _redisClient = redisClient;
         _tenantDataContextResolver = tenantDataContextResolver;
     }
 

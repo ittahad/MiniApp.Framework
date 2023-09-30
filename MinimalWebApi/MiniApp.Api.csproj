@@ -21,8 +21,13 @@
     <PackageReference Include="OpenTelemetry.Instrumentation.MassTransit" Version="1.0.0-beta.3" />
     <PackageReference Include="MiniApp.Http" Version="1.0.0" />
     <PackageReference Include="MiniApp.Logger" Version="1.0.0" />
-    <PackageReference Include="MiniApp.Mediator" Version="1.0.0" />
+    <!--<PackageReference Include="MiniApp.Mediator" Version="1.0.0" />-->
     <PackageReference Include="MiniApp.Observability.Extensions" Version="1.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MinimalFramework\MiniApp.Core.csproj" />
+    <ProjectReference Include="..\MinimalMediator\MiniApp.Mediator.csproj" />
   </ItemGroup>
   
 </Project>

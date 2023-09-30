@@ -8,6 +8,9 @@
         public Task SendAsync<TMessage>(TMessage message, string queueName)
             where TMessage : MinimalCommand;
 
+        public Task SendViaRedisAsync<TMessage>(TMessage message)
+            where TMessage : RedisMessage;
+
         public Task SendToExchange<TMessage>(TMessage @event, string exchangeName)
             where TMessage : MinimalCommand;
 

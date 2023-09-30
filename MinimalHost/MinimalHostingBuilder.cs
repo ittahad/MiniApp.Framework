@@ -2,8 +2,10 @@
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MiniApp.Api;
 using MiniApp.Core;
 using MiniApp.Mediator;
+using MiniApp.Redis;
 using System.Reflection;
 
 namespace MinimalHost
@@ -13,7 +15,7 @@ namespace MinimalHost
         private readonly MinimalHostOptions _options;
         private readonly List<RabbitMqConsumerOptions> _consumerOptions;
 
-        public MinimalHostingBuilder(MinimalHostOptions? options = null) 
+        public MinimalHostingBuilder(MinimalHostOptions? options = null)
         {
             _options = options == null ? new MinimalHostOptions()
             {
@@ -28,53 +30,60 @@ namespace MinimalHost
             Assembly? messageHandlerAssembly = null)
         {
             IHostBuilder builder = Host.CreateDefaultBuilder(_options.CommandLineArgs);
-            
+
             var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development";
 
             builder.UseEnvironment(env);
-            
+
             builder.AddLogger(_options);
 
             builder.ConfigureServices((settings, services) =>
                 {
                     services.AddMassTransit(config =>
-                    {
-                        IEnumerable<Type?>? foundHandlers = null;
-
-                        if (messageHandlerAssembly != null)
                         {
-                            foundHandlers = GetAllDescendantsOf(
-                                        messageHandlerAssembly,
-                                        typeof(MinimalCommandHandler<,>));
+                            IEnumerable<Type?>? foundHandlers = null;
 
-                            foreach (var foundHandler in foundHandlers)
+                            if (messageHandlerAssembly != null)
                             {
-                                config.AddConsumer(foundHandler);
-                            }
-                        }
+                                foundHandlers = GetAllDescendantsOf(
+                                            messageHandlerAssembly,
+                                            typeof(MinimalCommandHandler<,>));
 
-                        config.UsingRabbitMq((ctx, conf) =>
-                        {
-                            conf.Host(settings.Configuration["RabbitMqServer"]);
-                            //conf.PrefetchCount = 5;
-
-                            foreach (var op in _consumerOptions)
-                            {
-                                AddQueueAndHandler(
-                                    messageHandlerAssembly: messageHandlerAssembly,
-                                    ctx: ctx,
-                                    conf: conf,
-                                    op: op,
-                                    foundHandlers: foundHandlers);
+                                foreach (var foundHandler in foundHandlers)
+                                {
+                                    config.AddConsumer(foundHandler);
+                                }
                             }
 
+                            if (_options.DeliverySystem == MessageDeliveryBackend.RabbitMq)
+                            {
+                                config.UsingRabbitMq((ctx, conf) =>
+                                {
+                                    conf.Host(settings.Configuration["RabbitMqServer"]);
+                                    //conf.PrefetchCount = 5;
+
+                                    foreach (var op in _consumerOptions)
+                                    {
+                                        AddQueueAndHandler(
+                                            messageHandlerAssembly: messageHandlerAssembly,
+                                            ctx: ctx,
+                                            conf: conf,
+                                            op: op,
+                                            foundHandlers: foundHandlers);
+                                    }
+
+                                });
+                            }
+                            else if (_options.DeliverySystem == MessageDeliveryBackend.Redis)
+                            {
+                                services.AddSingleton<IRedisClient, RedisClient>();
+                                services.RegisterRedisMessages(messageHandlerAssembly!);
+                            }
                         });
-                    });
-                    
                     services.AddHttpPolicy();
                     services.AddSingleton<IMinimalMediator, MinimalMediator>();
                     services.AddSingleton<IBus>(p => p.GetRequiredService<IBusControl>());
-                    
+
                 });
 
             if (hostBuilder != null)
@@ -83,7 +92,8 @@ namespace MinimalHost
             // Tracing
             if (_options.OpenTelemetryOptions?.EnableTracing ?? false)
             {
-                builder.ConfigureServices((settings, services) => {
+                builder.ConfigureServices((settings, services) =>
+                {
 
                     var serviceName = settings.Configuration.GetSection("ServiceName").Value;
 
@@ -93,7 +103,8 @@ namespace MinimalHost
 
             var host = builder.Build();
 
-            return new MinimalHostingApp(_options) { 
+            return new MinimalHostingApp(_options)
+            {
                 Host = host
             };
         }
@@ -123,11 +134,12 @@ namespace MinimalHost
         }
 
         public MinimalHostingBuilder ListenOn(
-            string queueName, 
+            string queueName,
             string exchangeName = null,
-            int prefetch = 5) 
+            int prefetch = 5)
         {
-            _consumerOptions.Add(new RabbitMqConsumerOptions {
+            _consumerOptions.Add(new RabbitMqConsumerOptions
+            {
                 ListenOnQueue = queueName,
                 ListenViaExchange = exchangeName,
                 PrefetchCount = prefetch
