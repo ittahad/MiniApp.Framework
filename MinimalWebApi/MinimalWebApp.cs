@@ -21,7 +21,7 @@ namespace MiniApp.Api
 
         public void Start(Action<WebApplication> application = null)
         {
-            if (Application == null) throw new Exception();
+            if (Application == null) throw new ArgumentNullException("Invalid argument");
 
             Application.UseRouting();
 
