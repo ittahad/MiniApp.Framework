@@ -28,9 +28,9 @@ namespace TestingHost
                 httpRquestMessage.Method = HttpMethod.Get;
                 var data = await _minimalHttpClient.MakeHttpRequest<string>(httpRquestMessage);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-
+                _logger.LogInformation("ERROR");
             }
 
             _logger.LogInformation("Message received from Host");
