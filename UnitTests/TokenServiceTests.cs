@@ -11,6 +11,7 @@ namespace UnitTests
         [InlineData("testuser1")]
         [InlineData("testuser2")]
         [InlineData("testuser3")]
+        [InlineData("testuser4")]
         public void Test1(string userName)
         {
             // Arrange
