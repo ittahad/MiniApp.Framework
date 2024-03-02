@@ -1,5 +1,25 @@
 # Welcome
 
+## [v3.0.3] - 2024-03-02
+### :boom: BREAKING CHANGES
+- due to [`23bf259`](https://github.com/ittahad/MiniApp.Framework/commit/23bf259b4cf2d632835ef3dfe2696411a0f845b0) - api configs updated *(commit by [@ittahad](https://github.com/ittahad))*:
+
+  api configs updated
+
+
+### :sparkles: New Features
+- [`23bf259`](https://github.com/ittahad/MiniApp.Framework/commit/23bf259b4cf2d632835ef3dfe2696411a0f845b0) - **api**: api configs updated *(commit by [@ittahad](https://github.com/ittahad))*
+
+### :bug: Bug Fixes
+- [`4733599`](https://github.com/ittahad/MiniApp.Framework/commit/47335998fd43ba229858f6a54d2cc244702db8ed) - minor codesmell fixed *(commit by [@ittahad](https://github.com/ittahad))*
+
+### :recycle: Refactors
+- [`f269a48`](https://github.com/ittahad/MiniApp.Framework/commit/f269a487b67563c97e57af859f1cca9f422bc1ad) - **webapp**: some comments removed *(commit by [@ittahad](https://github.com/ittahad))*
+
+### :white_check_mark: Tests
+- [`246de07`](https://github.com/ittahad/MiniApp.Framework/commit/246de07a3fc92e3407e65f652941371e3510b699) - test cases added *(commit by [@ittahad](https://github.com/ittahad))*
+
+
 ## [v3.0.2] - 2024-03-02
 ### :sparkles: New Features
 - [`6c03141`](https://github.com/ittahad/MiniApp.Framework/commit/6c031415dfdea340085168d1e42d46d4236ebc9a) - change *(commit by [@ittahad](https://github.com/ittahad))*
@@ -42,3 +62,4 @@
 
 [v3.0.1]: https://github.com/ittahad/MiniApp.Framework/compare/v3.0.0...v3.0.1
 [v3.0.2]: https://github.com/ittahad/MiniApp.Framework/compare/v3.0.1...v3.0.2
+[v3.0.3]: https://github.com/ittahad/MiniApp.Framework/compare/v3.0.2...v3.0.3
