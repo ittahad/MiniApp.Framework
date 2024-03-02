@@ -25,10 +25,10 @@ jobs:
           allowUpdates: true
           draft: false
           makeLatest: true
-          name: "v2.0.0"
+          name: "v3.0.0"
           body: ${{ steps.changelog.outputs.changes }}
           token: ${{ secrets.MY_PAT }}
-          tag: "v2.0.0"
+          tag: "v3.0.0"
 
       - name: Commit CHANGELOG.md
         uses: stefanzweifel/git-auto-commit-action@v4
