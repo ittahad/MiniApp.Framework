@@ -59,23 +59,5 @@ namespace MiniApp.Api
 
             Application.Run();
         }
-
     }
 }
-
-// Line1
-// Line2
-// Line 3
-
-// Line 3
-
-// Line 3
-// Line 3
-
-// Line 3
-// Line 3
-// Line 3
-// Line 3
-// Line 3
-
-// Line 3
