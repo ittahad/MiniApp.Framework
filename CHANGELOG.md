@@ -1,5 +1,14 @@
 # Welcome
 
+## [v3.0.2] - 2024-03-02
+### :sparkles: New Features
+- [`6c03141`](https://github.com/ittahad/MiniApp.Framework/commit/6c031415dfdea340085168d1e42d46d4236ebc9a) - change *(commit by [@ittahad](https://github.com/ittahad))*
+- [`d291461`](https://github.com/ittahad/MiniApp.Framework/commit/d29146132e5c54b7c4dabc1334a9a056259e4293) - change *(commit by [@ittahad](https://github.com/ittahad))*
+- [`15e82f6`](https://github.com/ittahad/MiniApp.Framework/commit/15e82f6994869b7fbdd385a3be5a97dd8897acb2) - release *(commit by [@ittahad](https://github.com/ittahad))*
+- [`99eaded`](https://github.com/ittahad/MiniApp.Framework/commit/99eadeddc8aacca77e9f70fee7e23a79ec497f1b) - change *(commit by [@ittahad](https://github.com/ittahad))*
+- [`b38162a`](https://github.com/ittahad/MiniApp.Framework/commit/b38162ad0e5653caef4a24779f404d087f7fd8a3) - change *(commit by [@ittahad](https://github.com/ittahad))*
+
+
 ## [v3.0.1] - 2024-03-02
 ### :sparkles: New Features
 - [`d9efaf8`](https://github.com/ittahad/MiniApp.Framework/commit/d9efaf8ce1237960e36f13ada04f710191123350) - some test 1 *(commit by [@ittahad](https://github.com/ittahad))*
@@ -32,3 +41,4 @@
 
 
 [v3.0.1]: https://github.com/ittahad/MiniApp.Framework/compare/v3.0.0...v3.0.1
+[v3.0.2]: https://github.com/ittahad/MiniApp.Framework/compare/v3.0.1...v3.0.2
