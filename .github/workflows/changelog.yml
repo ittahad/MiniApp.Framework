@@ -16,7 +16,7 @@ jobs:
         uses: requarks/changelog-action@v1
         with:
           token: ${{ secrets.MY_PAT }}
-          tag: "v3.0.0"
+          tag: "v3.0.1"
 
 
       - name: Create Release
