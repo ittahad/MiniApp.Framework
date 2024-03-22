@@ -1,5 +1,7 @@
 using System.Diagnostics;
 using System.Text;
+using FastEndpoints;
+using FastEndpoints.Swagger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using MiniApp.Api;
@@ -30,10 +32,31 @@ var options = new MinimalWebAppOptions
 
 var minimalAppBuilder = new MinimalWebAppBuilder(options);
 
-var minimalWebApp = minimalAppBuilder?.Build(builder =>
+var minimalWebApp = minimalAppBuilder!.Build(builder =>
 {
     builder.AddMediatorAssembly();
 
+    AddAuth(builder);
+
+    builder.Services.AddSingleton<ITokenService, TokenService>();
+    builder.Services.AddSingleton<IRedisClient, RedisClient>();
+    builder.Services.AddSingleton<HealthCheckQueryHandler>();
+
+    builder!.Services!
+        .AddFastEndpoints()
+        .AddResponseCaching()
+        .SwaggerDocument();
+});
+
+minimalWebApp!.Application!
+    .UseResponseCaching()
+    .UseFastEndpoints()
+    .UseSwaggerGen();
+
+minimalWebApp!.Start();
+
+static void AddAuth(WebApplicationBuilder builder)
+{
     #region JWT Conf
     var jwtConf = builder.Configuration.GetSection("JwtConfig");
     string issuer = jwtConf["Issuer"];
@@ -55,11 +78,4 @@ var minimalWebApp = minimalAppBuilder?.Build(builder =>
             };
         });
     #endregion
-
-    builder.Services.AddSingleton<ITokenService, TokenService>();
-    builder.Services.AddSingleton<IRedisClient, RedisClient>();
-    builder.Services.AddSingleton<HealthCheckQueryHandler>();
-});
-
-minimalWebApp?.Start();
-
+}
