@@ -12,8 +12,8 @@
   </ItemGroup>
     <ItemGroup>
     <PackageReference Include="MiniApp.Host" Version="1.0.4" />
-    <PackageReference Include="MiniApp.Mediator" Version="1.0.0" />
-    <PackageReference Include="MongoDB.Driver" Version="2.17.0" />
+    <!--<PackageReference Include="MiniApp.Mediator" Version="1.0.0" />-->
+    <PackageReference Include="MongoDB.Driver" Version="2.25.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,6 +22,10 @@
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MinimalMediator\MiniApp.Mediator.csproj" />
   </ItemGroup>
 
   <ItemGroup>

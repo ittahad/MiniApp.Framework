@@ -12,8 +12,10 @@
     <None Remove="appsettings.json" />
   </ItemGroup>
     <ItemGroup>
-    <PackageReference Include="MongoDB.Driver" Version="2.17.0" />
-    <PackageReference Include="MiniApp.Host" Version="1.0.4" />
+    <PackageReference Include="MassTransit.MongoDb" Version="8.2.2" />
+    <PackageReference Include="MongoDB.Driver" Version="2.25.0" />
+    <!--<PackageReference Include="MiniApp.Host" Version="1.0.4" />-->
+    <PackageReference Include="MiniApp.MongoDB" Version="1.0.1-alpha01" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,6 +29,11 @@
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MinimalHost\MiniApp.Host.csproj" />
+    <ProjectReference Include="..\Shared\Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>

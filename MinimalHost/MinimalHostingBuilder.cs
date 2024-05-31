@@ -1,5 +1,6 @@
 ﻿
 using MassTransit;
+using MassTransit.ExtensionsDependencyInjectionIntegration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MiniApp.Core;
@@ -25,7 +26,8 @@ namespace MinimalHost
 
         public MinimalHostingApp Build(
             Action<IHostBuilder>? hostBuilder = null,
-            Assembly? messageHandlerAssembly = null)
+            Assembly?[] messageHandlerAssembly = null,
+            Func<IBusRegistrationConfigurator, Type[]>? busConfigurator = null)
         {
             IHostBuilder builder = Host.CreateDefaultBuilder(_options.CommandLineArgs);
             
@@ -37,39 +39,51 @@ namespace MinimalHost
 
             builder.ConfigureServices((settings, services) =>
                 {
-                    services.AddMassTransit(config =>
+                    services.AddMassTransit((IBusRegistrationConfigurator config) =>
                     {
-                        IEnumerable<Type?>? foundHandlers = null;
+                        var foundHandlers = new List<Type>();
 
                         if (messageHandlerAssembly != null)
                         {
-                            foundHandlers = GetAllDescendantsOf(
-                                        messageHandlerAssembly,
-                                        typeof(MinimalCommandHandler<,>));
-
-                            foreach (var foundHandler in foundHandlers)
+                            foreach(var assembly in messageHandlerAssembly) 
                             {
-                                config.AddConsumer(foundHandler);
+                                var handlers = GetAllDescendantsOf(assembly!, typeof(MinimalCommandHandler<,>));
+
+                                foreach (var foundHandler in handlers)
+                                {
+                                    config.AddConsumer(foundHandler);
+                                    config.AddRequestClient(foundHandler);
+                                }
+
+                                foundHandlers.AddRange(handlers);
                             }
+                        }
+
+                        var externalHandlers = busConfigurator!.Invoke(config);
+                        foreach(var _t in externalHandlers)
+                        {
+                            config.AddConsumer(_t);
+                            config.AddRequestClient(_t);
+                            foundHandlers.Add(_t);
                         }
 
                         config.UsingRabbitMq((ctx, conf) =>
                         {
                             conf.Host(settings.Configuration["RabbitMqServer"]);
-                            //conf.PrefetchCount = 5;
 
                             foreach (var op in _consumerOptions)
                             {
                                 AddQueueAndHandler(
-                                    messageHandlerAssembly: messageHandlerAssembly,
-                                    ctx: ctx,
-                                    conf: conf,
-                                    op: op,
-                                    foundHandlers: foundHandlers);
+                                        ctx: ctx,
+                                        conf: conf,
+                                        op: op,
+                                        foundHandlers: foundHandlers);
                             }
 
+                            //conf.UseInMemoryOutbox(ctx);
+
                         });
-                    });
+                     });
                     
                     services.AddHttpPolicy();
                     services.AddSingleton<IMinimalMediator, MinimalMediator>();
@@ -99,7 +113,6 @@ namespace MinimalHost
         }
 
         private void AddQueueAndHandler(
-            Assembly? messageHandlerAssembly,
             IBusRegistrationContext ctx,
             IRabbitMqBusFactoryConfigurator conf,
             RabbitMqConsumerOptions op,
@@ -112,12 +125,9 @@ namespace MinimalHost
 
                 e.PrefetchCount = op.PrefetchCount.Value;
 
-                if (messageHandlerAssembly != null)
+                foreach (var foundHandler in foundHandlers)
                 {
-                    foreach (var foundHandler in foundHandlers)
-                    {
-                        e.ConfigureConsumer(ctx, foundHandler);
-                    }
+                    e.ConfigureConsumer(ctx, foundHandler);
                 }
             });
         }

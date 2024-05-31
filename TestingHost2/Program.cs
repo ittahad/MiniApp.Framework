@@ -33,8 +33,14 @@ var builder = new MinimalHostingBuilder(options)
         hostBuilder: hostBuilder => { 
             hostBuilder.ConfigureServices((ctx, services) =>
             {
-                services.AddMediatR(Assembly.GetEntryAssembly()!);
-                services.AddMediatR(Assembly.GetExecutingAssembly());
+                services.AddMediatR(cfg =>
+                {
+                    cfg.RegisterServicesFromAssembly(Assembly.GetEntryAssembly()!);
+                });
+                services.AddMediatR(cfg =>
+                {
+                    cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+                });
 
                 services.AddOpenTelemetryMetrics(options =>
                    {

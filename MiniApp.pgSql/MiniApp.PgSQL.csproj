@@ -9,6 +9,6 @@
 
   <ItemGroup>
     <PackageReference Include="MiniApp.Core" Version="1.0.1-alpha01" />
-    <PackageReference Include="Npgsql" Version="7.0.6" />
+    <PackageReference Include="Npgsql" Version="8.0.3" />
   </ItemGroup>
 </Project>

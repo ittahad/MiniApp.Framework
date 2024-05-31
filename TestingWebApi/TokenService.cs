@@ -17,13 +17,13 @@ public class Student
 public class TokenService : ITokenService
 {
     private readonly IConfiguration _configuration;
-    private readonly IAppTenantContext<ApplicationTenantPgSql> _appTenantContext;
+    private readonly IAppTenantContext<ApplicationTenantMongo> _appTenantContext;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IAppDbContext _appDbContext;
 
     public TokenService(
         IConfiguration configuration,
-        IAppTenantContext<ApplicationTenantPgSql> appTenantContext,
+        IAppTenantContext<ApplicationTenantMongo> appTenantContext,
         IHttpContextAccessor httpContextAccessor,
         IAppDbContext appDbContext)
     {

@@ -1,9 +1,13 @@
-﻿using MediatR;
+﻿using MassTransit;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MiniApp.Core;
+using MiniApp.MongoDB;
 using MinimalHost;
 using OpenTelemetry.Metrics;
+using Shared.Handlers;
+using Shared.Sagas;
 using System.Diagnostics;
 using System.Reflection;
 using TestingHost;
@@ -29,10 +33,19 @@ var options = new MinimalHostOptions
 
 var builder = new MinimalHostingBuilder(options)
     .ListenOn("TestQueue1")
-    .ListenOn("TestQueue2")
-    .Build(
-        hostBuilder: ConfigureBuilder,
-        messageHandlerAssembly: typeof(TestMessageHandler).Assembly);
+    //.ListenOn("TestQueue2")
+    .Build(ConfigureBuilder, new Assembly?[]{ typeof(TestMessageHandler).Assembly, typeof(SubscribeToNewsletterHandler).Assembly },
+        (cfg) =>
+        {
+            return new Type[] {
+                typeof(SubscribeToNewsletterHandler),
+                typeof(OnboardingCompletedHandler),
+                typeof(OnboardingStartedHandler),
+                typeof(SendWelcomeEmailHandler),
+                typeof(SendFollowUpEmailHandler),
+                typeof(FollowUpFaultHandler)
+            };
+        });
 
 builder.Run();
 
@@ -40,8 +53,21 @@ static void ConfigureBuilder(IHostBuilder hostBuilder)
 {
     hostBuilder.ConfigureServices((ctx, services) =>
     {
-        services.AddMediatR(Assembly.GetEntryAssembly()!);
-        services.AddMediatR(Assembly.GetExecutingAssembly());
+        services.AddMongoDB();
+
+        services.AddMediatR(cfg =>
+        {
+               cfg.RegisterServicesFromAssembly(Assembly.GetEntryAssembly()!);
+        });
+        services.AddMediatR(cfg =>
+        {
+            cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+        });
+
+        services.AddMediatR(cfg =>
+        {
+            cfg.RegisterServicesFromAssembly(typeof(SubscribeToNewsletterHandler).Assembly);
+        });
 
         services.AddOpenTelemetryMetrics(options =>
            {

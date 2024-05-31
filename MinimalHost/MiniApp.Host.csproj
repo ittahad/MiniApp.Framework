@@ -5,18 +5,24 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <Version>1.0.4</Version>
+    <UserSecretsId>ea3694e1-88b5-4930-8a0f-14d620ef6a11</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MassTransit" Version="8.0.3" />
+    <PackageReference Include="MassTransit" Version="8.2.2" />
     <PackageReference Include="MassTransit.AspNetCore" Version="7.3.1" />
-    <PackageReference Include="MassTransit.RabbitMQ" Version="8.0.3" />
+    <PackageReference Include="MassTransit.RabbitMQ" Version="8.2.2" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
-    <PackageReference Include="MiniApp.Core" Version="1.0.0" />
+    <!--<PackageReference Include="MiniApp.Core" Version="1.0.0" />-->
     <PackageReference Include="MiniApp.Http" Version="1.0.0" />
     <PackageReference Include="MiniApp.Logger" Version="1.0.0" />
-    <PackageReference Include="MiniApp.Mediator" Version="1.0.0" />
+    <!--<PackageReference Include="MiniApp.Mediator" Version="1.0.0" />-->
     <PackageReference Include="MiniApp.Observability.Extensions" Version="1.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MinimalFramework\MiniApp.Core.csproj" />
+    <ProjectReference Include="..\MinimalMediator\MiniApp.Mediator.csproj" />
   </ItemGroup>
 </Project>

@@ -7,11 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MiniApp.Api" Version="1.0.7-alpha01" />
+    <!--<PackageReference Include="MiniApp.Api" Version="1.0.7-alpha01" />-->
     <PackageReference Include="MiniApp.MongoDB" Version="1.0.1-alpha01" />
     <PackageReference Include="MiniApp.PgSQL" Version="1.0.1-alpha01" />
     <PackageReference Include="MiniApp.Redis" Version="1.0.0" />
-    <PackageReference Include="MongoDB.Driver" Version="2.17.0" />
+    <PackageReference Include="MongoDB.Driver" Version="2.25.0" />
+    <PackageReference Include="MassTransit.MongoDb" Version="8.2.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MinimalWebApi\MiniApp.Api.csproj" />
+    <ProjectReference Include="..\Shared\Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>

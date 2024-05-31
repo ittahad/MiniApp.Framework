@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using MassTransit;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MiniApp.Api;
 using MiniApp.Core;
 using MiniApp.PgSQL;
+using Shared.Entities;
 using System.Diagnostics;
 
 namespace TestingWebApi
@@ -16,6 +18,7 @@ namespace TestingWebApi
         private readonly ActivitySource _activitySource;
         private readonly IRedisClient _redisClient;
         private readonly IAppDbContext _appDbContext;
+        private readonly IBus _bus;
        // private readonly Counter<int> _requestCounter;
 
         public TestController(
@@ -25,7 +28,8 @@ namespace TestingWebApi
             ILogger<TestController> logger,
             ActivitySource activitySource,
             //IRedisClient client,
-            IAppDbContext appDbContext
+            IAppDbContext appDbContext,
+            IBus bus
             /*Meter meter*/) { 
             _minimalMediator = mediator;
             _configuration = configuration;
@@ -34,6 +38,7 @@ namespace TestingWebApi
             _minimalHttpClient = minimalHttpClient;
             ///_redisClient = client;
             _appDbContext = appDbContext;
+            _bus = bus;
             //_requestCounter = meter.CreateCounter<int>("compute_requests");
         }
 
@@ -116,6 +121,17 @@ namespace TestingWebApi
         public IActionResult TestPing([FromQuery] string q)
         {
             return Ok("Success=" + q);
+        }
+
+        
+        [HttpPost]
+        public IActionResult Start([FromBody] object obj)
+        {
+            var sbs = new SubscribeToNewsletter("mittahad@gmail.com");
+
+            _bus.Publish(sbs);
+
+            return Ok("Success");
         }
     }
 

@@ -4,11 +4,10 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Version>1.0.1-alpha01</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MiniApp.Core" Version="1.0.1-alpha01" />
-    <PackageReference Include="MongoDB.Driver" Version="2.25.0" />
+    <ProjectReference Include="..\MinimalFramework\MiniApp.Core.csproj" />
   </ItemGroup>
+
 </Project>

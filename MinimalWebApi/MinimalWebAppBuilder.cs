@@ -30,7 +30,8 @@ namespace MiniApp.Api
         }
 
         public MinimalWebApp Build(
-            Action<WebApplicationBuilder> Configure = null)
+            Action<WebApplicationBuilder> Configure = null,
+            Action<IBusRegistrationConfigurator>? busConfigurator = null)
         {
             var builder = WebApplication.CreateBuilder(_options.CommandLineArgs);
             
@@ -125,8 +126,10 @@ namespace MiniApp.Api
                 {
                     c.Host(builder.Configuration["RabbitMqServer"]);
                     c.ConfigureEndpoints(r);
+                    c.UseInMemoryOutbox(r);
                 });
 
+                busConfigurator?.Invoke(config);
             });
             
             builder.Services.AddHttpPolicy();
