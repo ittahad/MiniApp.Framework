@@ -5,23 +5,23 @@ using Shared.Entities;
 
 namespace Shared.Handlers
 {
-    public class FollowUpFaultHandler : IConsumer<Fault<FollowUpEmailSent>>
+    public class RevertSendWelcomeEmailHandler : IConsumer<RevertSendWelcomeEmail>
     {
         private readonly IAppDbContext _appDbContext;
-        private readonly ILogger<FollowUpFaultHandler> _logger;
+        private readonly ILogger<RevertSendWelcomeEmail> _logger;
 
-        public FollowUpFaultHandler(
+        public RevertSendWelcomeEmailHandler(
             IAppDbContext appDbContext,
-            ILogger<FollowUpFaultHandler> logger
+            ILogger<RevertSendWelcomeEmail> logger
             )
         {
             _appDbContext = appDbContext;
             _logger = logger;
         }
 
-        public Task Consume(ConsumeContext<Fault<FollowUpEmailSent>> context)
+        public Task Consume(ConsumeContext<RevertSendWelcomeEmail> context)
         {
-            _logger.LogInformation("+Rolling back follow-up");
+            _logger.LogInformation("❌ Rolling back welcome email sending job");
 
             return Task.CompletedTask;
         }

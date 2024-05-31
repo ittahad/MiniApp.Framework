@@ -23,10 +23,8 @@ namespace Shared.Handlers
         {
             try
             {
-                _logger.LogInformation("+SendFollowUpEmailHandler");
-
-                throw new Exception();
-
+                _logger.LogInformation("✅ SendFollowUpEmailHandler");
+                
                 await context.Publish(new FollowUpEmailSent()
                 {
                     SubscriberId = context.Message.SubsciberId,
@@ -35,7 +33,14 @@ namespace Shared.Handlers
             }
             catch
             {
-                await context.Publish<Fault<SendFollowUpEmail>>(context);
+                await context.Publish<Fault<FollowUpEmailSent>>(new
+                {
+                    Message = new FollowUpEmailSent()
+                    {
+                        SubscriberId = context.Message.SubsciberId,
+                        Email = context.Message.Email
+                    }
+                });
             }
         }
     }

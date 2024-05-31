@@ -20,32 +20,42 @@ namespace Shared.Sagas
         public Event<Fault<SubscriberCreatedEvent>> SubscriberCreateFailed { get; set; }
 
         public Event<WelcomeEmailSent> WelcomeEmailSent { get; set; }
-        public Event<Fault<SendWelcomeEmail>> WelcomeEmailFailed { get; set; }
+        public Event<Fault<WelcomeEmailSent>> WelcomeEmailFailed { get; set; }
 
         public Event<FollowUpEmailSent> FollowUpEmailSent { get; set; }
-        public Event<Fault<SendFollowUpEmail>> FollowUpEmailFailed { get; set; }
+        public Event<Fault<FollowUpEmailSent>> FollowUpEmailFailed { get; set; }
 
-        public Event<OnboardingStrated> OnboardingStarted { get; set; }
-        public Event<Fault<OnboardingStrated>> OnboardingFailed { get; set; }
+        public Event<OnboardingCompleted> OnboardingDone { get; set; }
+        public Event<Fault<OnboardingCompleted>> OnboardingFailed { get; set; }
+        
+        public Event<JobCompleted> End { get; set; }
 
         public NewsletterOnboardingSaga()
         {
             InstanceState(x => x.CurrentState);
 
             Event(() => SubscriberCreated, e => e.CorrelateById(m => m.Message.SubscriberId));
-            Event(() => SubscriberCreateFailed, e => e.CorrelateById(m => m.Message.Message.SubscriberId));
+            Event(() => SubscriberCreateFailed, e => e.CorrelateById(m => {
+                return m.Message.Message.SubscriberId; 
+            }));
             
             Event(() => WelcomeEmailSent, e => e.CorrelateById(m => m.Message.SubscriberId));
             Event(() => WelcomeEmailFailed, e => e.CorrelateById(m =>
             {
-                return m.Message.Message.SubsciberId;
+                return m.Message.Message.SubscriberId;
             }));
             
             Event(() => FollowUpEmailSent, e => e.CorrelateById(m => m.Message.SubscriberId));
-            Event(() => FollowUpEmailFailed, e => e.CorrelateById(m => m.Message.Message.SubsciberId));
+            Event(() => FollowUpEmailFailed, e => e.CorrelateById(m => {
+                return m.Message.Message.SubscriberId; 
+            }));
 
-            Event(() => OnboardingStarted, e => e.CorrelateById(m => m.Message.SubscriberId));
-            Event(() => OnboardingFailed, e => e.CorrelateById(m => m.Message.Message.SubscriberId));
+            Event(() => OnboardingDone, e => e.CorrelateById(m => m.Message.SubscriberId));
+            Event(() => OnboardingFailed, e => e.CorrelateById(m => { 
+                return m.Message.Message.SubscriberId; 
+            }));
+
+            Event(() => End, e => e.CorrelateById(m => m.Message.SubscriberId));
 
             #region Ok path
 
@@ -74,46 +84,44 @@ namespace Shared.Sagas
                     .Then(context =>
                     {
                         context.Saga.FollowUpEmailSent = true;
-                    })
-                    .TransitionTo(Onboarding)
-                    .Publish(context => new OnboardingStrated()
-                    {
-                        Email = context.Message.Email,
-                        SubscriberId = context.Message.SubscriberId,
-                    }));
-
-            During(Onboarding,
-                When(OnboardingStarted)
-                    .Then(context =>
-                    {
                         context.Saga.OnboardingCompleted = true;
                     })
-                    .TransitionTo(Finished)
-                    .Publish(context => new OnboardingCompleted()
-                    {
-                        Email = context.Message.Email,
-                        SubscriberId = context.Message.SubscriberId,
-                    })
+                    .TransitionTo(Onboarding)
+                    .Publish(context => new FinalizeOnboarding(context.Message.SubscriberId, context.Message.Email)));
+
+            During(Onboarding,
+                When(End)
                     .Finalize());
 
             #endregion
 
             #region fault region
+           
+            DuringAny(
+                When(OnboardingFailed)
+                    .TransitionTo(OnboardingFaulted)
+                    .Then(ctx =>
+                    {
+                        ctx.Saga.OnboardingCompleted = false;
+                        ctx.Publish(new RevertOnboarding(ctx.Message.Message.SubscriberId, ctx.Message.Message.Email));
+                    }));
 
             DuringAny(
                 When(FollowUpEmailFailed)
                     .TransitionTo(FollowingUpFaulted)
                     .Then(ctx =>
                     {
-                        ctx.Publish<Fault<SendFollowUpEmail>>(new { ctx.Message });
+                        ctx.Saga.FollowUpEmailSent = false;
+                        ctx.Publish(new RevertSendFollowUpEmail(ctx.Message.Message.SubscriberId, ctx.Message.Message.Email));
                     }));
 
             DuringAny(
                 When(WelcomeEmailFailed)
                     .TransitionTo(WelcomeFaulted)
-                    .Then(x =>
+                    .Then(ctx =>
                     {
-                        int a = 10;
+                        ctx.Saga.WelcomeEmailSent = false;
+                        ctx.Publish(new RevertSendWelcomeEmail(ctx.Message.Message.SubscriberId, ctx.Message.Message.Email));
                     }));
 
             #endregion

@@ -28,19 +28,13 @@ namespace Shared.Entities
         public string Email { get; init; }
     }
     
-    public class OnboardingStrated
-    {
-        public Guid SubscriberId { get; init; }
-        public string Email { get; init; }
-    }
-
     public class OnboardingCompleted
     {
         public Guid SubscriberId { get; init; }
         public string Email { get; init; }
     }
 
-    public class OnboardingFailed
+    public class JobCompleted
     {
         public Guid SubscriberId { get; init; }
         public string Email { get; init; }

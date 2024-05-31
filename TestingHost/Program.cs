@@ -39,11 +39,12 @@ var builder = new MinimalHostingBuilder(options)
         {
             return new Type[] {
                 typeof(SubscribeToNewsletterHandler),
-                typeof(OnboardingCompletedHandler),
-                typeof(OnboardingStartedHandler),
+                typeof(FinalizeOnboardingHandler),
+                typeof(RevertOnboardingHandler),
                 typeof(SendWelcomeEmailHandler),
                 typeof(SendFollowUpEmailHandler),
-                typeof(FollowUpFaultHandler)
+                typeof(RevertSendFollowUpEmailHandler),
+                typeof(RevertSendWelcomeEmailHandler),
             };
         });
 

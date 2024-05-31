@@ -6,4 +6,12 @@
 
     public record SendFollowUpEmail(Guid SubsciberId, string Email);
 
+    public record FinalizeOnboarding(Guid SubsciberId, string Email);
+
+    public record RevertSendWelcomeEmail(Guid SubsciberId, string Email);
+
+    public record RevertSendFollowUpEmail(Guid SubsciberId, string Email);
+
+    public record RevertOnboarding(Guid SubsciberId, string Email);
+
 }

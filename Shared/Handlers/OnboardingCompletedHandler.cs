@@ -5,25 +5,48 @@ using Shared.Entities;
 
 namespace Shared.Handlers
 {
-    public class OnboardingCompletedHandler : IConsumer<OnboardingCompleted>
+    public class FinalizeOnboardingHandler : IConsumer<FinalizeOnboarding>
     {
         private readonly IAppDbContext _appDbContext;
-        private readonly ILogger<OnboardingCompletedHandler> _logger;
+        private readonly ILogger<FinalizeOnboardingHandler> _logger;
 
-        public OnboardingCompletedHandler(
+        public FinalizeOnboardingHandler(
             IAppDbContext appDbContext, 
-            ILogger<OnboardingCompletedHandler> logger
+            ILogger<FinalizeOnboardingHandler> logger
             )
         {
             _appDbContext = appDbContext;
             _logger = logger;
         }
 
-        public Task Consume(ConsumeContext<OnboardingCompleted> context)
+        public async Task Consume(ConsumeContext<FinalizeOnboarding> context)
         {
-            _logger.LogInformation("+OnboardingCompletedHandler");
-            
-            return Task.CompletedTask;
+            try
+            {
+                _logger.LogInformation("✅ OnboardingCompletedHandler");
+
+                //throw new Exception();
+
+                await context.Publish(new JobCompleted()
+                {
+                    SubscriberId = context.Message.SubsciberId,
+                    Email = context.Message.Email
+                });
+            }
+            catch
+            {
+                _logger.LogError("❌ Error encountered.........");
+                _logger.LogError("❌ Reverting all changes");
+
+                await context.Publish<Fault<OnboardingCompleted>>(new
+                {
+                    Message = new OnboardingCompleted()
+                    {
+                        SubscriberId = context.Message.SubsciberId,
+                        Email = context.Message.Email
+                    }
+                });
+            }
         }
     }
 }

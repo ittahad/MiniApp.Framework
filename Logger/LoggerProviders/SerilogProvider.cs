@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Hosting;
 using MiniApp.Core;
 using Serilog;
+using System.Text;
 
 namespace Logger.LoggerProviders
 {
@@ -26,7 +27,8 @@ namespace Logger.LoggerProviders
                         path: filePath,
                         fileSizeLimitBytes: (10 * 1024 * 1024),
                         restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Information,
-                        retainedFileCountLimit: 30);
+                        retainedFileCountLimit: 30,
+                        encoding: Encoding.UTF8);
                 }
 
                 if (options.SeqLoggerOptions != null

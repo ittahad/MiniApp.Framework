@@ -18,7 +18,7 @@ namespace Shared.Handlers
 
         public async Task Consume(ConsumeContext<SubscribeToNewsletter> context)
         {
-            _logger.LogInformation("+SubscribeToNewsletterHandler");
+            _logger.LogInformation("✅ SubscribeToNewsletterHandler");
 
             var subscriber = new Subscriber()
             {

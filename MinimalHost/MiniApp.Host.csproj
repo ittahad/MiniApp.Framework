@@ -16,12 +16,13 @@
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
     <!--<PackageReference Include="MiniApp.Core" Version="1.0.0" />-->
     <PackageReference Include="MiniApp.Http" Version="1.0.0" />
-    <PackageReference Include="MiniApp.Logger" Version="1.0.0" />
+    <!--<PackageReference Include="MiniApp.Logger" Version="1.0.0" />-->
     <!--<PackageReference Include="MiniApp.Mediator" Version="1.0.0" />-->
     <PackageReference Include="MiniApp.Observability.Extensions" Version="1.0.1" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Logger\MiniApp.Logger.csproj" />
     <ProjectReference Include="..\MinimalFramework\MiniApp.Core.csproj" />
     <ProjectReference Include="..\MinimalMediator\MiniApp.Mediator.csproj" />
   </ItemGroup>

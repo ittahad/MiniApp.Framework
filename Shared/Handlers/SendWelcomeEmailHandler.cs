@@ -21,13 +21,28 @@ namespace Shared.Handlers
 
         public async Task Consume(ConsumeContext<SendWelcomeEmail> context)
         {
-            _logger.LogInformation("+SendWelcomeEmailHandler");
-
-            await context.Publish(new WelcomeEmailSent()
+            try
             {
-                SubscriberId = context.Message.SubsciberId,
-                Email = context.Message.Email
-            });
+                _logger.LogInformation("✅ SendWelcomeEmailHandler");
+
+                await context.Publish(new WelcomeEmailSent()
+                {
+                    SubscriberId = context.Message.SubsciberId,
+                    Email = context.Message.Email
+                });
+            }
+            catch
+            {
+                
+                await context.Publish<Fault<WelcomeEmailSent>>(new
+                {
+                    Message = new WelcomeEmailSent()
+                    {
+                        SubscriberId = context.Message.SubsciberId,
+                        Email = context.Message.Email
+                    }
+                });
+            }
         }
     }
 }
